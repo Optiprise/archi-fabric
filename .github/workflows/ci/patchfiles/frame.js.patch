@@ -17,8 +17,8 @@
 +
 +(function () {
 +  // -- Config: choose CDN or local copy in /lib --
-+  var MARKED_SRC   = "js/marked.min.js";
-+  var PURIFY_SRC   = "js/purify.min.js";
++  var MARKED_SRC   = "../../js/marked.min.js";
++  var PURIFY_SRC   = "../../js/purify.min.js";
 +
 +  // Load a script and call the callback when ready
 +  function loadScript(src) {
