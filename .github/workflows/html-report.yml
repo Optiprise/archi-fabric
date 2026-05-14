@@ -68,7 +68,7 @@ jobs:
           --html.createReport "${GITHUB_WORKSPACE}/public"
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: JamesIves/github-pages-deploy-action@v4.1.5
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: public
