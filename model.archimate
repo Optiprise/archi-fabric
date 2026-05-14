@@ -11,4 +11,6 @@
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
     <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99"/>
   </folder>
+  <purpose># ArchiFabric
+ArchiFabric is an integrated publishing and documentation suite for Archi, weaving architecture models, documentation and publication together into a single cohesive fabric.</purpose>
 </archimate:model>
