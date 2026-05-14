@@ -9,7 +9,11 @@
   <folder name="Other" id="id-142c883e24df4b74ba9293cdf77a0563" type="other"/>
   <folder name="Relations" id="id-6b56709edd674fd49203ca98dc3f8972" type="relations"/>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
-    <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99"/>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
+      <child xsi:type="archimate:Note" id="id-728a1edf154c45aaaab1a294c26f9fa0" textAlignment="1" borderType="2" imagePath="images/_ysxtUE98EfG3VprJX1IVXw.png" imagePosition="9">
+        <bounds x="12" y="12" width="397" height="385"/>
+      </child>
+    </element>
   </folder>
   <purpose># ArchiFabric
 ArchiFabric is an integrated publishing and documentation suite for Archi, weaving architecture models, documentation and publication together into a single cohesive fabric.</purpose>
