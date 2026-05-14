@@ -40,8 +40,9 @@ jobs:
           key: Archi-${ARCHI_VERSION}
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install dependicies for Archi
+      - name: Install dependencies for Archi
         run: |
+          export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends xvfb dbus-x11 libgtk2.0-0 \
           libswt-gtk-4-jni at-spi2-core libxext6 libxrender1 libxi6 libxtst6 libglib2.0-0 \
@@ -56,9 +57,23 @@ jobs:
             tar zxf archi.tgz -C .
             rm archi.tgz
             chmod +x Archi/Archi
-            echo "Patch Archi"
-            patch -p1  Archi/plugins/com.archimatetool.reports_*/templates/html/css/model.css .ci/patch-files/model.css.patch
-            patch -p1  Archi/plugins/com.archimatetool.reports_*/templates/html/js/frame.js .ci/patch-files/frame.js.patch         
             echo "Archi ${ARCHI_VERSION} installed successfully"
           fi
+      - name: Generate HTML Report
+        run: |
+          dbus-run-session -- xvfb-run -a Archi/Archi \
+           -application com.archimatetool.commandline.app \
+          -consoleLog -nosplash \
+          --loadModel "$GITHUB_WORKSPACE/model.archimate" \
+          --html.createReport "${GITHUB_WORKSPACE}/public"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: JamesIves/github-pages-deploy-action@v4.1.5
+        with:
+          branch: gh-pages
+          folder: public
+          clean: true
+          commit_message: "Deploy Archi HTML Report - ${{ github.sha }}"
+
+        
 
