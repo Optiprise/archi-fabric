@@ -1,0 +1,9 @@
+﻿/**
+ * Entry-point wrapper for jArchi DocGen.
+ * Dynamically imports an ECMAScript module.
+ *
+ * @module docgen.ajs
+ */
+console.clear();
+console.log(`Starting DocGen....`);
+load('./docgen.mjs');
