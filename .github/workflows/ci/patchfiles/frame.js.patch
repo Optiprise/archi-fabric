@@ -1,0 +1,128 @@
+--- org/frame.js	2026-04-14 09:26:08.000000000 +0200
++++ frame.js	2026-05-14 22:37:29.522671682 +0200
+@@ -153,7 +153,7 @@
+ 
+ 	// Create links in this class
+     $('.convertlinks').each(function() {
+-        $(this).html(createLinks($(this).html()));
++        // $(this).html(createLinks($(this).html()));
+     });
+ 
+ 	// Replace Hint URL
+@@ -243,3 +243,116 @@
+ 		})
+ 	}
+ });
++
++
++(function () {
++  // -- Config: choose CDN or local copy in /lib --
++  var MARKED_SRC   = "../js/marked.min.js";
++  var PURIFY_SRC   = "../js/purify.min.js";
++
++  // Load a script and call the callback when ready
++  function loadScript(src) {
++    return new Promise(function (resolve, reject) {
++      var s = document.createElement("script");
++      s.src = src;
++      s.onload = resolve;
++      s.onerror = reject;
++      document.head.appendChild(s);
++    });
++  }
++
++  // Convert markdown in a document (current page or iframe document)
++  function convertMarkdownIn(doc) {
++    if (!doc || !doc.querySelectorAll) return;
++
++    // Convert only inside the "Documentation" panel if it exists
++    var scope = doc.querySelector("#convertlinks") || doc;
++
++    scope.querySelectorAll(".convertlinks").forEach(function (el) {
++      if (el.dataset.mdConverted === "1") return;
++
++      // Archi often encodes entities (&#233;). textContent decodes them.
++      var src = (el.textContent || "").trim();
++      if (!src) return;
++
++      // Parse & sanitize
++      var html = window.marked.parse(src);
++      html = window.DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
++
++      el.innerHTML = html;
++
++      // Archi often sets white-space:pre-wrap; this is undesirable after rendering
++      try { el.style.whiteSpace = "normal"; } catch(e) {}
++
++      // Open links neatly in a new tab
++      el.querySelectorAll("a[href]").forEach(function (a) {
++        if (!a.target) a.target = "_blank";
++        if (!a.rel) a.rel = "noopener";
++      });
++
++      el.dataset.mdConverted = "1";
++    });
++  }
++
++  // When should it run?
++  function wireUp(doc) {
++    // 1) immediately (if the page/iframe is already available)
++    convertMarkdownIn(doc);
++
++    // 2) when a Bootstrap documentation tab is shown
++    var $ = doc.defaultView && doc.defaultView.jQuery ? doc.defaultView.jQuery : null;
++    if ($ && $.fn && $.fn.tab) {
++      $(doc).on("shown.bs.tab", 'a[aria-controls="convertlinks"]', function () {
++        convertMarkdownIn(doc);
++      });
++    }
++
++    // 3) fallback: when content changes dynamically (some exports)
++    var target = doc.querySelector("#convertlinks") || doc.body;
++    if (target && target.ownerDocument && target.ownerDocument.defaultView && target.ownerDocument.defaultView.MutationObserver) {
++      var mo = new MutationObserver(function () { convertMarkdownIn(doc); });
++      mo.observe(target, { childList: true, subtree: true });
++    }
++  }
++
++  function initForCurrentDocument() {
++    // This file is loaded in all element/view pages through Archi templates
++    wireUp(document);
++  }
++
++  // index.html contains iframes (e.g. name="view", name="element").
++  // If you also load this same frame.js in index.html, process those frames as well:
++  function initForIFrames() {
++    try {
++      document.querySelectorAll("iframe").forEach(function (ifr) {
++        ifr.addEventListener("load", function () {
++          try {
++            var idoc = ifr.contentDocument || ifr.contentWindow && ifr.contentWindow.document;
++            if (idoc) wireUp(idoc);
++          } catch (e) { /* cross-origin does not occur in Archi exports */ }
++        });
++      });
++    } catch (e) {}
++  }
++
++  // Start: load libraries first, then perform conversion
++  function start() {
++    Promise.resolve()
++      .then(function () { return (window.marked ? null : loadScript(MARKED_SRC)); })
++      .then(function () { return (window.DOMPurify ? null : loadScript(PURIFY_SRC)); })
++      .then(function () {
++        if (document.readyState === "loading") {
++          document.addEventListener("DOMContentLoaded", function () {
++            initForCurrentDocument();
++            initForIFrames(); // if this file is also used in index.html
++          });
++        } else {
++          initForCurrentDocument();
++          initForIFrames();
++        }
++      })
++      .catch(function (e) { console.warn("Markdown setup failed:", e); });
++  }
++
++  start();
++})();
