@@ -1,0 +1,64 @@
+# Deploy Archi HTML Report
+name: Deploy Archi HTML Report
+
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
+
+env:
+  ARCHI_VERSION: "5.9.0"
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache
+        uses: actions/cache@v5.0.5
+        with:
+          path: Archi/
+          key: Archi-${ARCHI_VERSION}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependicies for Archi
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xvfb dbus-x11 libgtk2.0-0 \
+          libswt-gtk-4-jni at-spi2-core libxext6 libxrender1 libxi6 libxtst6 libglib2.0-0 \
+          libcairo2 libpango-1.0-0 libpangocairo-1.0-0 unzip patch fontconfig
+      - name: Install Archi
+        run: |
+          if [ -f "Archi/Archi" ]; then
+            echo "Archi ${ARCHI_VERSION} found in cache, skipping download"
+          else
+            echo "Downloading Archi ${ARCHI_VERSION}..."
+            curl -fsSL -o archi.tgz "https://github.com/archimatetool/archi.io/releases/download/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
+            tar zxf archi.tgz -C .
+            rm archi.tgz
+            chmod +x Archi/Archi
+            echo "Patch Archi"
+            patch -p1  Archi/plugins/com.archimatetool.reports_*/templates/html/css/model.css .ci/patch-files/model.css.patch
+            patch -p1  Archi/plugins/com.archimatetool.reports_*/templates/html/js/frame.js .ci/patch-files/frame.js.patch         
+            echo "Archi ${ARCHI_VERSION} installed successfully"
+          fi
+
