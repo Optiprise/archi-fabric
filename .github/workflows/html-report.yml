@@ -80,7 +80,7 @@ jobs:
           mv purify.min.js "${{ github.workspace }}/public/js/"
           patch -p1 "${{ github.workspace }}/public/css/model.css" "${{ github.workspace }}/.github/workflows/ci/patchfiles/model.css.patch"
           patch -p1 "${{ github.workspace }}/public/js/frame.js" "${{ github.workspace }}/.github/workflows/ci/patchfiles/frame.js.patch"
-          patch -p1 --fuzz=3 "${{ github.workspace }}/public/index.html" "${{ github.workspace }}/.github/workflows/ci/patchfiles/index.html.patch"
+          patch -p1 "${{ github.workspace }}/public/index.html" "${{ github.workspace }}/.github/workflows/ci/patchfiles/index.html.patch"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
