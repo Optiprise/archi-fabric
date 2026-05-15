@@ -1,14 +1,438 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="ArchiFabric" id="id-53dd07a57c7c4111904e34eaabca33f6" version="5.0.0">
   <folder name="Strategy" id="id-e4bfad150ea64059b034d9c4b01b0266" type="strategy"/>
-  <folder name="Business" id="id-5907d1bf2e7f491e954fce6cf56921b5" type="business"/>
-  <folder name="Application" id="id-9b932db970b749aaa4fe69be4f557fc2" type="application"/>
-  <folder name="Technology &amp; Physical" id="id-3040aba3535d445daea019f3f9c14c5e" type="technology"/>
+  <folder name="Business" id="id-5907d1bf2e7f491e954fce6cf56921b5" type="business">
+    <element xsi:type="archimate:BusinessFunction" name="Function 1" id="id-5cc63c7fa5ea4d6188e16f97d5bc7a1f"/>
+    <element xsi:type="archimate:BusinessProcess" name="Step 1.2" id="id-70b40fe1eb8c48c29b723dc5ecc01bd6"/>
+    <element xsi:type="archimate:BusinessProcess" name="Proces 2" id="id-4adff05ee0444074ba6b683727ac4cab"/>
+    <element xsi:type="archimate:BusinessProcess" name="Step 2.1" id="id-00ae500a410c4f82899efce315f7c595"/>
+    <element xsi:type="archimate:BusinessProcess" name="Step 1.1" id="id-ce4d1d0a0a794927a9e6e661aa59b971"/>
+  </folder>
+  <folder name="Application" id="id-9b932db970b749aaa4fe69be4f557fc2" type="application">
+    <element xsi:type="archimate:ApplicationFunction" name="renderStructure(modelStructure, targetStructure) " id="id-be1f76f5548443d5a8acc99e28aaac63"/>
+    <element xsi:type="archimate:ApplicationFunction" name="&lt;&lt;TargetStructure>>" id="id-12b06f974b6745248bd90e49a6a10066"/>
+    <element xsi:type="archimate:ApplicationFunction" name="&lt;&lt;ModelStructure>>" id="id-2834f72379054f80a541811c3564154a"/>
+    <element xsi:type="archimate:ApplicationFunction" name="Select" id="id-6240b8bf254c417bb9375901022d651a"/>
+    <element xsi:type="archimate:ApplicationFunction" name="Sort" id="id-12e0729af9a542239daa7380e802d392"/>
+    <element xsi:type="archimate:ApplicationFunction" name="Scope" id="id-8ed4f7ceaded4399908c3314235fca2e"/>
+    <element xsi:type="archimate:DataObject" name="targetCollection" id="id-4bc8e4f51f6243fd954bb55807e7beed"/>
+    <element xsi:type="archimate:DataObject" name="targetObject" id="id-4ea89a01b26b40f78850cca4ea987438"/>
+    <element xsi:type="archimate:ApplicationFunction" name="scopeObject" id="id-958413d9fa014c42b2bafe41b1a564e1"/>
+    <element xsi:type="archimate:ApplicationFunction" name="scopeModel" id="id-4922a1a5184042f1b8ff447e58125676"/>
+    <element xsi:type="archimate:ApplicationFunction" name="scopeView" id="id-c738854cc1af44d3b57d7e57872a8835"/>
+    <element xsi:type="archimate:ApplicationFunction" name="selectRelation" id="id-741e3ed0c77f450985244192e50ed0e7"/>
+    <element xsi:type="archimate:ApplicationFunction" name="selectType" id="id-bd23dd1d9c54401089c864866dfd05a2"/>
+    <element xsi:type="archimate:ApplicationFunction" name="SelectRegEx" id="id-dfce3bf762904590b5a7ee2d0f5d208f"/>
+    <element xsi:type="archimate:ApplicationFunction" name="sortName" id="id-a339533a12a64c0aba65ba467124dabe"/>
+    <element xsi:type="archimate:ApplicationFunction" name="sortPosition" id="id-a69f78204072409698f2f53d480d499c"/>
+    <element xsi:type="archimate:ApplicationFunction" name="sortRealtion" id="id-2f0e63f262234d9ea324ecd743a62504"/>
+    <element xsi:type="archimate:ApplicationComponent" name="&lt;&lt;artifact>>" id="id-0c499f220950413d93868c2839ede659"/>
+  </folder>
+  <folder name="Technology &amp; Physical" id="id-3040aba3535d445daea019f3f9c14c5e" type="technology">
+    <element xsi:type="archimate:Artifact" name="artifactory/&lt;&lt;artifact>>.mjs" id="id-dc50a2b35dd64bcf960cc429fa74b2cf"/>
+    <element xsi:type="archimate:SystemSoftware" name="Archi" id="id-3c0ec7d0818b46cb9a51ed4ffa648640"/>
+    <element xsi:type="archimate:SystemSoftware" name="jArchi" id="id-b76f51699d7e4c8b9e2499b366e37002"/>
+    <element xsi:type="archimate:SystemSoftware" name="docGen" id="id-c3ff4d6c7730427b8df5a4f92813e470">
+      <documentation>DocGen is a documentation generator that creates structured reports directly from models in Archi. It produces HTML pages enriched with CSS styling, tables, and tables of contents, which can then be converted into high-quality PDFs using WeasyPrint. Built in ECMAScript (JavaScript) and leveraging jArchi, DocGen provides a flexible way to transform architectural models into well-designed, professional documents.</documentation>
+    </element>
+    <element xsi:type="archimate:Artifact" name="HTML5" id="id-d8dd7459b2384a6d985598c23388dea6"/>
+    <element xsi:type="archimate:SystemSoftware" name="Weasyprint" id="id-e7fc109fd34a4f3e8a7dec55f1141e76">
+      <documentation>WeasyPrint is a smart solution helping web developers to create PDF documents. It’s free and open source software that can be easily plugged to your applications and websites and turns simple HTML pages into gorgeous PDF-documents
+</documentation>
+    </element>
+    <element xsi:type="archimate:Artifact" name="ArchiMate Model" id="id-d83f0ab36b834d379880d59fce3ba73c"/>
+    <element xsi:type="archimate:Artifact" name="docGen structure" id="id-8da0aa2a19444edcb816a3643a9a2ea0"/>
+    <element xsi:type="archimate:Artifact" name="Artifacs" id="id-a718e98cf66d4ad3b6490ffa34503689"/>
+    <element xsi:type="archimate:SystemSoftware" name="module" id="id-7309b4d8640448328387d4d1b2d2fe0d"/>
+    <element xsi:type="archimate:Artifact" name="PDF" id="id-9022b877439646a086d6d30c26a5a7cb"/>
+  </folder>
   <folder name="Motivation" id="id-8fa6e0b6c7c947cd9abfd20113ee1cbb" type="motivation"/>
   <folder name="Implementation &amp; Migration" id="id-86a580ceee33412d8a2d06310e413655" type="implementation_migration"/>
   <folder name="Other" id="id-142c883e24df4b74ba9293cdf77a0563" type="other"/>
-  <folder name="Relations" id="id-6b56709edd674fd49203ca98dc3f8972" type="relations"/>
+  <folder name="Relations" id="id-6b56709edd674fd49203ca98dc3f8972" type="relations">
+    <element xsi:type="archimate:CompositionRelationship" id="id-5564ca7a822b4ae586262569ab96f536" source="id-5cc63c7fa5ea4d6188e16f97d5bc7a1f" target="id-70b40fe1eb8c48c29b723dc5ecc01bd6"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="id-60a2c622f59d4488afc80baaaf167c61" source="id-70b40fe1eb8c48c29b723dc5ecc01bd6" target="id-00ae500a410c4f82899efce315f7c595"/>
+    <element xsi:type="archimate:CompositionRelationship" id="id-dde4bc4db7414a65828ee4933b25dc9d" source="id-4adff05ee0444074ba6b683727ac4cab" target="id-00ae500a410c4f82899efce315f7c595"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-ff14e567fdd34efabd6ee88a8dc4fa78" source="id-12b06f974b6745248bd90e49a6a10066" target="id-be1f76f5548443d5a8acc99e28aaac63"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-62f0fac987bb4710a78499598d4f58bb" source="id-2834f72379054f80a541811c3564154a" target="id-be1f76f5548443d5a8acc99e28aaac63"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-82db9f3387db41439106066e77b305da" source="id-12b06f974b6745248bd90e49a6a10066" target="id-6240b8bf254c417bb9375901022d651a"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-3c06f46082034e49987af8c1b5e6409b" source="id-12b06f974b6745248bd90e49a6a10066" target="id-12e0729af9a542239daa7380e802d392"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-da09150f37954e189496f7f8b3336c80" source="id-12b06f974b6745248bd90e49a6a10066" target="id-8ed4f7ceaded4399908c3314235fca2e"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-d42f4b28846643b490159101d49d8094" source="id-12b06f974b6745248bd90e49a6a10066" target="id-4bc8e4f51f6243fd954bb55807e7beed"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-0d714ce3393948ae9d7d3c58bfe7eeed" source="id-12b06f974b6745248bd90e49a6a10066" target="id-4ea89a01b26b40f78850cca4ea987438" accessType="1"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="id-f0626b4eeaa7402896f543c46f17349a" source="id-6240b8bf254c417bb9375901022d651a" target="id-12e0729af9a542239daa7380e802d392"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="id-033fd6b2a1524a0cba90a2b65d7cf0b2" source="id-8ed4f7ceaded4399908c3314235fca2e" target="id-6240b8bf254c417bb9375901022d651a"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-6c047a49722141ca9407e365464247a9" source="id-8ed4f7ceaded4399908c3314235fca2e" target="id-958413d9fa014c42b2bafe41b1a564e1"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-78141af674174f7594148a32988b75aa" source="id-8ed4f7ceaded4399908c3314235fca2e" target="id-4922a1a5184042f1b8ff447e58125676"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-02765f5a1ba243598647e6d1f8b18416" source="id-8ed4f7ceaded4399908c3314235fca2e" target="id-c738854cc1af44d3b57d7e57872a8835"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-3c67933145a947d996cbcd2e9139d5da" source="id-6240b8bf254c417bb9375901022d651a" target="id-741e3ed0c77f450985244192e50ed0e7"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-12e0fb6aeb9a4e74af7b3c0c923392dc" source="id-6240b8bf254c417bb9375901022d651a" target="id-bd23dd1d9c54401089c864866dfd05a2"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-0b6b2cdfd7204773bcb3de9a358e5bea" source="id-6240b8bf254c417bb9375901022d651a" target="id-dfce3bf762904590b5a7ee2d0f5d208f"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-60afae13ea184d3198807ef2c964f02b" source="id-12e0729af9a542239daa7380e802d392" target="id-a339533a12a64c0aba65ba467124dabe"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-abc1e62047dc43f7959858b420a28f70" source="id-12e0729af9a542239daa7380e802d392" target="id-a69f78204072409698f2f53d480d499c"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-f00d334ea6ef4935a0d0b576824c5bea" source="id-12e0729af9a542239daa7380e802d392" target="id-2f0e63f262234d9ea324ecd743a62504"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-effb7769ce864aa7a5c76af8fdc9ccf5" source="id-dc50a2b35dd64bcf960cc429fa74b2cf" target="id-0c499f220950413d93868c2839ede659"/>
+    <element xsi:type="archimate:AssignmentRelationship" id="id-126e5f1932744808ae9184cdb880a724" source="id-0c499f220950413d93868c2839ede659" target="id-be1f76f5548443d5a8acc99e28aaac63"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-9d73334856ee4fe08334ccf54d6b7a69" source="id-3c0ec7d0818b46cb9a51ed4ffa648640" target="id-b76f51699d7e4c8b9e2499b366e37002"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-6ff0cfbbd79046009e76d21b12077f7e" source="id-3c0ec7d0818b46cb9a51ed4ffa648640" target="id-d83f0ab36b834d379880d59fce3ba73c" accessType="3"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-9dce61f75c5a44a7adf63fe6f6f1e7c1" source="id-c3ff4d6c7730427b8df5a4f92813e470" target="id-d8dd7459b2384a6d985598c23388dea6"/>
+    <element xsi:type="archimate:AssignmentRelationship" id="id-2c243b8b54c945608dfd6d72da7ba144" source="id-c3ff4d6c7730427b8df5a4f92813e470" target="id-b76f51699d7e4c8b9e2499b366e37002"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="id-881aeb9c8b7f496e89462438b2f3ce30" source="id-c3ff4d6c7730427b8df5a4f92813e470" target="id-e7fc109fd34a4f3e8a7dec55f1141e76"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-aeb8a6e575bc463b8afc576abbc3d639" source="id-c3ff4d6c7730427b8df5a4f92813e470" target="id-7309b4d8640448328387d4d1b2d2fe0d"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-2a4ec04316d8472eb13fd5924bf0ce82" source="id-c3ff4d6c7730427b8df5a4f92813e470" target="id-8da0aa2a19444edcb816a3643a9a2ea0" accessType="1"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-3921207fa44e423fbe1e92992c9196de" source="id-e7fc109fd34a4f3e8a7dec55f1141e76" target="id-d8dd7459b2384a6d985598c23388dea6" accessType="1"/>
+    <element xsi:type="archimate:AccessRelationship" id="id-72b7f70073784fec9d0f8a34fcdbc65a" source="id-e7fc109fd34a4f3e8a7dec55f1141e76" target="id-9022b877439646a086d6d30c26a5a7cb"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-6afeb91c8ea944828472a09580085c04" source="id-d83f0ab36b834d379880d59fce3ba73c" target="id-8da0aa2a19444edcb816a3643a9a2ea0"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-abd5b063334a46f98b7ccd018f078816" source="id-d83f0ab36b834d379880d59fce3ba73c" target="id-a718e98cf66d4ad3b6490ffa34503689"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-7fe3668b70984582b00c0690cfdfd2ff" source="id-8da0aa2a19444edcb816a3643a9a2ea0" target="id-a718e98cf66d4ad3b6490ffa34503689"/>
+  </folder>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
+    <folder name="Design" id="id-2ed8b36ace364ad5bfb238bed1283d14">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Abstract" id="id-24133ecf38ed497aac7e5c91f82ddcf8">
+        <child xsi:type="archimate:Note" id="id-ee6c767ee89e4171b4edbf9b4ee4c4dc" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffbe6f" alpha="16" textPosition="1" borderType="1">
+          <bounds x="36" y="48" width="1813" height="337"/>
+          <content>Processing
+a View</content>
+        </child>
+        <child xsi:type="archimate:Group" id="id-5b6d59fddaa94ae88b9c94bb343044e8" name="modelStructure" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
+          <bounds x="216" y="12" width="541" height="409"/>
+          <child xsi:type="archimate:Group" id="id-833ca560bc164567b3940da39f0ed334" name="View" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#ffffff" borderType="1">
+            <bounds x="24" y="72" width="492" height="265"/>
+            <child xsi:type="archimate:Group" id="id-ed349c485722438e8321697c969d8d87" name="Document structure" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+              <bounds x="24" y="36" width="433" height="216"/>
+              <child xsi:type="archimate:Group" id="id-6e69e5dc45464899a281ab95ead4bb2d" name="Document structure" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+                <bounds y="36" width="433" height="73"/>
+                <child xsi:type="archimate:Group" id="id-3e9fffce587844598d755e298564ab46" name="Artifact" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#dcebeb" alpha="128" textPosition="1" borderType="1">
+                  <bounds y="24" width="108" height="39"/>
+                </child>
+                <child xsi:type="archimate:Group" id="id-81522dedd0bf48808885b1eaf8906524" name="targetObject" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#dcebeb" alpha="128" textPosition="1" borderType="1">
+                  <bounds x="107" y="24" width="326" height="39"/>
+                </child>
+              </child>
+              <child xsi:type="archimate:Group" id="id-ef04610f34bc411297635f3af0394757" name="Document structure" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+                <bounds y="120" width="433" height="85"/>
+              </child>
+            </child>
+          </child>
+        </child>
+        <child xsi:type="archimate:Group" id="id-f4b2cec6b3954d569f492c50fdfc0147" name="targetStructure" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
+          <bounds x="1296" y="12" width="541" height="409"/>
+          <child xsi:type="archimate:Group" id="id-0d3924964ac24dd395fb7022a53fec8d" name="Model" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#ffffff" borderType="1">
+            <bounds x="12" y="60" width="516" height="300"/>
+            <child xsi:type="archimate:Group" id="id-2ceb62d03fc84f1a966ece2056155c91" name="View" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#f6f5f4" borderType="1">
+              <bounds x="180" y="29" width="313" height="121"/>
+              <child xsi:type="archimate:DiagramObject" id="id-4abcf8f85d764e85a73d6df2a12e783a" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" archimateElement="id-5cc63c7fa5ea4d6188e16f97d5bc7a1f">
+                <bounds x="12" y="36" width="121" height="61"/>
+                <feature name="labelExpression" value="Object"/>
+                <sourceConnection xsi:type="archimate:Connection" id="id-04b111892a054c129cadd491d348e7e2" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-4abcf8f85d764e85a73d6df2a12e783a" target="id-ebf4f4789a454c93a39f507c9709e4ae" archimateRelationship="id-5564ca7a822b4ae586262569ab96f536"/>
+                <child xsi:type="archimate:DiagramObject" id="id-ebf4f4789a454c93a39f507c9709e4ae" targetConnections="id-04b111892a054c129cadd491d348e7e2" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-70b40fe1eb8c48c29b723dc5ecc01bd6">
+                  <bounds x="12" y="24" width="97" height="31"/>
+                  <feature name="labelExpression" value="Object"/>
+                  <sourceConnection xsi:type="archimate:Connection" id="id-dc5439b4eec74e3c99e6eb235ea5cc98" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-ebf4f4789a454c93a39f507c9709e4ae" target="id-baed55ba2b2543bf9b8ccc710202f982" archimateRelationship="id-60a2c622f59d4488afc80baaaf167c61"/>
+                </child>
+              </child>
+              <child xsi:type="archimate:Group" id="id-81ed4b7a30f74c72a92c085a84d9aaf2" name="Group" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+                <bounds x="156" y="12" width="145" height="97"/>
+                <feature name="labelExpression" value="Object"/>
+                <child xsi:type="archimate:DiagramObject" id="id-a72e00d42b32402f915dc1976c9313ed" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" archimateElement="id-4adff05ee0444074ba6b683727ac4cab">
+                  <bounds x="12" y="24" width="121" height="61"/>
+                  <feature name="labelExpression" value="Object"/>
+                  <sourceConnection xsi:type="archimate:Connection" id="id-2a6a22d4b9ab4f0faff6bebb3636e5be" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-a72e00d42b32402f915dc1976c9313ed" target="id-baed55ba2b2543bf9b8ccc710202f982" archimateRelationship="id-dde4bc4db7414a65828ee4933b25dc9d"/>
+                  <child xsi:type="archimate:DiagramObject" id="id-baed55ba2b2543bf9b8ccc710202f982" targetConnections="id-dc5439b4eec74e3c99e6eb235ea5cc98 id-2a6a22d4b9ab4f0faff6bebb3636e5be" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-00ae500a410c4f82899efce315f7c595">
+                    <bounds x="12" y="24" width="97" height="31"/>
+                    <feature name="labelExpression" value="Object"/>
+                  </child>
+                </child>
+              </child>
+            </child>
+            <child xsi:type="archimate:Note" id="id-d3fd819f9a4341579b098779c2b6a92c" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#e5a50a" borderType="2">
+              <bounds x="12" y="29" width="28" height="8"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-439a8cb2cb71458a8d0cb4418aebc8f9" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
+              <bounds x="12" y="36" width="49" height="29"/>
+              <feature name="gradient" value="0"/>
+              <feature name="labelExpression" value="Object"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-65296a9b9c5a413cb36e289b467eda0b" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#e5a50a" borderType="2">
+              <bounds x="60" y="77" width="28" height="8"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-73a5e4ffc2ac4891b7e97400c351f0ba" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
+              <bounds x="60" y="84" width="49" height="29"/>
+              <feature name="gradient" value="0"/>
+              <feature name="labelExpression" value="Object"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-6e52bb004136474e92299ccbbf9218a3" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-ce4d1d0a0a794927a9e6e661aa59b971">
+              <bounds x="108" y="120" width="49" height="29"/>
+              <feature name="iconVisible" value="2"/>
+              <feature name="labelExpression" value="Object"/>
+            </child>
+          </child>
+        </child>
+        <child xsi:type="archimate:Note" id="id-859236d42672465897ae69e34dafb08c" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" textAlignment="1" fillColor="#ffbe6f" alpha="128" textPosition="1" borderType="1">
+          <bounds x="768" y="60" width="517" height="55"/>
+          <content>Name is reference to class &lt;&lt;Artifact>></content>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-b981d7505a914ce89acda30354120835" targetConnections="id-c4d4e29e386548b8aafe845c44ee36db id-c3df0996f72b456aaee777d092238f35" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-be1f76f5548443d5a8acc99e28aaac63">
+          <bounds x="768" y="156" width="517" height="55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-b5b75c59d6ff4ac0a534a00a9f10bc20" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-12b06f974b6745248bd90e49a6a10066">
+          <bounds x="1056" y="239" width="229" height="55"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-c3df0996f72b456aaee777d092238f35" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="2" lineColor="#c64600" source="id-b5b75c59d6ff4ac0a534a00a9f10bc20" target="id-b981d7505a914ce89acda30354120835" archimateRelationship="id-ff14e567fdd34efabd6ee88a8dc4fa78"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-28e91d819d6240a4ac6457c4bc4ec11e" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-2834f72379054f80a541811c3564154a">
+          <bounds x="768" y="239" width="229" height="55"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-c4d4e29e386548b8aafe845c44ee36db" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="2" lineColor="#c64600" source="id-28e91d819d6240a4ac6457c4bc4ec11e" target="id-b981d7505a914ce89acda30354120835" archimateRelationship="id-62f0fac987bb4710a78499598d4f58bb"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-6f5d95edeb1549eea2fe44111bbb1904" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" archimateElement="id-12b06f974b6745248bd90e49a6a10066">
+          <bounds x="768" y="468" width="517" height="145"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-2c5517950ef8436bb5ecd172413c9140" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-6f5d95edeb1549eea2fe44111bbb1904" target="id-881d9592370c488aa20e33dbb92a8523" archimateRelationship="id-82db9f3387db41439106066e77b305da"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-88b07b7fae6f432ca03c698cc68221f9" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="2" lineColor="#c64600" source="id-6f5d95edeb1549eea2fe44111bbb1904" target="id-d7c5e49d2689470b8b02b050b4c3de25" archimateRelationship="id-d42f4b28846643b490159101d49d8094"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-9c62579cf20d44afb4274e6d88d2dab8" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-6f5d95edeb1549eea2fe44111bbb1904" target="id-b9755cc41eb24334a1ed7017d76c6b42" archimateRelationship="id-3c06f46082034e49987af8c1b5e6409b"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-ad025ab676c14cc8915aed7f32ed02e1" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-6f5d95edeb1549eea2fe44111bbb1904" target="id-cc4c09a55a0c4a03b27a1ff440b519cb" archimateRelationship="id-da09150f37954e189496f7f8b3336c80"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5bf45a62595648cdbfb2e6d4c80504f1" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="2" lineColor="#c64600" source="id-6f5d95edeb1549eea2fe44111bbb1904" target="id-018b4617149948618da06d270b6d8dd7" archimateRelationship="id-0d714ce3393948ae9d7d3c58bfe7eeed"/>
+          <child xsi:type="archimate:DiagramObject" id="id-881d9592370c488aa20e33dbb92a8523" targetConnections="id-c78813a714fd4d63a4996b7397546397 id-2c5517950ef8436bb5ecd172413c9140" font="1|Comfortaa|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" textPosition="1" archimateElement="id-6240b8bf254c417bb9375901022d651a">
+            <bounds x="192" y="58" width="120" height="35"/>
+            <feature name="gradient" value="2"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-144358e6b62b4022be38b4feb5a28b7b" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-881d9592370c488aa20e33dbb92a8523" target="id-b9755cc41eb24334a1ed7017d76c6b42" archimateRelationship="id-f0626b4eeaa7402896f543c46f17349a">
+              <bendpoint startX="120" startY="-5" endX="1" endY="-39"/>
+            </sourceConnection>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-b9755cc41eb24334a1ed7017d76c6b42" targetConnections="id-9c62579cf20d44afb4274e6d88d2dab8 id-144358e6b62b4022be38b4feb5a28b7b" font="1|Comfortaa|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" textPosition="1" archimateElement="id-12e0729af9a542239daa7380e802d392">
+            <bounds x="360" y="92" width="120" height="35"/>
+            <feature name="gradient" value="2"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-cc4c09a55a0c4a03b27a1ff440b519cb" targetConnections="id-ad025ab676c14cc8915aed7f32ed02e1" font="1|Comfortaa|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" textPosition="1" archimateElement="id-8ed4f7ceaded4399908c3314235fca2e">
+            <bounds x="24" y="24" width="120" height="35"/>
+            <feature name="gradient" value="2"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-c78813a714fd4d63a4996b7397546397" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-cc4c09a55a0c4a03b27a1ff440b519cb" target="id-881d9592370c488aa20e33dbb92a8523" archimateRelationship="id-033fd6b2a1524a0cba90a2b65d7cf0b2">
+              <bendpoint startX="119" startY="-7" endY="-41"/>
+            </sourceConnection>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-d7c5e49d2689470b8b02b050b4c3de25" targetConnections="id-88b07b7fae6f432ca03c698cc68221f9" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-4bc8e4f51f6243fd954bb55807e7beed">
+          <bounds x="1332" y="516" width="217" height="55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-018b4617149948618da06d270b6d8dd7" targetConnections="id-5bf45a62595648cdbfb2e6d4c80504f1" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-4ea89a01b26b40f78850cca4ea987438">
+          <bounds x="504" y="516" width="217" height="55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-446aa0cf36464872848b321f0216f9d9" font="1|Comfortaa|11.0|1|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" archimateElement="id-8ed4f7ceaded4399908c3314235fca2e">
+          <bounds x="780" y="636" width="145" height="181"/>
+          <feature name="gradient" value="2"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-19eaf5718f82445990cbf1a58d5f4fc1" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-446aa0cf36464872848b321f0216f9d9" target="id-fc8294e843054e17ba7c37b81eb0426d" archimateRelationship="id-6c047a49722141ca9407e365464247a9"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-9b31856fbae64cbabb521e5dfda2bdcd" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-446aa0cf36464872848b321f0216f9d9" target="id-0db89e3ef2024b129158cd3d15c835ca" archimateRelationship="id-78141af674174f7594148a32988b75aa"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-3e51d42af25c45079cd1bbb40f1e1d01" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-446aa0cf36464872848b321f0216f9d9" target="id-ba09204f23924f488f34524c3de0fdfa" archimateRelationship="id-02765f5a1ba243598647e6d1f8b18416"/>
+          <child xsi:type="archimate:DiagramObject" id="id-fc8294e843054e17ba7c37b81eb0426d" targetConnections="id-19eaf5718f82445990cbf1a58d5f4fc1" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-958413d9fa014c42b2bafe41b1a564e1">
+            <bounds x="12" y="36" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-0db89e3ef2024b129158cd3d15c835ca" targetConnections="id-9b31856fbae64cbabb521e5dfda2bdcd" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-4922a1a5184042f1b8ff447e58125676">
+            <bounds x="12" y="84" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-ba09204f23924f488f34524c3de0fdfa" targetConnections="id-3e51d42af25c45079cd1bbb40f1e1d01" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-c738854cc1af44d3b57d7e57872a8835">
+            <bounds x="12" y="132" width="120" height="37"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-fc848dd07a374d7e938d53fc6fdbbf75" font="1|Comfortaa|11.0|1|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" archimateElement="id-6240b8bf254c417bb9375901022d651a">
+          <bounds x="948" y="636" width="145" height="181"/>
+          <feature name="gradient" value="2"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-867364ade097482f81b58ee5540a6b63" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-fc848dd07a374d7e938d53fc6fdbbf75" target="id-fc328947a05443cea3377b9ad55de4bc" archimateRelationship="id-3c67933145a947d996cbcd2e9139d5da"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-ff65901d39a148768e0471aec222fe8e" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-fc848dd07a374d7e938d53fc6fdbbf75" target="id-c32ceacdd85046f59795e4e2fa7cb7d4" archimateRelationship="id-12e0fb6aeb9a4e74af7b3c0c923392dc"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5193ed39c8a04105b9a8503e35e013e8" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-fc848dd07a374d7e938d53fc6fdbbf75" target="id-1d61ade2d4a54d69a2bffad73bf2e92e" archimateRelationship="id-0b6b2cdfd7204773bcb3de9a358e5bea"/>
+          <child xsi:type="archimate:DiagramObject" id="id-fc328947a05443cea3377b9ad55de4bc" targetConnections="id-867364ade097482f81b58ee5540a6b63" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-741e3ed0c77f450985244192e50ed0e7">
+            <bounds x="12" y="36" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-c32ceacdd85046f59795e4e2fa7cb7d4" targetConnections="id-ff65901d39a148768e0471aec222fe8e" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-bd23dd1d9c54401089c864866dfd05a2">
+            <bounds x="12" y="84" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-1d61ade2d4a54d69a2bffad73bf2e92e" targetConnections="id-5193ed39c8a04105b9a8503e35e013e8" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-dfce3bf762904590b5a7ee2d0f5d208f">
+            <bounds x="12" y="132" width="120" height="37"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-9dafe94dbef04d7f8abd71f0243f6619" font="1|Comfortaa|11.0|1|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f8e45c" archimateElement="id-12e0729af9a542239daa7380e802d392">
+          <bounds x="1116" y="636" width="145" height="181"/>
+          <feature name="gradient" value="2"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-53342035454b4ba78feab6c6cb436841" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-9dafe94dbef04d7f8abd71f0243f6619" target="id-ef44cd670bcd46f19003cf84f3bd6fd0" archimateRelationship="id-abc1e62047dc43f7959858b420a28f70"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5b61dfd27f87490b922f29e3f217c049" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-9dafe94dbef04d7f8abd71f0243f6619" target="id-0130d48bc1af4b69852f8f2f0f3294eb" archimateRelationship="id-60afae13ea184d3198807ef2c964f02b"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-acd6d250614c4308a792c5950f64ecdc" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-9dafe94dbef04d7f8abd71f0243f6619" target="id-af9c74822eb34f84a73adc462f3bed5f" archimateRelationship="id-f00d334ea6ef4935a0d0b576824c5bea"/>
+          <child xsi:type="archimate:DiagramObject" id="id-0130d48bc1af4b69852f8f2f0f3294eb" targetConnections="id-5b61dfd27f87490b922f29e3f217c049" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-a339533a12a64c0aba65ba467124dabe">
+            <bounds x="12" y="36" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-ef44cd670bcd46f19003cf84f3bd6fd0" targetConnections="id-53342035454b4ba78feab6c6cb436841" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-a69f78204072409698f2f53d480d499c">
+            <bounds x="12" y="84" width="120" height="37"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-af9c74822eb34f84a73adc462f3bed5f" targetConnections="id-acd6d250614c4308a792c5950f64ecdc" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#f5c211" textPosition="1" archimateElement="id-2f0e63f262234d9ea324ecd743a62504">
+            <bounds x="12" y="132" width="120" height="37"/>
+          </child>
+        </child>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Artifact" id="id-443a76f804a8412d9658a75b5ce12838">
+        <child xsi:type="archimate:Note" id="id-ae9c8afce8384a20b3fda7e1f96b1777" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffbe6f" alpha="16" textPosition="1" borderType="1">
+          <bounds x="12" y="48" width="1105" height="193"/>
+        </child>
+        <child xsi:type="archimate:Group" id="id-0fb848cf546040a3b9d1e1baab4ca15f" name="ArchiMate view = moduleStructure" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
+          <bounds x="24" y="12" width="541" height="241"/>
+          <child xsi:type="archimate:Group" id="id-db2bc0e8d79440a5b6823ee91fb2562a" name="View" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#ffffff" borderType="1">
+            <bounds x="24" y="60" width="492" height="145"/>
+            <child xsi:type="archimate:Group" id="id-0bba6fd2164e4d1db15a9393b10d7c23" name="&lt;&lt;artifact>>" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+              <bounds x="24" y="36" width="433" height="97"/>
+              <child xsi:type="archimate:Group" id="id-20d3f0d057cd46c1b4dfe8a470e0cffc" name="&lt;&lt;artifact>>" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#d2d7d7">
+                <bounds x="12" y="36" width="409" height="49"/>
+              </child>
+            </child>
+          </child>
+        </child>
+        <child xsi:type="archimate:Group" id="id-09becc1aeb4d476090c7d71f6c227950" name=" Javascript modules" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
+          <bounds x="564" y="12" width="541" height="241"/>
+          <child xsi:type="archimate:DiagramObject" id="id-f2aa7697dd914910840fa898632cb01e" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#1c71d8" fillColor="#99c1f1" alpha="128" archimateElement="id-dc50a2b35dd64bcf960cc429fa74b2cf">
+            <bounds x="24" y="60" width="481" height="145"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-1e01e2b02d09483cafb02b1e73a3cce8" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-f2aa7697dd914910840fa898632cb01e" target="id-5aabee8157c642bc8162f7ff25901e34" archimateRelationship="id-effb7769ce864aa7a5c76af8fdc9ccf5"/>
+            <child xsi:type="archimate:DiagramObject" id="id-5aabee8157c642bc8162f7ff25901e34" targetConnections="id-1e01e2b02d09483cafb02b1e73a3cce8" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#1c71d8" fillColor="#99c1f1" alpha="128" archimateElement="id-0c499f220950413d93868c2839ede659">
+              <bounds x="12" y="36" width="457" height="97"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-dca57ca43783439e801698adf5e897f1" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-5aabee8157c642bc8162f7ff25901e34" target="id-5aa8943fe6574adc9e8766badc38b1fb" archimateRelationship="id-126e5f1932744808ae9184cdb880a724"/>
+              <child xsi:type="archimate:DiagramObject" id="id-5aa8943fe6574adc9e8766badc38b1fb" targetConnections="id-dca57ca43783439e801698adf5e897f1" font="1|Segoe UI Symbol|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-be1f76f5548443d5a8acc99e28aaac63">
+                <bounds x="12" y="36" width="433" height="49"/>
+              </child>
+            </child>
+          </child>
+        </child>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="docGen Structure" id="id-07ac55ae9870483084fc5b034a4b2155">
+        <child xsi:type="archimate:Note" id="id-cf492bb42da9460ba3f6629b060ea8bf" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#26a269" lineColor="#5c5c5c" textAlignment="4" fillColor="#26a269" alpha="32" borderType="1">
+          <bounds x="552" y="12" width="217" height="289"/>
+          <feature name="gradient" value="3"/>
+          <content>Weasyprint</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-b1c82a9775b640f5862c297e35266425" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#1a5fb4" lineColor="#5c5c5c" textAlignment="4" fillColor="#1a5fb4" alpha="32" borderType="1">
+          <bounds x="12" y="12" width="217" height="288"/>
+          <feature name="gradient" value="3"/>
+          <content>Archi</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-9994f10d3db24b92b5c94b34a2911365" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#214378" lineColor="#5c5c5c" textAlignment="4" fillColor="#214378" alpha="32" borderType="1">
+          <bounds x="240" y="12" width="301" height="289"/>
+          <feature name="gradient" value="3"/>
+          <content>docGen</content>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-a5c07b3f542d45879c6173e3775249c3" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#3584e4" alpha="64" archimateElement="id-3c0ec7d0818b46cb9a51ed4ffa648640">
+          <bounds x="24" y="24" width="145" height="61"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-4d6069ab71924a1fbcf4721bd0e8bce7" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="3" lineColor="#1a5fb4" source="id-a5c07b3f542d45879c6173e3775249c3" target="id-5d45c8827418484996a41ff3b37ffe80" archimateRelationship="id-6ff0cfbbd79046009e76d21b12077f7e">
+            <bendpoint startY="132" endX="-138" endY="-18"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-85c807ac698d43368b81d293c104a807" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-a5c07b3f542d45879c6173e3775249c3" target="id-7d301f06a57945cd8e75c47dd9f7c998" archimateRelationship="id-9d73334856ee4fe08334ccf54d6b7a69"/>
+          <child xsi:type="archimate:DiagramObject" id="id-7d301f06a57945cd8e75c47dd9f7c998" targetConnections="id-77f1472aaf55492d8d6644513a2e628a id-85c807ac698d43368b81d293c104a807" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#3584e4" alpha="64" textPosition="1" archimateElement="id-b76f51699d7e4c8b9e2499b366e37002">
+            <bounds x="12" y="24" width="121" height="25"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-7c03a55bd5e24f60a3a079f7cdf474f5" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#214378" alpha="64" textPosition="1" archimateElement="id-c3ff4d6c7730427b8df5a4f92813e470">
+          <bounds x="318" y="48" width="145" height="37"/>
+          <feature name="labelExpression" value="docGen (mjs)"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-77f1472aaf55492d8d6644513a2e628a" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-7d301f06a57945cd8e75c47dd9f7c998" archimateRelationship="id-2c243b8b54c945608dfd6d72da7ba144"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-f41def3314414e3abc240f181504fdfd" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-3bf2b8f3e83d4fa7b73a50c8f21efe3f" archimateRelationship="id-881aeb9c8b7f496e89462438b2f3ce30">
+            <bendpoint startX="186" startY="-6" endX="-186" endY="-6"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-184990e5699149f4adc511f4c5bdbf07" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-9ef3c613ee1e44e2b8b34204c6d3519d" archimateRelationship="id-aeb8a6e575bc463b8afc576abbc3d639">
+            <bendpoint startX="-42" startY="90" endX="-60" endY="6"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-241c0f00c8a04d5591a4f9f72204c7fc" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="3" lineColor="#214378" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-03e1cb1abbd54510a681f21d34e3d2ee" archimateRelationship="id-2a4ec04316d8472eb13fd5924bf0ce82">
+            <bendpoint startX="-54" startY="114" endX="102"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5402419bb4fa4b589226ad8b284da83a" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-287912d348e443bd9142e5fb508c50be" archimateRelationship="id-aeb8a6e575bc463b8afc576abbc3d639">
+            <bendpoint startX="-42" startY="54" endX="-60" endY="6"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-1f06b8e56aa94c08928d2a3f621f5663" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="3" lineColor="#214378" source="id-7c03a55bd5e24f60a3a079f7cdf474f5" target="id-257e99f2325842d689025112ccbc72e2" archimateRelationship="id-9dce61f75c5a44a7adf63fe6f6f1e7c1">
+            <bendpoint startX="66" startY="114" endX="-90" endY="-18"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-257e99f2325842d689025112ccbc72e2" targetConnections="id-329c5668fad545049f93d8247d8018ec id-1f06b8e56aa94c08928d2a3f621f5663" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffff" textPosition="1" archimateElement="id-d8dd7459b2384a6d985598c23388dea6">
+          <bounds x="492" y="108" width="108" height="181"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-3bf2b8f3e83d4fa7b73a50c8f21efe3f" targetConnections="id-f41def3314414e3abc240f181504fdfd" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#2ec27e" alpha="64" textPosition="1" archimateElement="id-e7fc109fd34a4f3e8a7dec55f1141e76">
+          <bounds x="588" y="48" width="145" height="37"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-329c5668fad545049f93d8247d8018ec" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="3" lineColor="#26a269" source="id-3bf2b8f3e83d4fa7b73a50c8f21efe3f" target="id-257e99f2325842d689025112ccbc72e2" archimateRelationship="id-3921207fa44e423fbe1e92992c9196de">
+            <bendpoint startX="-36" startY="114" endX="78" endY="-18"/>
+          </sourceConnection>
+          <sourceConnection xsi:type="archimate:Connection" id="id-85e433ecdfde48a282e9b5fefb70a141" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="3" lineColor="#26a269" source="id-3bf2b8f3e83d4fa7b73a50c8f21efe3f" target="id-ccfb5a045c4840e99945fae1053bee60" archimateRelationship="id-72b7f70073784fec9d0f8a34fcdbc65a">
+            <bendpoint startX="36" startY="114" endX="-90" endY="-18"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-5d45c8827418484996a41ff3b37ffe80" targetConnections="id-4d6069ab71924a1fbcf4721bd0e8bce7" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#ffffff" lineColor="#5c5c5c" fillColor="#1a5fb4" archimateElement="id-d83f0ab36b834d379880d59fce3ba73c">
+          <bounds x="180" y="108" width="108" height="181"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-4d139ef73fab4be19f349d0ddf9dffac" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-5d45c8827418484996a41ff3b37ffe80" target="id-4d0f1a02cd174e2eb9f43a9fde075b71" archimateRelationship="id-abd5b063334a46f98b7ccd018f078816"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-bb85fb44a3dc4b4da73505c963100fac" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-5d45c8827418484996a41ff3b37ffe80" target="id-a8fb90cb034f48bbb198b1339d77ca36" archimateRelationship="id-abd5b063334a46f98b7ccd018f078816"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-69cb28e5d2d04e1f81387a02d0ee1a3d" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-5d45c8827418484996a41ff3b37ffe80" target="id-03e1cb1abbd54510a681f21d34e3d2ee" archimateRelationship="id-6afeb91c8ea944828472a09580085c04"/>
+          <child xsi:type="archimate:DiagramObject" id="id-03e1cb1abbd54510a681f21d34e3d2ee" targetConnections="id-241c0f00c8a04d5591a4f9f72204c7fc id-69cb28e5d2d04e1f81387a02d0ee1a3d" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#ffffff" lineColor="#5c5c5c" fillColor="#214378" textPosition="1" archimateElement="id-8da0aa2a19444edcb816a3643a9a2ea0">
+            <bounds x="12" y="48" width="90" height="49"/>
+            <feature name="iconColor" value="#9a9996"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-b0c8d29ab9ef4f899b539d10c2456854" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-03e1cb1abbd54510a681f21d34e3d2ee" target="id-4d0f1a02cd174e2eb9f43a9fde075b71" archimateRelationship="id-7fe3668b70984582b00c0690cfdfd2ff">
+              <bendpoint startX="-32" startY="84" endX="-44"/>
+            </sourceConnection>
+            <sourceConnection xsi:type="archimate:Connection" id="id-d75bbe38811c4da1aa3946979f300fe5" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#000000" source="id-03e1cb1abbd54510a681f21d34e3d2ee" target="id-a8fb90cb034f48bbb198b1339d77ca36" archimateRelationship="id-7fe3668b70984582b00c0690cfdfd2ff">
+              <bendpoint startX="-32" startY="48" endX="-44"/>
+            </sourceConnection>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-a8fb90cb034f48bbb198b1339d77ca36" targetConnections="id-bb85fb44a3dc4b4da73505c963100fac id-d75bbe38811c4da1aa3946979f300fe5" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#ffffff" lineColor="#5c5c5c" textAlignment="1" fillColor="#214378" archimateElement="id-a718e98cf66d4ad3b6490ffa34503689">
+            <bounds x="36" y="108" width="66" height="25"/>
+            <feature name="iconColor" value="#9a9996"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-4d0f1a02cd174e2eb9f43a9fde075b71" targetConnections="id-4d139ef73fab4be19f349d0ddf9dffac id-b0c8d29ab9ef4f899b539d10c2456854" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#ffffff" lineColor="#5c5c5c" textAlignment="1" fillColor="#214378" archimateElement="id-a718e98cf66d4ad3b6490ffa34503689">
+            <bounds x="36" y="144" width="66" height="25"/>
+            <feature name="iconColor" value="#9a9996"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-287912d348e443bd9142e5fb508c50be" targetConnections="id-5402419bb4fa4b589226ad8b284da83a" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#214378" alpha="64" textPosition="1" archimateElement="id-7309b4d8640448328387d4d1b2d2fe0d">
+          <bounds x="372" y="102" width="73" height="25"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-9ef3c613ee1e44e2b8b34204c6d3519d" targetConnections="id-184990e5699149f4adc511f4c5bdbf07" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#214378" alpha="64" textPosition="1" archimateElement="id-7309b4d8640448328387d4d1b2d2fe0d">
+          <bounds x="372" y="138" width="73" height="25"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-ccfb5a045c4840e99945fae1053bee60" targetConnections="id-85e433ecdfde48a282e9b5fefb70a141" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#ffffff" lineColor="#5c5c5c" fillColor="#26a269" textPosition="1" archimateElement="id-9022b877439646a086d6d30c26a5a7cb">
+          <bounds x="732" y="108" width="108" height="181"/>
+        </child>
+        <documentation>DocGen works as an integrated process between **Archi**, **DocGen**, and **WeasyPrint**. Together, these components allow you to build, format, and publish professional architecture documents directly from your ArchiMate models.
+
+---
+
+### **Building the Document Structure in Archi**
+
+In Archi, you start by creating a **document structure** (called the *docGen structure*).
+This structure is built using **[diagram-model-group](https://github.com/archimatetool/archi-scripting-plugin/wiki/jArchi-Collection)** and **[diagram-model-references](https://github.com/archimatetool/archi-scripting-plugin/wiki/jArchi-Collection)**.
+
+In this structure, **each view is one of two things** (it is **not** both at once):
+
+1. a **diagram-model-reference to an artifact** — the artifact generates the content for the document, or
+2. a **diagram-model-reference to the target ArchiMate diagram** — the diagram (the “target”) is where the documentation is generated for and organized.
+
+The **position** of the elements within the structure determines the order, nesting, and layout of the final document.
+
+An **artifact** is essentially an **ArchiMate View**: a structured set of ArchiMate elements and their relationships, plus optional parameters and **references to JavaScript modules**.
+These modules are **dynamically loaded**, so you can extend DocGen with advanced, custom behavior. Modules can also call other modules for further processing.
+
+> **Note:** DocGen works exclusively with *visual elements* and *attributes* within the Archi model.
+> It does **not** alter or extend the underlying architecture model itself, beyond relying on the standard ArchiMate meta-model.
+> This ensures that your architectural data remains fully consistent, reusable, and compliant with ArchiMate standards.
+
+---
+
+### **Generating the Content with DocGen**
+
+Each module can **produce content** (HTML fragments) or **add CSS** for styling.
+Content can be added in two ways:
+
+* **Static content**, written directly in *diagram-model-notes*, or
+* **Dynamic content**, extracted from a view or model—for example, to build **catalogs** or **matrices**.
+
+Every module and element contributes **CSS classes**, enabling consistent styling and later enrichment.
+You can also include **Markdown**, which DocGen converts into rich, styled HTML components.
+
+When DocGen finishes processing, it produces a **single HTML5 document** that contains all generated content, diagrams, and stylesheets.
+
+---
+
+### **Converting to PDF with WeasyPrint**
+
+As a final step, DocGen uses **WeasyPrint** to convert the HTML5 file into a **PDF**.
+This PDF is your deliverable—e.g., a **TOGAF-compliant report** containing the defined **artifacts**, diagrams, and formatted sections.
+</documentation>
+      </element>
+    </folder>
     <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
       <child xsi:type="archimate:Note" id="id-728a1edf154c45aaaab1a294c26f9fa0" textAlignment="1" borderType="2" imagePath="images/_ysxtUE98EfG3VprJX1IVXw.png" imagePosition="9">
         <bounds x="12" y="12" width="397" height="385"/>
