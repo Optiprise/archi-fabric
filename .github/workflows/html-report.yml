@@ -53,8 +53,8 @@ jobs:
         id: cache-archi
         uses: actions/cache@v4
         with:
-          path: archi
-          key: archi-${{ env.ARCHI_VERSION }}
+          path: Archi
+          key: Archi-${{ env.ARCHI_VERSION }}
 
       - name: Download Archi
         if: steps.cache-archi.outputs.cache-hit != 'true'
