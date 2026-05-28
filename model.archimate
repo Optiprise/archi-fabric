@@ -280,6 +280,12 @@ a View</content>
           <child xsi:type="archimate:DiagramObject" id="id-b5b75c59d6ff4ac0a534a00a9f10bc20" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-12b06f974b6745248bd90e49a6a10066">
             <bounds x="1056" y="239" width="229" height="55"/>
             <sourceConnection xsi:type="archimate:Connection" id="id-c3df0996f72b456aaee777d092238f35" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineWidth="2" lineColor="#c64600" source="id-b5b75c59d6ff4ac0a534a00a9f10bc20" target="id-b981d7505a914ce89acda30354120835" archimateRelationship="id-ff14e567fdd34efabd6ee88a8dc4fa78"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-38a77d266ead4a3383d2e6d4ae1efe74" alpha="0" model="id-2743d7988dc5482b8a846ee620fef845">
+              <bounds width="229" height="55"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="iconVisible" value="2"/>
+              <feature name="labelExpression" value=" "/>
+            </child>
           </child>
           <child xsi:type="archimate:DiagramObject" id="id-28e91d819d6240a4ac6457c4bc4ec11e" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#e66100" fillColor="#ffbe6f" alpha="128" textPosition="1" archimateElement="id-2834f72379054f80a541811c3564154a">
             <bounds x="768" y="239" width="229" height="55"/>
