@@ -49,18 +49,34 @@ jobs:
           libcairo2 libpango-1.0-0 libpangocairo-1.0-0 unzip patch fontconfig \
           fonts-comfortaa fonts-dejavu fonts-liberation fonts-noto 
           
-      - name: Install Archi
+      - name: Cache Archi installation
+        id: cache-archi
+        uses: actions/cache@v4
+        with:
+          path: archi
+          key: archi-${{ env.ARCHI_VERSION }}
+
+      - name: Download Archi
+        if: steps.cache-archi.outputs.cache-hit != 'true'
         run: |
-          if [ -f "Archi/Archi" ]; then
-            echo "Archi ${ARCHI_VERSION} found in cache, skipping download"
+          set -e
+
+          PRIMARY_URL="https://github.com/archimatetool/archi.io/releases/download/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
+          FALLBACK_URL="https://www.archimatetool.com/downloads/archi/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
+
+          echo "Trying primary download location..."
+          if curl -fsSL -o archi.tgz "$PRIMARY_URL"; then
+            echo "Downloaded Archi from GitHub release."
           else
-            echo "Downloading Archi ${ARCHI_VERSION}..."
-            curl -fsSL -o archi.tgz "https://github.com/archimatetool/archi.io/releases/download/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
-            tar zxf archi.tgz -C .
-            rm archi.tgz
-            chmod +x Archi/Archi
-            echo "Archi ${ARCHI_VERSION} installed successfully"
+            echo "Primary download failed. Trying fallback location..."
+            curl -fsSL -o archi.tgz "$FALLBACK_URL"
+            echo "Downloaded Archi from Archi website."
           fi
+
+            tar zxf archi.tgz -C .
+            chmod +x Archi/Archi
+            rm -f archi.tgz
+            echo "Archi ${ARCHI_VERSION} installed successfully"
 
       - name: Generate HTML Report
         run: |

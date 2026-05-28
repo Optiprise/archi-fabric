@@ -2,8 +2,8 @@
  * Entry-point wrapper for jArchi DocGen.
  * Dynamically imports an ECMAScript module.
  *
- * @module docgen.ajs
+ * @module archifabric-pdf.ajs
  */
 console.clear();
-console.log(`Starting DocGen....`);
+console.log(`Starting archiFabric-PDF....`);
 load('./docgen.mjs');
