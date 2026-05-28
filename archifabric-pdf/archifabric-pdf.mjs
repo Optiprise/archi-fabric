@@ -5,3 +5,10 @@
  * It leverages Underscore.js, custom Markup, LogBook, and Artifactory modules.
  */
 
+// Load dependencies
+import LogBook from './logbook.mjs';
+
+
+// Initialize core components
+const logBook = new LogBook(2); // Initialize LogBook with debug level 2
+
