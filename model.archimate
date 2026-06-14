@@ -28,7 +28,7 @@
           <element xsi:type="archimate:ApplicationFunction" name="Sort" id="id-12e0729af9a542239daa7380e802d392"/>
           <element xsi:type="archimate:ApplicationFunction" name="sortName" id="id-a339533a12a64c0aba65ba467124dabe"/>
           <element xsi:type="archimate:ApplicationFunction" name="sortPosition" id="id-a69f78204072409698f2f53d480d499c"/>
-          <element xsi:type="archimate:ApplicationFunction" name="sortRealtion" id="id-2f0e63f262234d9ea324ecd743a62504"/>
+          <element xsi:type="archimate:ApplicationFunction" name="sortRelation" id="id-2f0e63f262234d9ea324ecd743a62504"/>
         </folder>
         <element xsi:type="archimate:DataObject" name="targetCollection" id="id-4bc8e4f51f6243fd954bb55807e7beed"/>
         <element xsi:type="archimate:DataObject" name="targetObject" id="id-4ea89a01b26b40f78850cca4ea987438"/>
@@ -217,12 +217,12 @@ a View</content>
               </child>
             </child>
           </child>
-          <child xsi:type="archimate:Group" id="id-f4b2cec6b3954d569f492c50fdfc0147" name="targetStructure" font="1|Segoe UI Symbol|14.0|0|GTK|1|" fontColor="#000000" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
+          <child xsi:type="archimate:Group" id="id-f4b2cec6b3954d569f492c50fdfc0147" name="targetStructure" font="1|Adwaita Sans|14.0|2|GTK|1|" lineColor="#deddda" textAlignment="1" fillColor="#ffffff" alpha="0" borderType="1">
             <bounds x="1296" y="12" width="541" height="409"/>
-            <child xsi:type="archimate:Group" id="id-0d3924964ac24dd395fb7022a53fec8d" name="Model" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#ffffff" borderType="1">
+            <child xsi:type="archimate:Group" id="id-0d3924964ac24dd395fb7022a53fec8d" name="Model" font="1|Adwaita Sans|12.0|0|GTK|1|" lineColor="#9a9996" textAlignment="1" fillColor="#ffffff" borderType="1">
               <bounds x="12" y="60" width="516" height="300"/>
-              <child xsi:type="archimate:Group" id="id-2ceb62d03fc84f1a966ece2056155c91" name="View" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#f6f5f4" borderType="1">
-                <bounds x="180" y="29" width="313" height="121"/>
+              <child xsi:type="archimate:Group" id="id-2ceb62d03fc84f1a966ece2056155c91" name="View" targetConnections="id-949f8c56edbf4ea992059ec29d143065" font="1|Comfortaa|12.0|0|GTK|1|" fontColor="#000000" lineColor="#9a9996" textAlignment="1" fillColor="#f6f5f4" borderType="1">
+                <bounds x="180" y="164" width="313" height="121"/>
                 <child xsi:type="archimate:DiagramObject" id="id-4abcf8f85d764e85a73d6df2a12e783a" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" archimateElement="id-5cc63c7fa5ea4d6188e16f97d5bc7a1f">
                   <bounds x="12" y="36" width="121" height="61"/>
                   <feature name="labelExpression" value="Object"/>
@@ -248,25 +248,57 @@ a View</content>
                 </child>
               </child>
               <child xsi:type="archimate:Note" id="id-d3fd819f9a4341579b098779c2b6a92c" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#e5a50a" borderType="2">
-                <bounds x="12" y="29" width="28" height="8"/>
+                <bounds x="24" y="29" width="28" height="8"/>
               </child>
-              <child xsi:type="archimate:Note" id="id-439a8cb2cb71458a8d0cb4418aebc8f9" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
-                <bounds x="12" y="36" width="49" height="29"/>
+              <child xsi:type="archimate:Note" id="id-439a8cb2cb71458a8d0cb4418aebc8f9" targetConnections="id-8cabee81b5844302804d791b9a2e0624" font="1|Montserrat|9.0|0|GTK|1|" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
+                <bounds x="24" y="36" width="61" height="29"/>
                 <feature name="gradient" value="0"/>
-                <feature name="labelExpression" value="Object"/>
+                <feature name="labelExpression" value="Folder"/>
+                <sourceConnection id="id-b944618a032e421f9dff4497f881e655" source="id-439a8cb2cb71458a8d0cb4418aebc8f9" target="id-73a5e4ffc2ac4891b7e97400c351f0ba">
+                  <bendpoint startX="-6" startY="46" endX="-54" endY="-2"/>
+                </sourceConnection>
+                <sourceConnection id="id-15da6a98d9ad45d896bc5de45dc80ec2" source="id-439a8cb2cb71458a8d0cb4418aebc8f9" target="id-6983f12045214ea8845ba39b18869d55">
+                  <bendpoint startX="-6" startY="118" endX="-54" endY="5"/>
+                </sourceConnection>
               </child>
               <child xsi:type="archimate:Note" id="id-65296a9b9c5a413cb36e289b467eda0b" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#e5a50a" borderType="2">
-                <bounds x="60" y="77" width="28" height="8"/>
+                <bounds x="72" y="77" width="28" height="8"/>
               </child>
-              <child xsi:type="archimate:Note" id="id-73a5e4ffc2ac4891b7e97400c351f0ba" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
-                <bounds x="60" y="84" width="49" height="29"/>
+              <child xsi:type="archimate:Note" id="id-73a5e4ffc2ac4891b7e97400c351f0ba" targetConnections="id-b944618a032e421f9dff4497f881e655" font="1|Montserrat|9.0|0|GTK|1|" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
+                <bounds x="72" y="84" width="61" height="29"/>
                 <feature name="gradient" value="0"/>
                 <feature name="labelExpression" value="Object"/>
+                <sourceConnection id="id-10bc5017dac844fe8537bd5a2cadbf05" source="id-73a5e4ffc2ac4891b7e97400c351f0ba" target="id-6e52bb004136474e92299ccbbf9218a3">
+                  <bendpoint startX="-6" startY="34" endX="-54" endY="-3"/>
+                </sourceConnection>
               </child>
-              <child xsi:type="archimate:DiagramObject" id="id-6e52bb004136474e92299ccbbf9218a3" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-ce4d1d0a0a794927a9e6e661aa59b971">
-                <bounds x="108" y="120" width="49" height="29"/>
+              <child xsi:type="archimate:DiagramObject" id="id-6e52bb004136474e92299ccbbf9218a3" targetConnections="id-10bc5017dac844fe8537bd5a2cadbf05" font="1|Adwaita Sans|8.0|0|GTK|1|" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-ce4d1d0a0a794927a9e6e661aa59b971">
+                <bounds x="120" y="121" width="61" height="29"/>
+                <feature name="labelExpression" value="Element"/>
                 <feature name="iconVisible" value="2"/>
-                <feature name="labelExpression" value="Object"/>
+              </child>
+              <child xsi:type="archimate:DiagramObject" id="id-6983f12045214ea8845ba39b18869d55" targetConnections="id-15da6a98d9ad45d896bc5de45dc80ec2" font="1|Adwaita Sans|9.0|0|GTK|1|" lineColor="#5c5c5c" fillColor="#ffffb5" alpha="128" textPosition="1" archimateElement="id-ce4d1d0a0a794927a9e6e661aa59b971">
+                <bounds x="72" y="156" width="61" height="29"/>
+                <feature name="labelExpression" value="Element"/>
+                <feature name="iconVisible" value="2"/>
+              </child>
+              <child xsi:type="archimate:Note" id="id-32674732b7da4ad4a5d1347096f3d85f" font="1|Segoe UI Emoji|9.0|0|GTK|1|" fontColor="#000000" lineColor="#5c5c5c" textAlignment="1" fillColor="#e5a50a" borderType="2">
+                <bounds x="24" y="209" width="28" height="8"/>
+              </child>
+              <child xsi:type="archimate:Note" id="id-7a13ec16cdde44f197cd258f5b132d1c" targetConnections="id-1002d9474e264339a5d91a7f3489d895" font="1|Adwaita Sans|9.0|0|GTK|1|" lineColor="#f5c211" textAlignment="1" fillColor="#f8e45c" textPosition="1" borderType="1">
+                <bounds x="24" y="216" width="61" height="29"/>
+                <feature name="gradient" value="0"/>
+                <feature name="labelExpression" value="Folder"/>
+                <sourceConnection id="id-949f8c56edbf4ea992059ec29d143065" source="id-7a13ec16cdde44f197cd258f5b132d1c" target="id-2ceb62d03fc84f1a966ece2056155c91"/>
+              </child>
+              <child xsi:type="archimate:Note" id="id-9049a253ad4c48d18b1e1d4b762a6a4c" textAlignment="1" alpha="0" borderType="2">
+                <bounds x="11" y="12" width="14" height="15"/>
+                <sourceConnection id="id-8cabee81b5844302804d791b9a2e0624" source="id-9049a253ad4c48d18b1e1d4b762a6a4c" target="id-439a8cb2cb71458a8d0cb4418aebc8f9">
+                  <bendpoint startX="-6" startY="26" endX="-42" endY="-2"/>
+                </sourceConnection>
+                <sourceConnection id="id-1002d9474e264339a5d91a7f3489d895" source="id-9049a253ad4c48d18b1e1d4b762a6a4c" target="id-7a13ec16cdde44f197cd258f5b132d1c">
+                  <bendpoint startX="-6" startY="218" endX="-42" endY="-2"/>
+                </sourceConnection>
               </child>
             </child>
           </child>
@@ -466,9 +498,24 @@ This PDF is your deliverable—e.g., a **TOGAF-compliant report** containing the
       </folder>
       <folder name="ArchiFabric-HTML" id="id-3d8407b48766400caa988d8be4966ec7"/>
     </folder>
+    <folder name="Artifacts" id="id-3028a143d59a483e929cc868aa47086f"/>
+    <folder name="Documentation" id="id-5a6f1f0ad96d48c98af1834287b74e3a">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
+        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
+          <bounds x="36" y="24" width="400" height="265"/>
+          <feature name="labelExpression" value="User Documentation"/>
+          <child xsi:type="archimate:Group" id="id-4b36792ffb4d4637a33f2e956be9d4ef" name="Diagram" textAlignment="1">
+            <bounds y="72" width="400" height="73"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-f2928cb004254ad9807b9b357a2d037e" model="id-df59907750814cc2ae56514218afaf99">
+              <bounds y="24" width="97" height="37"/>
+            </child>
+          </child>
+        </child>
+      </element>
+    </folder>
     <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
-      <child xsi:type="archimate:Note" id="id-728a1edf154c45aaaab1a294c26f9fa0" textAlignment="1" borderType="2" imagePath="images/_ysxtUE98EfG3VprJX1IVXw.png" imagePosition="9">
-        <bounds x="12" y="12" width="397" height="360"/>
+      <child xsi:type="archimate:Note" id="id-728a1edf154c45aaaab1a294c26f9fa0" textAlignment="1" borderType="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9">
+        <bounds x="12" y="12" width="397" height="396"/>
       </child>
     </element>
   </folder>
