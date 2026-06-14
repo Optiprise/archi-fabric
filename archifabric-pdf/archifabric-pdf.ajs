@@ -1,9 +1,24 @@
 ﻿/**
- * Entry-point wrapper for jArchi DocGen.
- * Dynamically imports an ECMAScript module.
+ * Entry-point wrapper for jArchi ArchiFabric-PDF.
+ * Dynamically imports the main Engine module and starts the document generation process.
  *
- * @module archifabric-pdf.ajs
+ * @module archifabric.ajs
  */
+
 console.clear();
-console.log(`Starting archiFabric-PDF....`);
-load('./docgen.mjs');
+console.log(`Starting ArchiFabric-PDF....`);
+
+(async () => {
+    try {
+        // Dynamically import the core Engine module
+        const module = await import('./core/Engine.mjs');
+        
+        // Instantiate and run the Engine
+        const engine = new module.Engine();
+        await engine.run();
+        
+    } catch (error) {
+        console.error(`[ArchiFabric-PDF] Critical Boot Error: ${error.message}`);
+        console.error(error.stack);
+    }
+})();
