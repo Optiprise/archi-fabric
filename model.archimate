@@ -502,13 +502,19 @@ This PDF is your deliverable—e.g., a **TOGAF-compliant report** containing the
     <folder name="Documentation" id="id-5a6f1f0ad96d48c98af1834287b74e3a">
       <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
         <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
-          <bounds x="36" y="24" width="400" height="265"/>
+          <bounds x="36" y="24" width="400" height="313"/>
           <feature name="labelExpression" value="User Documentation"/>
           <child xsi:type="archimate:Group" id="id-4b36792ffb4d4637a33f2e956be9d4ef" name="Diagram" textAlignment="1">
-            <bounds y="72" width="400" height="73"/>
+            <bounds y="144" width="400" height="73"/>
             <child xsi:type="archimate:DiagramModelReference" id="id-f2928cb004254ad9807b9b357a2d037e" model="id-df59907750814cc2ae56514218afaf99">
               <bounds y="24" width="97" height="37"/>
             </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-9c44831accff47fa80459b254295e765" name="CSS" textAlignment="1">
+            <bounds y="84" width="400" height="49"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-fe9306132dbb44fd8738c1e2f2bea0ea" textAlignment="1">
+            <bounds y="240" width="400" height="61"/>
           </child>
         </child>
       </element>
