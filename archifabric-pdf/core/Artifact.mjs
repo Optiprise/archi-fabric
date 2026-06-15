@@ -13,6 +13,12 @@ export class Artifact {
     constructor(name, artifactory) {
         this.name = name;
         this.artifactory = artifactory;
+        
+        /** * Optional URL pointing to documentation or troubleshooting guides for this artifact.
+         * Subclasses can override this to provide specific help links upon failure.
+         * @type {string|null} 
+         */
+        this.helpUrl = null;
     }
 
     /**

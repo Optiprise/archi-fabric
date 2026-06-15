@@ -8,7 +8,6 @@
 import { Artifact } from "./Artifact.mjs";
 import { ExpressionParser } from '../utils/ExpressionParser.mjs';
 
-
 // Java interop imports for file system operations in GraalVM (jArchi)
 const Files = Java.type('java.nio.file.Files');
 const Paths = Java.type('java.nio.file.Paths');
@@ -30,12 +29,13 @@ export class Artifactory {
         this.globalVars = new Map();
         this.parser = new ExpressionParser(this);
         
+        // Empty map, dynamically filled by the artifacts themselves if they provide a helpUrl
+        this.helpRegistry = new Map();
+
         // Determine the base path for artifacts. __DIR__ is provided by the jArchi environment.
         // Ensures the path ends with a trailing slash.
         this.#basePath = __DIR__.endsWith('/') ? __DIR__ + '../artifacts/' : __DIR__ + '/../artifacts/';
         this.lb.log(`Artifactory path set to: ${this.#basePath}`);
-        
-
         
         lb.leave();
     }
@@ -89,6 +89,12 @@ export class Artifactory {
                         const instance = new Cls(this);
                         // Register the artifact in the map using its specific name/identifier
                         this.#registry.set(instance.name, instance);
+                        
+                        // Dynamically register the URL if the artifact provides one
+                        if (instance.helpUrl) {
+                            this.helpRegistry.set(instance.name, instance.helpUrl);
+                        }
+                        
                         this.lb.log(`Successfully registered artifact: ${instance.name}`);
                     } catch (err) {
                         this.lb.error(`Failed to instantiate ${Cls.name}: ${err}`);
@@ -112,18 +118,18 @@ export class Artifactory {
      * @param {Object} modelElement - The source model element providing the parameters/context.
      * @param {Object} targetElement - The actual target element from the TargetStructure to be rendered.
      */
-
-    /**
-     * Dispatches the rendering process to the appropriate loaded artifact.
-     * @param {string} artifactName - The registered name of the artifact to invoke.
-     * @param {Object} modelElement - The source model element providing the parameters/context.
-     * @param {Object} targetElement - The actual target element to be rendered.
-     */
     render(artifactName, modelElement, targetElement) {
         this.lb.enter(`Artifactory.render(artifact: '${artifactName}')`);
         
         const artifact = this.#registry.get(artifactName);
         
+        // Retrieve the dynamic URL (if registered)
+        const helpUrl = this.helpRegistry.get(artifactName);
+        
+        // Construct the help text only if a URL is available
+        const helpText = helpUrl ? `\n[Documentation & Help: ${helpUrl}]` : '';
+        
+        // Verify the artifact exists and has a valid render method
         if (artifact && typeof artifact.render === 'function') {
             try {
                 // Helper to format names and labels for clear logging
@@ -138,10 +144,10 @@ export class Artifactory {
                 
                 artifact.render(modelElement, targetElement);
             } catch (err) {
-                this.lb.error(`Error during rendering of artifact '${artifactName}': ${err.message}`, modelElement);
+                this.lb.error(`Error during rendering of artifact '${artifactName}': ${err.message}${helpText}`, modelElement);
             }
         } else {
-            this.lb.error(`Artifact module for '${artifactName}' is not loaded or does not implement render().`, modelElement);
+            this.lb.error(`Artifact module for '${artifactName}' is not loaded or does not implement render().${helpText}`, modelElement);
         }
         
         this.lb.leave();

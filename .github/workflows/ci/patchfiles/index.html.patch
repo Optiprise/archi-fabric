@@ -1,5 +1,5 @@
 --- index.html	2026-05-14 22:17:58.294412485 +0200
 +++ index.html	2026-05-15 09:46:18.099224714 +0200
 @@ -5,0 +6 @@
-+	<link rel="icon" type="image/png" href="img/logo.png">
++	<link rel="icon" type="image/svg+xml" href="img/logo.svg">
 
