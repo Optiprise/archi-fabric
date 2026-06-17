@@ -1,8 +1,8 @@
 /**
  * @module artifacts/CSS
  * @description Artifact that injects custom CSS styling into the final document.
- * It reads the CSS code from the content of an Archi Note or the documentation of an element,
- * and appends it to the global stylesheet buffer.
+ * It reads the CSS code from the documentation of the model element (the artifact itself)
+ * and/or the content/documentation of the target element, and appends it to the global stylesheet.
  */
 import { Artifact } from '../core/Artifact.mjs';
 
@@ -13,24 +13,45 @@ export default class CSS extends Artifact {
      */
     constructor(artifactory) {
         super('CSS', artifactory);
+        
+        /**
+         * URL pointing to documentation for the CSS artifact.
+         * Automatically shown by the LogBook if this module crashes.
+         * @type {string} 
+         */
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
     }
 
     /**
-     * Reads the CSS content and adds it to the Markup engine's CSS buffer.
-     * @param {Object} modelElement - The Archi template element.
-     * @param {Object} targetElement - The actual Archi element containing the CSS string.
+     * Reads the CSS content from both the model template and target element, 
+     * and adds it to the Markup engine's CSS buffer.
+     * @param {Object} modelElement - The Archi template element defining the CSS artifact.
+     * @param {Object} targetElement - The actual Archi element providing the context.
      */
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render`);
 
-        // CSS is typically stored in the 'content' of a Note, or 'documentation' of a Group/Element
-        const cssContent = targetElement.content || targetElement.documentation || '';
+        let cssFound = false;
+
+        // 1. Extract CSS from the template element (the CSS artifact box itself)
+        if (modelElement && modelElement.documentation) {
+            this.lb.log(`Injecting custom CSS from model element documentation: ${modelElement.name || modelElement.id}`);
+            this.markup.appendCss(modelElement.documentation + '\n');
+            cssFound = true;
+        }
         
-        if (cssContent) {
-            this.lb.log(`Injecting custom CSS from element: ${targetElement.name || targetElement.id}`);
-            this.markup.appendCss(cssContent + '\n');
-        } else {
-            this.lb.log(`Warning: No CSS content found in target element.`);
+        // 2. Extract CSS from the target element (e.g., a Note content or object documentation)
+        if (targetElement) {
+            const targetCss = targetElement.content || targetElement.documentation || '';
+            if (targetCss.trim() !== '') {
+                this.lb.log(`Injecting custom CSS from target element: ${targetElement.name || targetElement.id}`);
+                this.markup.appendCss(targetCss + '\n');
+                cssFound = true;
+            }
+        }
+
+        if (!cssFound) {
+            this.lb.log(`Warning: No CSS content found in either the model or target element.`);
         }
         
         this.lb.leave();

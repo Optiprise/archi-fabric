@@ -3,6 +3,7 @@
  * @description A utility class abstracting markup parsing (Markdown to HTML).
  * Manages document hierarchy (levels), Table of Contents (TOC) generation, 
  * CSS styling, and custom image rendering. Uses UUIDs for safe placeholder injection.
+ * Enforces strict HTML/XML tags for reliable PDF rendering via WeasyPrint.
  */
 
 import { marked } from '../libs/marked.esm.js';
@@ -48,7 +49,8 @@ marked.use({
                 }
             }
             
-            return `<img src="${href}" alt="${text}"${titleAttr}${widthAttr}${heightAttr}>`;
+            // Ensure the image tag is strictly closed for XML/WeasyPrint compatibility
+            return `<img src="${href}" alt="${text}"${titleAttr}${widthAttr}${heightAttr} />`;
         }
     },
     gfm: true
@@ -62,7 +64,9 @@ export class Markup {
     #documentLevel = 0;
     #contentBuffer = []; 
     #tocBuffer = [];
-    #cssBuffer = [];
+    
+    // Using a Set ensures that identical CSS blocks (e.g., from multiple catalogs) are automatically deduplicated
+    #cssBuffer = new Set();
     
     // Unique UUID placeholders for safe string replacement
     #frontPageID = "";
@@ -79,10 +83,20 @@ export class Markup {
         this.frontPageHtml = ""; 
     }
 
+    /**
+     * Appends CSS to the global stylesheet. Deduplicates identical blocks automatically.
+     * @param {string} styleSheet - The CSS rules to inject.
+     */
     appendCss(styleSheet) {
-        if (styleSheet) this.#cssBuffer.push(styleSheet);
+        if (styleSheet) {
+            this.#cssBuffer.add(styleSheet.trim());
+        }
     }
 
+    /**
+     * Appends pre-parsed HTML content to the document buffer.
+     * @param {string} mdContent - The HTML content to append.
+     */
     appendContent(mdContent) {
         if (mdContent) this.#contentBuffer.push(mdContent);
     }
@@ -175,16 +189,27 @@ export class Markup {
         return content;
     }
 
+    /**
+     * Parses raw Markdown into HTML.
+     * @param {string} mdContent - The Markdown string.
+     * @returns {string} The parsed HTML.
+     */
     parse(mdContent) {
         return marked.parse(mdContent);
     }
     
+    /**
+     * Parses raw inline Markdown into HTML (ignoring block elements).
+     * @param {string} mdContent - The Markdown string.
+     * @returns {string} The parsed HTML.
+     */
     parseInline(mdContent) {
         return marked.parseInline(mdContent);
     }
 
     /**
      * Compiles all buffers, safely replaces the UUID placeholders, and returns the full HTML document.
+     * Enforces strict XML/HTML5 compatibility and prevents double-parsing of Markdown.
      * @returns {string} The complete HTML string.
      */
     get html() {
@@ -192,7 +217,7 @@ export class Markup {
         
         let bodyHtml = this.#contentBuffer.join('');
         const tocHtml = this.#tocBuffer.join('');
-        const cssHtml = this.#cssBuffer.join('\n');
+        const cssHtml = Array.from(this.#cssBuffer).join('\n\n');
 
         // Resolve placeholders using the strictly unique UUID strings
         if (this.#frontPageID !== "") {
@@ -202,18 +227,20 @@ export class Markup {
             bodyHtml = bodyHtml.replace(this.#tocID, tocHtml);
         }
 
-        const parsedBody = marked.parse(bodyHtml);
+        // We DO NOT run marked.parse(bodyHtml) here anymore, because the content 
+        // is already parsed into HTML at the component level (Section, Catalog).
+        // Double parsing raw HTML with marked.js can destroy table and div structures!
 
         const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <style>
+    <meta charset="UTF-8" />
+    <style type="text/css">
 ${cssHtml}
     </style>
 </head>
 <body>
-${parsedBody}
+${bodyHtml}
 </body>
 </html>`;
 

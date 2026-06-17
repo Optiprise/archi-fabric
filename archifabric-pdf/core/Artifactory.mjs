@@ -114,16 +114,19 @@ export class Artifactory {
 
     /**
      * Dispatches the rendering process to the appropriate loaded artifact.
-     * @param {string} artifactName - The registered name of the artifact to invoke (e.g., "Documentation", "Section").
+     * @param {string} rawArtifactName - The registered name of the artifact, optionally containing parameters (e.g., "Section class=intro").
      * @param {Object} modelElement - The source model element providing the parameters/context.
      * @param {Object} targetElement - The actual target element from the TargetStructure to be rendered.
      */
-    render(artifactName, modelElement, targetElement) {
+    render(rawArtifactName, modelElement, targetElement) {
+        // Extract base name to support inline parameters like "Section class=intro"
+        const artifactName = typeof rawArtifactName === 'string' ? rawArtifactName.trim().split(/\s+/)[0] : rawArtifactName;
+        
         this.lb.enter(`Artifactory.render(artifact: '${artifactName}')`);
         
         const artifact = this.#registry.get(artifactName);
         
-        // Retrieve the dynamic URL (if registered)
+        // Retrieve the dynamic URL (if registered) using the resolved base name
         const helpUrl = this.helpRegistry.get(artifactName);
         
         // Construct the help text only if a URL is available

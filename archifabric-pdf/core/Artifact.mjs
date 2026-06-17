@@ -74,4 +74,33 @@ export class Artifact {
     registerExpressionHandler(command, handler) {
         this.artifactory.parser.registerHandler(command, handler);
     }
+
+    /**
+     * Parses the raw name of a template element to extract the base artifact name and any inline parameters.
+     * Expected format: "ArtifactName param1=value1 param2=value2"
+     * @param {string} rawName - The raw name string from the Archi element.
+     * @returns {Object} An object containing { baseName: string, params: Object }.
+     */
+    parseTemplateName(rawName) {
+        if (!rawName || typeof rawName !== 'string') {
+            return { baseName: '', params: {} };
+        }
+        
+        const parts = rawName.trim().split(/\s+/);
+        const baseName = parts.shift();
+        const params = {};
+        
+        parts.forEach(part => {
+            const splitIndex = part.indexOf('=');
+            if (splitIndex > -1) {
+                const key = part.slice(0, splitIndex).trim();
+                const value = part.slice(splitIndex + 1).trim();
+                if (key) {
+                    params[key] = value;
+                }
+            }
+        });
+        
+        return { baseName, params };
+    }
 }

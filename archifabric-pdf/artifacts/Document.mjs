@@ -61,13 +61,26 @@ export default class Document extends Artifact {
 
         for (const pair of structuralPairs) {
             const { template, targets } = pair;
-            const artifactName = template.name;
-
+            
+            let artifactName = template.name;
             let templateModel = template;
+
+            // Resolve the actual template model if it's a reference to a view.
             if ($(template).is('diagram-model-reference') && template.refView) {
-                const matchedGroup = $(template.refView).children('diagram-model-group')
+                // Try to find a group matching the reference's name
+                let matchedGroup = $(template.refView).children('diagram-model-group')
                     .filter(g => (g.labelExpression || g.name) === template.name).first();
-                if (matchedGroup) templateModel = matchedGroup;
+                
+                // If not found, intelligently fallback to the FIRST group inside the view
+                if (!matchedGroup || !matchedGroup.id) {
+                    matchedGroup = $(template.refView).children('diagram-model-group').first();
+                }
+
+                // If a group was found, use its name as the artifact to render!
+                if (matchedGroup && matchedGroup.id) {
+                    templateModel = matchedGroup;
+                    artifactName = templateModel.name;
+                }
             }
 
             if ($(template).is('diagram-model-reference')) {
@@ -81,10 +94,8 @@ export default class Document extends Artifact {
                     this.artifactory.render(artifactName, templateModel, actualTarget);
                 }
             } else if ($(template).is('diagram-model-group')) {
-                // E.g., nested Section, TOC, or custom container
                 this.artifactory.render(artifactName, templateModel, targetElement);
             } else {
-                // Notes, lines, or specific artifacts like CSS
                 this.artifactory.render(artifactName, templateModel, targetElement);
             }
         }

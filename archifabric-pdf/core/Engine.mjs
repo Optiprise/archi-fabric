@@ -102,7 +102,6 @@ export class Engine {
             this.lb.log(`Root document structure found: ${groupElement.name}`);
             
             // The root group itself is an Artifact. We delegate rendering to the Artifactory.
-            // Het Document artifact regelt verder ALLES (inclusief het parsen van de variabelen).
             this.artifactory.render(groupElement.name, groupElement, groupElement);
         });
 
