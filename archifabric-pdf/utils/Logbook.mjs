@@ -67,7 +67,7 @@ export class LogBook {
 
     /**
      * Logs a critical error, marks the faulty element with a red border, 
-     * provides a documentation link, and aborts execution.
+     * opens the containing view in the UI, provides a documentation link, and aborts execution.
      * @param {string|Error} error - The error message or native Error object.
      * @param {Object} [contextElement=null] - The Archi element where the error occurred (optional).
      */
@@ -81,8 +81,7 @@ export class LogBook {
         }
         this._isAborting = true;
 
-        // --- VISUAL ERROR MARKER ---
-        let locationHint = "";
+        // --- VISUAL ERROR MARKER & VIEW FOCUS ---
         if (contextElement) {
             try {
                 // Ensure the element stops inheriting default colors so our red border applies
@@ -92,14 +91,14 @@ export class LogBook {
                 contextElement.lineColor = "#FF0000";
                 contextElement.lineWidth = 3;
                 
-                // Determine which view contains this element to help the user find it
-                if (contextElement.view) {
-                    locationHint = `\n[Location: Look for the red-bordered element in view "${contextElement.view.name}"]`;
+                // Determine which view contains this element and open it in the UI
+                if (contextElement.view && typeof contextElement.view.openInUI === 'function') {
+                    contextElement.view.openInUI();
                 }
             } catch(e) {
                 // Do not swallow exceptions completely. 
                 // Log it at debug level, as this is expected for non-visual concepts.
-                this.log(`Could not apply visual error marker to element: ${e.message}`);
+                this.log(`Could not apply visual error marker/focus to element: ${e.message}`);
             }
         }
 
@@ -114,7 +113,7 @@ export class LogBook {
             ? '┴ '.repeat(this.functionLevel) + '┴ ' 
             : '';
         
-        console.log(`\n${tree}ERROR: ${errorMessage} ${locationHint} ${helpHint}`);
+        console.log(`\n${tree}ERROR: ${errorMessage} ${helpHint}`);
         
         console.log(`\n=================[ ArchiFabric Execution Stack ]=================`);
         console.log(`Engine.run()`);
@@ -129,7 +128,9 @@ export class LogBook {
 
         console.log('\nAborting program...');
         console.show(); 
-        window.alert(`ArchiFabric Error:\n${errorMessage}\n${locationHint}${helpHint}\n\nPlease check the Script Console for details.`);
+        
+        // Removed the locationHint from the alert since the view is now opened automatically
+        window.alert(`ArchiFabric Error:\n${errorMessage}\n${helpHint}\n\nPlease check the Script Console for details.`);
         
         exit(); 
     }
