@@ -103,4 +103,34 @@ export class Artifact {
         
         return { baseName, params };
     }
+
+    /**
+     * Finds an ArchiMate relationship visually attached to the provided template node (e.g., a Note).
+     * This allows templates to extract data from a specific relationship rather than the node itself.
+     * @param {Object} node - The visual node (usually a diagram-model-note) in the template.
+     * @returns {Object|null} The ArchiMate relationship (concept) if found, otherwise null.
+     */
+    getAttachedTemplateRelationship(node) {
+        if (!node) return null;
+        
+        try {
+            // Retrieve all visual connections originating from this node
+            const connections = $(node).outRels();
+            
+            for (const connection of connections) {
+                const targetElement = connection.target;
+                
+                // Check if the target of the connection is itself a relationship 
+                // (identifiable by having an underlying ArchiMate concept with a source and target)
+                if (targetElement && targetElement.concept && targetElement.concept.source && targetElement.concept.target) {
+                    this.lb.log(`Attached relationship found: ${targetElement.concept.type}`);
+                    return targetElement.concept;
+                }
+            }
+        } catch (e) {
+            this.lb.log(`Warning checking attached relationships: ${e.message}`);
+        }
+        
+        return null;
+    }
 }

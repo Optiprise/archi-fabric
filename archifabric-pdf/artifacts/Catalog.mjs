@@ -48,25 +48,24 @@ export default class Catalog extends Artifact {
         const pattern = inlineParams['pattern'] || null;
 
         // --- CONTEXT PRESERVATION ---
-        // Determine the current view safely, even if we are deep in nested concept queries
         let currentView = null;
-        if (targetElement.type === 'archimate-diagram-model') {
+        if (targetElement && targetElement.type === 'archimate-diagram-model') {
             currentView = targetElement;
-            this.artifactory.currentRenderView = currentView; // Store globally for nested calls
+            this.artifactory.currentRenderView = currentView;
         } else {
-            currentView = this.artifactory.currentRenderView; // Retrieve from state
+            currentView = this.artifactory.currentRenderView;
         }
 
-        // 3. Query and process the target data using QueryBuilder
+        // 3. Query Target Data using QueryBuilder
         let finalElements = [];
+        let sourceElement = null; // Hoisted so it is available in the cell loop
+
         try {
             if (modelStructure.archimateElement) {
                 const templateType = modelStructure.archimateElement.type;
-                
-                let sourceElement = null;
                 let relationType = inlineParams['rel'] || null;
 
-                const isTargetView = targetElement.type === 'archimate-diagram-model';
+                const isTargetView = targetElement && targetElement.type === 'archimate-diagram-model';
                 sourceElement = isTargetView ? null : (targetElement.concept || targetElement);
 
                 if (modelStructure.archimateElement && !relationType) {
@@ -75,11 +74,10 @@ export default class Catalog extends Artifact {
                     });
                 }
 
-                // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb);
                 const rawElements = qb.fetch({
                     scope: scope,
-                    currentView: currentView, // Explicitly pass the active view
+                    currentView: currentView,
                     select: {
                         types: [templateType],
                         relationType: relationType,
@@ -89,7 +87,6 @@ export default class Catalog extends Artifact {
                     sort: sort
                 });
                 
-                // Ensure uniqueness
                 const uniqueConcepts = new Set();
                 finalElements = rawElements.filter(node => {
                     if (!node.id || uniqueConcepts.has(node.id)) return false;
@@ -108,7 +105,7 @@ export default class Catalog extends Artifact {
             return; 
         }
 
-        // 4. Render Grid Layout (HTML generation logic)
+        // 4. Render Grid Layout
         this.markup.appendCss(`
             .${baseCssClass}-cell pre, .${baseCssClass}-cell code { white-space: pre-wrap !important; word-wrap: break-word !important; }
             .${baseCssClass}-cell img { max-width: 100% !important; height: auto !important; }
@@ -116,11 +113,13 @@ export default class Catalog extends Artifact {
 
         const flexDir = structuralParams.listDirection === 'H' ? 'row' : 'column';
         const wrapperStyle = `display: flex; flex-direction: ${flexDir}; flex-wrap: wrap; gap: 10px; width: 100%;`;
-        this.markup.appendContent(`<div id="${targetElement.id}" class="${baseCssClass}-wrapper${customCssClass}" style="${wrapperStyle}">\n`);
+        
+        const elementId = (targetElement && targetElement.id) || modelElement.id;
+        this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}-wrapper${customCssClass}" style="${wrapperStyle}">\n`);
         
         if (modelElement.labelExpression) {
             const displayTitle = this.parseExpression(modelElement.labelExpression, targetElement);
-            if (displayTitle) this.markup.appendContent(this.markup.header(displayTitle, targetElement.id));
+            if (displayTitle) this.markup.appendContent(this.markup.header(displayTitle, elementId));
         }
 
         if (modelElement.documentation) {
@@ -165,21 +164,60 @@ export default class Catalog extends Artifact {
                 this.markup.appendContent(`  <td${spanHtml} class="${baseCssClass}-cell ${cellClass}" style="${cellStyle}">\n`);
 
                 if ($(childNode).is('diagram-model-group') || $(childNode).is('diagram-model-reference')) {
-                    this.artifactory.render(childNode.name, childNode, dataContext);
+                    // Dynamically resolve view references natively
+                    let artifactName = childNode.name;
+                    if ($(childNode).is('diagram-model-reference')) {
+                        artifactName = childNode.name.split(/\s+/)[0];
+                        const coreArtifacts = ['Document', 'Section', 'Catalog', 'Matrix', 'Diagram', 'TOC', 'CSS', 'Documentation'];
+                        if (!coreArtifacts.includes(artifactName)) {
+                            artifactName = 'Section';
+                        }
+                    }
+                    this.artifactory.render(artifactName, childNode, dataContext);
                 } else {
+                    // --- ADVANCED FEATURE: EXPLICIT RELATIONSHIP PROXY MATCHING ---
                     let evalContext = dataContext;
                     const templateRel = typeof this.getAttachedTemplateRelationship === 'function' ? this.getAttachedTemplateRelationship(childNode) : null;
-                    if (templateRel && dataContext.type && !dataContext.source) {
-                        const matchingRels = $(dataContext).rels().filter(r => r.type === templateRel.type);
-                        if (matchingRels.length > 0) evalContext = matchingRels.first();
-                        else evalContext = null;
+                    
+                    if (templateRel && dataContext && dataContext.type && !dataContext.source) {
+                        let foundRel = null;
+                        
+                        // Get all relationships of the required type connected to the current data element
+                        $(dataContext).rels(templateRel.type).each(r => {
+                            // Safely match the strict parent-child connection using the hoisted sourceElement
+                            if (sourceElement && sourceElement.id) {
+                                if ((r.source.id === sourceElement.id && r.target.id === dataContext.id) ||
+                                    (r.target.id === sourceElement.id && r.source.id === dataContext.id)) {
+                                    foundRel = r;
+                                }
+                            } else {
+                                // If there is no parent context (e.g., outer catalog), just pick the first match
+                                if (!foundRel) foundRel = r;
+                            }
+                        });
+
+                        if (foundRel) {
+                            evalContext = foundRel;
+                        } else {
+                            // No valid relationship found in the data model. Clear context.
+                            evalContext = null; 
+                        }
                     }
 
                     const rawLabel = childNode.labelExpression || childNode.content || childNode.name || '';
-                    let cellValue = evalContext ? this.parseExpression(rawLabel, evalContext) : '';
-                    if (cellValue) cellValue = this.markup.parse(String(cellValue));
                     
-                    this.markup.appendContent(cellValue + '\n');
+                    let cellValue = '';
+                    if (evalContext) {
+                        cellValue = this.parseExpression(rawLabel, evalContext);
+                    } else if (rawLabel && !rawLabel.includes('${')) {
+                        // FIX: Allow purely static text to render even if the data relationship is missing
+                        cellValue = rawLabel;
+                    }
+                    
+                    if (cellValue) {
+                        cellValue = this.markup.parse(String(cellValue));
+                        this.markup.appendContent(cellValue + '\n');
+                    }
                 }
                 this.markup.appendContent(`</td>\n`);
             }
