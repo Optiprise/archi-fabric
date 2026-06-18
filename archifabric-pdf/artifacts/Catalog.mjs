@@ -51,15 +51,17 @@ export default class Catalog extends Artifact {
         let currentView = null;
         if (targetElement && targetElement.type === 'archimate-diagram-model') {
             currentView = targetElement;
-            this.artifactory.currentRenderView = currentView;
+            this.artifactory.currentRenderView = currentView; 
         } else {
-            currentView = this.artifactory.currentRenderView;
+            currentView = this.artifactory.currentRenderView; 
         }
 
         // 3. Query Target Data using QueryBuilder
         let finalElements = [];
-        let sourceElement = null; // Hoisted so it is available in the cell loop
-
+        
+        // HOISTED: Declare sourceElement here so the explicit relationship matching below can use it
+        let sourceElement = null; 
+        
         try {
             if (modelStructure.archimateElement) {
                 const templateType = modelStructure.archimateElement.type;
@@ -74,10 +76,11 @@ export default class Catalog extends Artifact {
                     });
                 }
 
+                // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb);
                 const rawElements = qb.fetch({
                     scope: scope,
-                    currentView: currentView,
+                    currentView: currentView, 
                     select: {
                         types: [templateType],
                         relationType: relationType,
@@ -87,6 +90,7 @@ export default class Catalog extends Artifact {
                     sort: sort
                 });
                 
+                // Ensure uniqueness
                 const uniqueConcepts = new Set();
                 finalElements = rawElements.filter(node => {
                     if (!node.id || uniqueConcepts.has(node.id)) return false;
@@ -141,6 +145,7 @@ export default class Catalog extends Artifact {
             let currentRowY = -1;
             for (const childNode of modelStructure.sortedElements) {
                 if (childNode.id === structuralParams.repeatElementID) continue;
+                
                 if (childNode.bounds.y !== currentRowY) {
                     if (currentRowY !== -1) this.markup.appendContent('</tr>\n');
                     this.markup.appendContent('<tr>\n');
@@ -164,57 +169,59 @@ export default class Catalog extends Artifact {
                 this.markup.appendContent(`  <td${spanHtml} class="${baseCssClass}-cell ${cellClass}" style="${cellStyle}">\n`);
 
                 if ($(childNode).is('diagram-model-group') || $(childNode).is('diagram-model-reference')) {
-                    // Dynamically resolve view references natively
                     let artifactName = childNode.name;
-                    if ($(childNode).is('diagram-model-reference')) {
-                        artifactName = childNode.name.split(/\s+/)[0];
-                        const coreArtifacts = ['Document', 'Section', 'Catalog', 'Matrix', 'Diagram', 'TOC', 'CSS', 'Documentation'];
-                        if (!coreArtifacts.includes(artifactName)) {
-                            artifactName = 'Section';
-                        }
+                    if (typeof this.resolveArtifactName === 'function') {
+                        artifactName = this.resolveArtifactName(childNode);
                     }
                     this.artifactory.render(artifactName, childNode, dataContext);
                 } else {
                     // --- ADVANCED FEATURE: EXPLICIT RELATIONSHIP PROXY MATCHING ---
-                    let evalContext = dataContext;
+                    let evalContext = null;
                     const templateRel = typeof this.getAttachedTemplateRelationship === 'function' ? this.getAttachedTemplateRelationship(childNode) : null;
                     
                     if (templateRel && dataContext && dataContext.type && !dataContext.source) {
-                        let foundRel = null;
+                        const candidateRels = $(dataContext).rels().filter(r => r.type === templateRel.type);
                         
-                        // Get all relationships of the required type connected to the current data element
-                        $(dataContext).rels(templateRel.type).each(r => {
-                            // Safely match the strict parent-child connection using the hoisted sourceElement
-                            if (sourceElement && sourceElement.id) {
+                        if (sourceElement && sourceElement.id) {
+                            for (const r of candidateRels) {
+                                // Match strictly between source (Parent) and dataContext (Child)
                                 if ((r.source.id === sourceElement.id && r.target.id === dataContext.id) ||
                                     (r.target.id === sourceElement.id && r.source.id === dataContext.id)) {
-                                    foundRel = r;
+                                    evalContext = r;
+                                    break;
                                 }
-                            } else {
-                                // If there is no parent context (e.g., outer catalog), just pick the first match
-                                if (!foundRel) foundRel = r;
                             }
-                        });
-
-                        if (foundRel) {
-                            evalContext = foundRel;
                         } else {
-                            // No valid relationship found in the data model. Clear context.
-                            evalContext = null; 
+                            if (candidateRels.length > 0) evalContext = candidateRels[0];
+                        }
+
+                        if (evalContext) {
+                            this.lb.log(`Matched explicit relationship: ${evalContext.type} between parent and child.`);
                         }
                     }
 
+                    // CONSISTENT LABEL PARSING: Prioritize labelExpression > content > name
                     const rawLabel = childNode.labelExpression || childNode.content || childNode.name || '';
-                    
                     let cellValue = '';
-                    if (evalContext) {
-                        cellValue = this.parseExpression(rawLabel, evalContext);
-                    } else if (rawLabel && !rawLabel.includes('${')) {
-                        // FIX: Allow purely static text to render even if the data relationship is missing
-                        cellValue = rawLabel;
+
+                    if (templateRel) {
+                        // The user explicitly attached a relation-line to this Note in the template
+                        if (evalContext) {
+                            // Evaluate the labelExpression against the relationship
+                            cellValue = this.parseExpression(rawLabel, evalContext);
+                        } else {
+                            this.lb.log(`Relation missing between parent and child. Cell remains empty.`);
+                        }
+                    } else {
+                        // Standard behavior: evaluate against the child element itself
+                        if (dataContext) {
+                            cellValue = this.parseExpression(rawLabel, dataContext);
+                        } else {
+                            cellValue = rawLabel; // Fallback to purely static text
+                        }
                     }
-                    
-                    if (cellValue) {
+
+                    if (cellValue && cellValue.trim() !== '') {
                         cellValue = this.markup.parse(String(cellValue));
                         this.markup.appendContent(cellValue + '\n');
                     }
