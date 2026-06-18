@@ -53,7 +53,27 @@ export class QueryBuilder {
             }
         }
 
-        // 3. Apply Sort
+        // 3. Apply Regex Pattern Filtering (name or documentation)
+        if (select.pattern) {
+            try {
+                // i-flag makes the regex case-insensitive
+                const regex = new RegExp(select.pattern, 'i'); 
+                const initialLength = data.length;
+                
+                data = data.filter(e => {
+                    const matchName = e.name && regex.test(e.name);
+                    const matchDoc = e.documentation && regex.test(e.documentation);
+                    return matchName || matchDoc;
+                });
+                
+                this.lb.log(`QueryBuilder: Applied Regex pattern '${select.pattern}'. Filtered from ${initialLength} down to ${data.length} targets.`);
+            } catch (err) {
+                // Failsafe for invalid regex syntax
+                this.lb.log(`QueryBuilder: Invalid Regex pattern '${select.pattern}'. Skipping regex filter. Error: ${err.message}`);
+            }
+        }
+
+        // 4. Apply Sort
         return this._applySort(data, sort, currentView);
     }
 

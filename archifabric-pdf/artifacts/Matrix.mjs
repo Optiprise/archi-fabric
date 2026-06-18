@@ -3,7 +3,7 @@
  * @description Generates a 2D cross-reference matrix.
  * Infers Rows and Columns visually from the template (Leftmost = Row, Rightmost = Column).
  * Integrates QueryBuilder for deduplicated data retrieval.
- * Parameters: rows, cols, rel, scope, sort, select (strict)
+ * Parameters: rows, cols, rel, scope, rowScope, colScope, sort, select (strict), rowPattern, colPattern
  */
 import { Artifact } from '../core/Artifact.mjs';
 import { QueryBuilder } from '../core/QueryBuilder.mjs';
@@ -24,8 +24,17 @@ export default class Matrix extends Artifact {
             let colType = inlineParams['cols'];
             let relType = inlineParams['rel'];
             
-            // Toepassing van Uitgangspunten ArchiFabric.md: select=strict
+            // Strict Mode
             const strictMode = inlineParams['select'] === 'strict';
+            
+            // RegEx patronen specifiek voor rijen en kolommen
+            const rowPattern = inlineParams['rowPattern'] || inlineParams['pattern'] || null;
+            const colPattern = inlineParams['colPattern'] || inlineParams['pattern'] || null;
+
+            // Scope specifiek voor rijen en kolommen
+            const genericScope = inlineParams['scope'] || 'model';
+            const rowScope = inlineParams['rowScope'] || genericScope;
+            const colScope = inlineParams['colScope'] || genericScope;
 
             // --- VISUAL TEMPLATE INFERENCE ---
             const archimateChildren = [];
@@ -60,7 +69,6 @@ export default class Matrix extends Artifact {
             colType = colType || 'business-function';
             relType = relType || 'aggregation-relationship';
 
-            const scope = inlineParams['scope'] || 'model';
             const sort = inlineParams['sort'] || 'name';
 
             const baseCssClass = this.markup.genHtmlClass(baseName);
@@ -80,11 +88,17 @@ export default class Matrix extends Artifact {
 
             // --- DATA FETCHING & DEDUPLICATION ---
             const uniqueRows = new Map();
-            qb.fetch({ scope, currentView, select: { types: [rowType] }, sort }).forEach(r => uniqueRows.set(r.id, r));
+            qb.fetch({ 
+                scope: rowScope, currentView, sort,
+                select: { types: [rowType], pattern: rowPattern } 
+            }).forEach(r => uniqueRows.set(r.id, r));
             let rows = Array.from(uniqueRows.values());
 
             const uniqueCols = new Map();
-            qb.fetch({ scope, currentView, select: { types: [colType] }, sort }).forEach(c => uniqueCols.set(c.id, c));
+            qb.fetch({ 
+                scope: colScope, currentView, sort,
+                select: { types: [colType], pattern: colPattern } 
+            }).forEach(c => uniqueCols.set(c.id, c));
             let cols = Array.from(uniqueCols.values());
 
             // Filter Logic for strict mode
@@ -157,7 +171,6 @@ export default class Matrix extends Artifact {
                         if (rawContent && rawContent.trim() !== '') {
                             cellHtml = this.markup.parse(String(rawContent));
                         } else if (rawLabel === '${documentation}') {
-                            // If auto-fallback to ${documentation} was used, but relation has no docs, print X
                             if (!cellTemplateNote || (cellTemplateNote.labelExpression || cellTemplateNote.content || cellTemplateNote.name) === undefined) {
                                 cellHtml = "X";
                             }
@@ -165,7 +178,6 @@ export default class Matrix extends Artifact {
 
                         classModifiers = " matrix-cell-filled";
                     } else {
-                        // Empty relation
                         cellHtml = ""; 
                         classModifiers = " matrix-cell-empty";
                     }
