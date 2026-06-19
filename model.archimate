@@ -2,6 +2,12 @@
 <archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="ArchiFabric" id="id-53dd07a57c7c4111904e34eaabca33f6" version="5.0.0">
   <folder name="Strategy" id="id-e4bfad150ea64059b034d9c4b01b0266" type="strategy"/>
   <folder name="Business" id="id-5907d1bf2e7f491e954fce6cf56921b5" type="business">
+    <folder name="Standards Library" id="id-fde9b0ad72ae4a96abbd905ad1b98452">
+      <folder name="ArchiMate" id="id-8b0a0b21e2974bc08ee1939ef75d0533">
+        <element xsi:type="archimate:BusinessProcess" name="Business Process" id="id-0e05d5a450ba4947ba64cf3747ee3532"/>
+        <element xsi:type="archimate:BusinessFunction" name="Business Function" id="id-05ff91eba330471883d850d5e68bc2e5"/>
+      </folder>
+    </folder>
     <element xsi:type="archimate:BusinessFunction" name="Function 1" id="id-5cc63c7fa5ea4d6188e16f97d5bc7a1f"/>
     <element xsi:type="archimate:BusinessProcess" name="Step 1.2" id="id-70b40fe1eb8c48c29b723dc5ecc01bd6"/>
     <element xsi:type="archimate:BusinessProcess" name="Proces 2" id="id-4adff05ee0444074ba6b683727ac4cab"/>
@@ -98,6 +104,7 @@
     <element xsi:type="archimate:AggregationRelationship" id="id-7fe3668b70984582b00c0690cfdfd2ff" source="id-8da0aa2a19444edcb816a3643a9a2ea0" target="id-a718e98cf66d4ad3b6490ffa34503689"/>
     <element xsi:type="archimate:AssociationRelationship" id="id-2da246e3ed5543ad942af5cf2760c0f0" source="id-a718e98cf66d4ad3b6490ffa34503689" target="id-7309b4d8640448328387d4d1b2d2fe0d"/>
     <element xsi:type="archimate:AggregationRelationship" id="id-452c10aec1b84512b7c69f07f5b7dbeb" source="id-8ed4f7ceaded4399908c3314235fca2e" target="id-072a884df26b40ec988e3c810e25475a"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-2e59df18e56d4fd6bf5e09ba3b404f32" source="id-05ff91eba330471883d850d5e68bc2e5" target="id-0e05d5a450ba4947ba64cf3747ee3532"/>
   </folder>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
     <folder name="Design" id="id-2ed8b36ace364ad5bfb238bed1283d14">
@@ -498,31 +505,339 @@ This PDF is your deliverable—e.g., a **TOGAF-compliant report** containing the
       </folder>
       <folder name="ArchiFabric-HTML" id="id-3d8407b48766400caa988d8be4966ec7"/>
     </folder>
-    <folder name="Artifacts" id="id-3028a143d59a483e929cc868aa47086f"/>
-    <folder name="Documentation" id="id-5a6f1f0ad96d48c98af1834287b74e3a">
-      <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
-        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
-          <bounds x="36" y="24" width="400" height="313"/>
-          <feature name="labelExpression" value="User Documentation"/>
-          <child xsi:type="archimate:Group" id="id-4b36792ffb4d4637a33f2e956be9d4ef" name="Diagram" textAlignment="1">
-            <bounds y="144" width="400" height="73"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-f2928cb004254ad9807b9b357a2d037e" model="id-df59907750814cc2ae56514218afaf99">
-              <bounds y="24" width="97" height="37"/>
+    <folder name="Artifactory" id="id-3028a143d59a483e929cc868aa47086f">
+      <folder name="Corporate identity" id="id-fba433038397488781feae7b65dd044a">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Logo" id="id-5a406d3f176d466abc03a44deb5d4cf5">
+          <child xsi:type="archimate:Note" id="id-d320bceb02ec432bae890969102da7b1" textAlignment="1" borderType="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9">
+            <bounds x="12" y="12" width="505" height="504"/>
+          </child>
+        </element>
+      </folder>
+      <folder name="Templates" id="id-5ea8e1c4c19241409e16e9d641978f73">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Template: Documentation" id="id-ef4b538cebd145ea8568b51b7f63342c">
+          <child xsi:type="archimate:Group" id="id-bd7caba927c14204acd2ab7ba0d19efa" name="Section" textAlignment="1">
+            <bounds x="36" y="24" width="565" height="373"/>
+            <child xsi:type="archimate:Group" id="id-21115a33b9b342b0b15fcbcd94668622" name="CSS" textAlignment="1">
+              <bounds y="36" width="565" height="85"/>
+              <documentation>@page {
+	size: A4;
+	@bottom-left {
+		color: #214478;
+		content: counter(page) &quot; of &quot; counter(pages) &quot; ArchiFabric&quot;;
+		position: absolute;
+		z-index: -1;
+	}
+}
+
+
+html {
+    color: #000000;
+    font-family: 'Comfortaa';
+    font-size: 9pt;
+    font-weight: 300;
+    line-height: 1.5;
+	counter-reset: h2-counter;
+  }
+
+header {
+    color: #000000;
+    font-family: 'ComfortaaI';
+    font-size: 9pt;
+    font-weight: 300;
+    line-height: 2.5;
+	counter-reset: h2-counter;
+  }
+
+.header strong {
+    font-family: 'Comfortaa';
+    font-size: 6.5pt;
+}
+
+h1,h2,h3,h4 {
+	color: #214478;
+}
+
+hr {
+  border: 0.5px solid #214478;
+}
+
+h1 {
+	break-before: page;
+    font-size: 11pt;
+    font-family: 'Comfortaa-Bold';
+    string-set: heading content();
+	counter-increment: h1-counter;
+	counter-reset: h2-counter;
+	text-transform: uppercase;
+	font-weight: normal;
+	position: relative; 
+	padding-left: 1cm;
+	margin-top: 50px;
+}
+
+h1::before {
+ 	content: counter(h1-counter);
+	font-weight: normal;
+	position: absolute;
+	left: 0;
+}
+
+h2 {
+    font-family: 'Comfortaa-Bold';
+    font-size: 11pt;
+	font-weight: normal;
+	counter-increment: h2-counter;
+	counter-reset: h3-counter;
+	position: relative; 
+	padding-left: 1cm;
+}
+ 
+h2::before {
+ 	content: counter(h1-counter) &quot;.&quot; counter(h2-counter) &quot; &quot;;
+    font-size: 11pt;
+	font-weight: normal;
+	position: absolute;
+	left: 0;
+}
+
+h3 {
+	font-family: 'Segoe UI';
+    font-size: 11pt;
+	font-weight: normal;
+	counter-increment: h3-counter;
+	position: relative; 
+	padding-left: 1cm;
+}
+ 
+h3::before {
+ 	content: counter(h1-counter) &quot;.&quot; counter(h2-counter) &quot;.&quot; counter(h3-counter) &quot; &quot;;
+    font-size: 11pt;
+	font-weight: normal;
+	position: absolute;
+	left: 0;
+}
+
+table {
+  border-spacing: 0px;
+}
+
+.new-page {
+    break-after: page; 
+}</documentation>
+            </child>
+            <child xsi:type="archimate:Group" id="id-312b7dc388fb42218bbca2c5aff9f262" name="TOC class=new-page" textAlignment="1">
+              <bounds y="252" width="565" height="97"/>
+              <feature name="labelExpression" value="Table of Content"/>
+              <documentation>inhoudsopgave h1::before {
+}
+
+.toc-title {
+    font-size: 11pt;
+    font-family: 'Comfortaa-Bold';
+	text-transform: uppercase;
+	color: #214478;
+}
+
+section.toc {
+	break-before: page;
+}
+
+ul.toc {
+	display: block;
+	margin: 1em 0;
+}
+ul.toc a{
+	text-decoration: none;
+	color: #000000;
+}
+
+ul.toc a::before {
+  content: target-text(attr(href)) ' ' leader(' ') ' ' target-counter(attr(href), page);
+}
+
+ul.toc li {
+  display: block;
+}
+
+ul.toc.h1 a {
+	color: #214478;
+	font-family: 'SegoeUI-Semibold';
+	font-size: 11pt;
+	font-variant: all-small-caps;
+}
+
+ul.toc.h2 a {
+	color: #000000;
+	font-family: 'SegoeUI';
+	font-size: 9pt;
+	font-style: italic;
+	font-variant: normal;
+}</documentation>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-dff20b2734c7444a9fc9027c8b337e7e" model="id-64d0c3e5c45f4b1f857b7fb86f6bdcfa">
+              <bounds y="192" width="564" height="36"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-298d898effff40bc83216f12528ae8fc" model="id-5863c350ec44447184eb284e50e06983">
+              <bounds y="144" width="564" height="36"/>
             </child>
           </child>
-          <child xsi:type="archimate:Group" id="id-9c44831accff47fa80459b254295e765" name="CSS" textAlignment="1">
-            <bounds y="84" width="400" height="49"/>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Document Properties" id="id-64d0c3e5c45f4b1f857b7fb86f6bdcfa">
+          <child xsi:type="archimate:Group" id="id-9b2d9873a70c45838daecd1867992129" name="Catalog class=header" textAlignment="1">
+            <bounds x="12" y="12" width="565" height="409"/>
+            <child xsi:type="archimate:Note" id="id-90dab357a10a4c6aa62a9d62067c743d" textAlignment="1" borderType="1">
+              <bounds y="156" width="109" height="37"/>
+              <feature name="labelExpression" value="**Subject**"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-c250662f956e4010938b077dbe7d0a92" textAlignment="1" borderType="1">
+              <bounds x="108" y="156" width="457" height="37"/>
+              <feature name="labelExpression" value="${ask:documentTitle}"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-735ec62d2e6b465b8f488df3baa0a195" textAlignment="1" borderType="1">
+              <bounds y="192" width="109" height="37"/>
+              <feature name="labelExpression" value="**Date**"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-73a024a428624e63a5ed816d9beb0f8a" textAlignment="1" borderType="1">
+              <bounds x="108" y="192" width="457" height="37"/>
+              <feature name="labelExpression" value="${ask:Date}"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-ccccefcdf0774100809634873d296466" textAlignment="1" borderType="1">
+              <bounds y="228" width="109" height="37"/>
+              <feature name="labelExpression" value="**Reference**"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-6d06777535d34003b8693401975ea6de" textAlignment="1" borderType="1">
+              <bounds x="108" y="228" width="457" height="37"/>
+              <feature name="labelExpression" value="${var:Reference:-}"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-1604a00989ee46c3ade99baa37360db4" textAlignment="1" borderType="1">
+              <bounds y="264" width="565" height="49"/>
+              <feature name="labelExpression" value="&#xA;${hline}&#xA;&#xA;"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-fff8556fc2af4797ab1dd9d5a3896362" textAlignment="1" borderType="1">
+              <bounds y="108" width="565" height="49"/>
+              <feature name="labelExpression" value="&#xA;${hline}&#xA;&#xA;"/>
+            </child>
+            <child xsi:type="archimate:Group" id="id-ee67891092dd415eaab6c4f7fecfedd2" name="CSS" textAlignment="1">
+              <bounds y="24" width="565" height="73"/>
+              <documentation>.document-properties {
+    margin-top: 1cm;  
+    font-size: 6.5pt;
+	color: #214478;
+}
+.disclaimer {
+    font-size: 6.5pt;
+	color: #214478;
+    margin-top: 2cm;  
+}
+
+.topmargin {
+    margin-top: 1cm;  
+}</documentation>
+            </child>
+            <child xsi:type="archimate:Group" id="id-bee721779d2d491f8c8d7aeccbad7068" name="Section class=disclaimer" textAlignment="1">
+              <bounds y="324" width="565" height="73"/>
+              <child xsi:type="archimate:Note" id="id-f2166fd9884f40489b6c1685caf7d088" textAlignment="1" borderType="1">
+                <bounds y="24" width="565" height="37"/>
+                <feature name="labelExpression" value="[CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/)&#xA;&#xA;**You are free to**:&#xA;&#xA;- **Share** — copy and redistribute the material in any medium or format for any purpose, even commercially.&#xA;- **Adapt** — remix, transform, and build upon the material for any purpose, even commercially.&#xA;&#xA;The licensor cannot revoke these freedoms as long as you follow the license terms.&#xA;&#xA;**Under the following terms**:&#xA;&#xA;- **Attribution** — You must give appropriate credit , provide a link to the license, and indicate if changes were made . You may do so in any reasonable manner, but not in any way that suggests the licensor endorses you or your use.&#xA;- **ShareAlike** — If you remix, transform, or build upon the material, you must distribute your contributions under the same license as the original.&#xA;No additional restrictions — You may not apply legal terms or technological measures that legally restrict others from doing anything the license permits.&#xA;&#xA;&#xA;**Notices**:&#xA;You do not have to comply with the license for elements of the material in the public domain or where your use is permitted by an applicable exception or limitation .&#xA;&#xA;No warranties are given. The license may not give you all of the permissions necessary for your intended use. For example, other rights such as publicity, privacy, or moral rights may limit how you use the material."/>
+              </child>
+            </child>
           </child>
-          <child xsi:type="archimate:Group" id="id-fe9306132dbb44fd8738c1e2f2bea0ea" textAlignment="1">
-            <bounds y="240" width="400" height="61"/>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Front Page" id="id-5863c350ec44447184eb284e50e06983">
+          <child xsi:type="archimate:Group" id="id-71cf1d42cdce461892bd7df6ea8538b0" name="Section class=new-page" textAlignment="1">
+            <bounds x="12" y="12" width="565" height="361"/>
+            <child xsi:type="archimate:Group" id="id-7591c0d5fd334fbc84dc6d0237024463" name="Diagram" textAlignment="1">
+              <bounds y="108" width="565" height="116"/>
+              <child xsi:type="archimate:DiagramModelReference" id="id-a5458b3ad31c42cdb4dc9fc0a617500a" model="id-5a406d3f176d466abc03a44deb5d4cf5">
+                <bounds x="24" y="36" width="313" height="61"/>
+              </child>
+            </child>
+            <child xsi:type="archimate:Group" id="id-37a515e8eeb1402198bb0e58ebadaae7" name="Catalog class=documenttitle" textAlignment="1">
+              <bounds y="240" width="565" height="73"/>
+              <child xsi:type="archimate:Note" id="id-2c7c97a774384289a7d2d9a637b5a03f" borderType="1">
+                <bounds y="24" width="565" height="37"/>
+                <feature name="labelExpression" value="${ask:documentTitle}"/>
+              </child>
+            </child>
+            <child xsi:type="archimate:Group" id="id-6648efea453a4c93a1d20fa030989e35" name="CSS" textAlignment="1">
+              <bounds y="36" width="565" height="49"/>
+              <documentation>.documenttitle {
+    margin-top: 2cm;  
+    font-size: 36pt;
+}
+</documentation>
+            </child>
+          </child>
+        </element>
+      </folder>
+      <folder name="Artifacts" id="id-7d24fdeed742432b8f7d9f5fa26733d8">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Documentation" id="id-69590b13cd4f41589dd463d2be0ac76c">
+          <child xsi:type="archimate:Group" id="id-141a13aa46b246d89cf6d9debb4fa641" name="Documentation" textAlignment="1">
+            <bounds x="12" y="12" width="400" height="73"/>
+          </child>
+        </element>
+      </folder>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Processes" id="id-72d44caa49d14e919d3fe09c6b5df1ca">
+        <child xsi:type="archimate:Group" id="id-759beeb4aaa44caeabbd618647f1b490" name="Catalog" textAlignment="1">
+          <bounds x="36" y="48" width="400" height="140"/>
+          <child xsi:type="archimate:DiagramObject" id="id-cb2e9ddc3b404591b65f93789f8e44e2" archimateElement="id-05ff91eba330471883d850d5e68bc2e5">
+            <bounds y="24" width="397" height="25"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-1a56427898464e889fd717dae2e66c02" source="id-cb2e9ddc3b404591b65f93789f8e44e2" target="id-86f73f6b8cb4408988b11793136e620b" archimateRelationship="id-2e59df18e56d4fd6bf5e09ba3b404f32"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-d4bea2d2723d47e6a0b0de5418b5648d" name="Catalog" textAlignment="1">
+            <bounds y="48" width="400" height="85"/>
+            <child xsi:type="archimate:DiagramObject" id="id-86f73f6b8cb4408988b11793136e620b" targetConnections="id-1a56427898464e889fd717dae2e66c02" archimateElement="id-0e05d5a450ba4947ba64cf3747ee3532">
+              <bounds x="36" y="24" width="361" height="37"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-49fc37b64cb8432cb84c14b8ff260b12" textAlignment="1" borderType="1">
+              <bounds y="24" width="37" height="37"/>
+              <feature name="labelExpression" value="- "/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-c4abb632cdd4424199dd4b2bbbfcee40" textAlignment="1">
+              <bounds y="60" width="397" height="13"/>
+            </child>
           </child>
         </child>
       </element>
     </folder>
-    <element xsi:type="archimate:ArchimateDiagramModel" name="ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
+    <folder name="Documentation" id="id-5a6f1f0ad96d48c98af1834287b74e3a">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation ArchiFabric" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
+        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
+          <bounds x="36" y="24" width="400" height="409"/>
+          <feature name="labelExpression" value="User Guide ArchiFabric"/>
+          <child xsi:type="archimate:DiagramModelReference" id="id-ae4f7f6e362b4134b941b1c03c45677a" model="id-ef4b538cebd145ea8568b51b7f63342c">
+            <bounds y="24" width="400" height="25"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-957c0e7513f344a1a66d21e8e07547f6" name="Section" textAlignment="1">
+            <bounds y="60" width="400" height="61"/>
+            <feature name="labelExpression" value="Introduction to ArchiFabric"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-8661e239f1a04880a68d8ec6b1810fe0" model="id-69590b13cd4f41589dd463d2be0ac76c">
+              <bounds y="24" width="145" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-df9e6d2637a64dbe9e777fe9e356b397" model="id-df59907750814cc2ae56514218afaf99">
+              <bounds x="144" y="24" width="253" height="25"/>
+            </child>
+          </child>
+          <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}</documentation>
+        </child>
+      </element>
+    </folder>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="Introduction to ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
       <child xsi:type="archimate:Note" id="id-728a1edf154c45aaaab1a294c26f9fa0" textAlignment="1" borderType="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9">
         <bounds x="12" y="12" width="397" height="396"/>
       </child>
+      <documentation>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
+
+At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather than relying on rigid, hardcoded export scripts, it empowers users to design dynamic report templates visually using standard Archi concepts, notes, and relationships. Through an intelligent set of rendering artifacts—such as Catalogs, Matrices, Sections, and Diagrams—architects can visually infer layouts, query specific model scopes, and apply precise filtering mechanisms like Regular Expressions. This data-driven approach ensures that your documentation remains perfectly synchronized with your evolving architecture, granting unparalleled freedom in how information is structured, sorted, and styled.
+
+Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
+
+## Acknowledgments
+
+ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the ambition to contribute a robust, open-source publishing solution to the global enterprise architecture community. We would like to acknowledge the outstanding foundations upon which this suite is built:
+
+* **Archi®** is a registered trademark of Phillip Beauvoir.
+* **ArchiMate®** and **TOGAF®** are registered trademarks of The Open Group.</documentation>
     </element>
   </folder>
   <purpose># ArchiFabric
