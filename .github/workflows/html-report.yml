@@ -81,6 +81,7 @@ jobs:
 
       - name: Generate HTML Report
         run: |
+          rm -rf "${{ github.workspace }}/public/*"
           dbus-run-session -- xvfb-run -a Archi/Archi \
            -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
