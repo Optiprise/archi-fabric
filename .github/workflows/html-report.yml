@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARCHI_VERSION: "5.10.0"
+  ARCHI_VERSION: "5.10.0-beta1"
   
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -62,7 +62,8 @@ jobs:
           set -e
 
           PRIMARY_URL="https://github.com/archimatetool/archi.io/releases/download/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
-          FALLBACK_URL="https://www.archimatetool.com/downloads/archi/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
+          FALLBACK_URL="https://www.archimatetool.com/downloads/archi/beta510-1/Archi-Linux64-${ARCHI_VERSION}.tgz"
+          # FALLBACK_URL="https://www.archimatetool.com/downloads/archi/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
 
           echo "Trying primary download location..."
           if curl -fsSL -o archi.tgz "$PRIMARY_URL"; then
