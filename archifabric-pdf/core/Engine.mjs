@@ -116,8 +116,8 @@ export class Engine {
     _exportToPDF() {
         this.lb.enter('Engine._exportToPDF');
         
-        const docName = this.artifactory.globalVars.get('documentTitle') || 'Document';
-        const defaultFileName = `${model.name} - ${docName}.pdf`;
+        const docName = this.artifactory.globalVars.get('documentTitle') || `${model.name} - Document`;
+        const defaultFileName = `${docName}.pdf`;
 
         // Determine destination file path
         const pdfFile = this.exportPath 

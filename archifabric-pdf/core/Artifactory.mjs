@@ -28,6 +28,7 @@ export class Artifactory {
         this.markup = markup;
         this.globalVars = new Map();
         this.parser = new ExpressionParser(this);
+        this.globalVars.set('modelName', $(model).name);
         
         // Empty map, dynamically filled by the artifacts themselves if they provide a helpUrl
         this.helpRegistry = new Map();
