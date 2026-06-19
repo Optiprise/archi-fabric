@@ -61,7 +61,7 @@ export default class Section extends Artifact {
         
         // 4. Render Title as a Header
         if (isHeading) {
-            this.markup.appendContent(this.markup.header(displayTitle, targetElement.id));
+            this.markup.appendContent(this.markup.header(displayTitle, modelElement.id));
         }
 
         // 5. Render Documentation

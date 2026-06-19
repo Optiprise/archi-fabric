@@ -67,8 +67,13 @@ export default class Diagram extends Artifact {
             return;
         }
 
-        // 2. Determine HTML Class and Caption using the RESOLVED viewToRender
-        const cssClass = this.markup.genHtmlClass(modelElement.name);
+        // Extract base name and optional custom parameters (e.g., class=page-break)
+        const { baseName, params } = this.parseTemplateName(modelElement.name);        
+
+        // Generate the base CSS class, and append any custom class if provided
+        const baseCssClass = this.markup.genHtmlClass(baseName);
+        const customCssClass = params['class'] ? ` ${params['class']}` : '';
+        const cssClass = baseCssClass + customCssClass;
         
         // The caption should default to the actual View's name.
         // If the user provided a labelExpression on the template (e.g. "Figure: ${name}"), we evaluate it against the View.
