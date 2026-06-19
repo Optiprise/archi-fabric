@@ -65,8 +65,11 @@ export default class Section extends Artifact {
         }
 
         // 5. Render Documentation
-        if (targetElement.documentation) {
-            this.markup.appendContent(this.markup.parse(targetElement.documentation) + '\n');
+        if (modelElement.documentation) {
+            const parsedDoc = this.parseExpression(modelElement.documentation, targetElement);
+            if (parsedDoc && parsedDoc.trim() !== '') {
+                this.markup.appendContent(this.markup.parse(parsedDoc) + '\n');
+            }
         }
 
         // 6. Process Child Artifacts using Spatial Pairing (Template -> Targets)

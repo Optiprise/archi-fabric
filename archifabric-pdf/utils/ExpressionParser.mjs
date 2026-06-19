@@ -81,6 +81,21 @@ export class ExpressionParser {
             return this.artifactory.globalVars.get(varName) || defaultValue;
         });
 
+        // ${set:varName:value} -> Sets a variable in GlobalVars silently
+        this.registerHandler('set', (args) => {
+            const varName = args[0];
+            // Rejoin the rest of the arguments in case the value contained colons (like URLs)
+            const value = args.slice(1).join(':') || '';
+            
+            if (varName) {
+                this.artifactory.globalVars.set(varName, value);
+                this.artifactory.lb.log(`ExpressionParser: Set global variable '${varName}' to '${value}'`);
+            }
+            
+            // Return empty string to remain invisible in the final rendered output
+            return ''; 
+        });
+
         // ${ask:varName} -> Get from GlobalVars, or prompt the user via UI if missing
         this.registerHandler('ask', (args) => {
             const varName = args[0];

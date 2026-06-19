@@ -1,107 +1,91 @@
 /**
  * @module artifacts/Document
- * @description The root composite artifact representing the entire generated document.
- * It parses global variables, initializes the main HTML shell, and delegates the 
- * rendering of all child components (like Sections, TOC, and CSS artifacts).
+ * @description The root artifact for generating the document structure.
+ * Wraps the content in a main container, handles the front page placeholder,
+ * and sets the document title/filename based on the label expression.
+ * Supports modular building blocks by seamlessly expanding nested Views.
  */
 import { Artifact } from '../core/Artifact.mjs';
 import { ModelStructure } from '../core/ModelStructure.mjs';
 
-export default class Document extends Artifact { 
-    /**
-     * Initializes the Document artifact.
-     * @param {Object} artifactory - The main Artifactory instance.
-     */
+export default class Document extends Artifact {
     constructor(artifactory) {
         super('Document', artifactory);
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
     }
 
-    /**
-     * Renders the root document structure.
-     * @param {Object} modelElement - The Archi template element.
-     * @param {Object} targetElement - The actual Archi element providing the context.
-     */
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
         
-        // 1. Parse global variables from the document's documentation field
-        const docText = modelElement.documentation || '';
-        docText.split(/\r?\n/).forEach(line => {
-            const matches = line.match(/\${(.*?)}/g) || [];
-            matches.forEach(expr => {
-                const inner = expr.slice(2, -1);
-                const separatorIndex = inner.indexOf(':');
-                
-                // Skip commands intended for the ExpressionParser (like ask, var, name)
-                if (separatorIndex > -1 && !['ask', 'var', 'name', 'property', 'header'].includes(inner.slice(0, separatorIndex).trim())) {
-                    const key = inner.slice(0, separatorIndex).trim();
-                    const value = inner.slice(separatorIndex + 1).trim();
+        try {
+            const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
+            const baseCssClass = this.markup.genHtmlClass(baseName);
+            const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
+            const elementId = (targetElement && targetElement.id) || modelElement.id;
+
+            // 1. Generate Root HTML Container
+            this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}${customCssClass}">\n`);
+
+            // 2. Insert Frontpage Placeholder (if applicable)
+            if (typeof this.markup.insertFrontPagePlaceholder === 'function') {
+                this.markup.insertFrontPagePlaceholder(targetElement);
+            }
+
+            // 3. Document Title / Filename context
+            if (modelElement.labelExpression) {
+                const parsedTitle = this.parseExpression(modelElement.labelExpression, targetElement);
+                if (parsedTitle && parsedTitle.trim() !== '') {
+                    this.globalVars.set('documentTitle', parsedTitle);
+                    this.lb.log(`Document title set to: ${parsedTitle}`);
+                }
+            }
+
+            // 4. SILENT EXPRESSION PARSING (The missing link!)
+            // We parse the documentation to trigger any ${set:var:val} commands globally.
+            // We explicitly DO NOT call renderElementDocumentation() here because we don't 
+            // want to print it as HTML. The visual 'Documentation' artifact handles printing.
+            if (modelElement.documentation) {
+                this.parseExpression(modelElement.documentation, targetElement);
+            }
+
+            // 5. Process Nested Children via ModelStructure
+            const modelStructure = new ModelStructure(this.lb, modelElement);
+            const pairs = modelStructure.getTemplateTargetPairs(targetElement);
+
+            // HELPER: Recursive function to handle Views as modular building blocks
+            const processTemplateNode = (templateNode, currentTarget) => {
+                // RULE: If it's a View, it's a container. Open it and scan for executable groups.
+                if ($(templateNode).is('diagram-model-reference') || $(templateNode).is('archimate-diagram-model')) {
+                    const refView = templateNode.refView || templateNode;
+                    this.lb.log(`Document: Expanding modular view '${refView.name}'...`);
                     
-                    this.lb.log(`Setting global var from documentation: ${key} = ${value}`);
-                    this.globalVars.set(key, value);
+                    $(refView).children('diagram-model-group').each(group => {
+                        processTemplateNode(group, currentTarget);
+                    });
+                } 
+                // RULE: Only diagram-model-groups can contain artifact modules.
+                else if ($(templateNode).is('diagram-model-group')) {
+                    const parsed = this.parseTemplateName(templateNode.name);
+                    this.artifactory.render(parsed.baseName, templateNode, currentTarget);
+                } 
+                else {
+                    this.lb.log(`Warning: Ignored unsupported template node type: ${templateNode.type}`);
                 }
-            });
-        });
+            };
 
-        // 2. Evaluate Document Title
-        const rawLabel = modelElement.labelExpression || modelElement.name;
-        const documentTitle = this.parseExpression(rawLabel, targetElement);
-        this.globalVars.set('documentTitle', documentTitle);
+            // Loop through all mapped pairs and process them
+            for (const pair of pairs) {
+                const resolvedTarget = pair.target || targetElement;
+                processTemplateNode(pair.template, resolvedTarget);
+            }
 
-        // 3. Setup the Document HTML Shell
-        const cssClass = this.markup.genHtmlClass(modelElement.name);
-        this.markup.appendContent(`<div id="${targetElement.id}" class="${cssClass}">\n`);
-        
-        // Insert placeholder for the Front Page (TOC is now handled by its own Artifact!)
-        this.markup.insertFrontPagePlaceholder();
-
-        // 4. Process Child Artifacts using Spatial Pairing (Template -> Targets)
-        const modelStructure = new ModelStructure(this.lb, modelElement);
-        const structuralPairs = modelStructure.getTemplateTargetPairs();
-
-        for (const pair of structuralPairs) {
-            const { template, targets } = pair;
+            // 6. Close Root HTML Container
+            this.markup.appendContent(`</div>\n`);
             
-            let artifactName = template.name;
-            let templateModel = template;
-
-            // Resolve the actual template model if it's a reference to a view.
-            if ($(template).is('diagram-model-reference') && template.refView) {
-                // Try to find a group matching the reference's name
-                let matchedGroup = $(template.refView).children('diagram-model-group')
-                    .filter(g => (g.labelExpression || g.name) === template.name).first();
-                
-                // If not found, intelligently fallback to the FIRST group inside the view
-                if (!matchedGroup || !matchedGroup.id) {
-                    matchedGroup = $(template.refView).children('diagram-model-group').first();
-                }
-
-                // If a group was found, use its name as the artifact to render!
-                if (matchedGroup && matchedGroup.id) {
-                    templateModel = matchedGroup;
-                    artifactName = templateModel.name;
-                }
-            }
-
-            if ($(template).is('diagram-model-reference')) {
-                if (targets.length > 0) {
-                    for (const targetNode of targets) {
-                        const actualTarget = $(targetNode).is('diagram-model-reference') ? targetNode.refView : targetNode;
-                        this.artifactory.render(artifactName, templateModel, actualTarget);
-                    }
-                } else {
-                    const actualTarget = template.refView ? template.refView : template;
-                    this.artifactory.render(artifactName, templateModel, actualTarget);
-                }
-            } else if ($(template).is('diagram-model-group')) {
-                this.artifactory.render(artifactName, templateModel, targetElement);
-            } else {
-                this.artifactory.render(artifactName, templateModel, targetElement);
-            }
+        } catch (err) {
+            this.lb.error(`Error during rendering of Document: ${err.message}`, modelElement);
+        } finally {
+            this.lb.leave();
         }
-
-        // 5. Close the Document HTML Shell
-        this.markup.appendContent(`</div>\n`);
-        this.lb.leave();
     }
 }

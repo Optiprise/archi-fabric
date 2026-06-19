@@ -1,8 +1,8 @@
 /**
  * @module core/Artifact
  * @description Base class for all ArchiFabric rendering artifacts.
- * Every specific artifact (like Documentation, Section, Diagram) must extend this class
- * and implement the render() method.
+ * Every specific artifact (like Documentation, Section, Diagram, Document) must extend 
+ * this class and implement the render() method.
  */
 export class Artifact {
     /**
@@ -111,25 +111,33 @@ export class Artifact {
      */
     getAttachedTemplateRelationship(node) {
         if (!node) return null;
-        let foundRel = null;
         try {
-            // Retrieve all visual connections originating from this node
             const connections = $(node).outRels();
-            
             for (const conn of connections) {
                 const target = conn.target;
-                
-                // Check if the target of the connection is itself a relationship 
-                // (identifiable by having an underlying ArchiMate concept with a source and target)
                 if (target && target.concept && target.concept.source && target.concept.target) {
                     this.lb.log(`Attached relationship found: ${target.concept.type}`);
-                    foundRel = target.concept;
-                    break;
+                    return target.concept;
                 }
             }
         } catch (e) {
             this.lb.log(`Warning checking attached relationships: ${e.message}`);
         }
-        return foundRel;
+        return null;
+    }
+
+    /**
+     * Extracts, parses, and renders the documentation of a model element.
+     * This ensures all generic expressions and commands (like ${var:name=value}) are executed globally.
+     * @param {Object} modelElement - The template element containing the documentation.
+     * @param {Object} targetElement - The data context for the expression parser.
+     */
+    renderElementDocumentation(modelElement, targetElement) {
+        if (modelElement && modelElement.documentation) {
+            const parsedDoc = this.parseExpression(modelElement.documentation, targetElement);
+            if (parsedDoc && parsedDoc.trim() !== '') {
+                this.markup.appendContent(this.markup.parse(parsedDoc) + '\n');
+            }
+        }
     }
 }
