@@ -27,6 +27,7 @@
     <element xsi:type="archimate:BusinessProcess" name="Proces 2" id="id-4adff05ee0444074ba6b683727ac4cab"/>
     <element xsi:type="archimate:BusinessProcess" name="Step 2.1" id="id-00ae500a410c4f82899efce315f7c595"/>
     <element xsi:type="archimate:BusinessProcess" name="Step 1.1" id="id-ce4d1d0a0a794927a9e6e661aa59b971"/>
+    <element xsi:type="archimate:BusinessActor" name="Business Actor" id="id-5908fbd489124fd4b612c9d19659b482"/>
   </folder>
   <folder name="Application" id="id-9b932db970b749aaa4fe69be4f557fc2" type="application">
     <folder name="Application functions" id="id-cd0b5a3c8fb848a292392f6ce0a9b568">
@@ -61,12 +62,43 @@
       <element xsi:type="archimate:ApplicationComponent" name="WeasyPrint" id="id-1ac744adee614afb97977d115c2e7968"/>
       <element xsi:type="archimate:ApplicationInterface" name="Application Interface" id="id-87aaf17143274ad78a414882ed3f9772"/>
     </folder>
+    <folder name="artifacts" id="id-17afdb70f11240daba8a09701697c090">
+      <element xsi:type="archimate:ApplicationComponent" name="Document" id="id-d7ce1d38177842d9937ee667e8217e37"/>
+    </folder>
+    <folder name="core" id="id-6bc307d9fbaf4efda3cd3cf3647240ff"/>
     <element xsi:type="archimate:ApplicationFunction" name="renderStructure(modelStructure, targetStructure) " id="id-be1f76f5548443d5a8acc99e28aaac63"/>
     <element xsi:type="archimate:ApplicationFunction" name="&lt;&lt;ModelStructure>>" id="id-2834f72379054f80a541811c3564154a"/>
     <element xsi:type="archimate:ApplicationComponent" name="&lt;&lt;artifact>>" id="id-0c499f220950413d93868c2839ede659"/>
     <element xsi:type="archimate:ApplicationComponent" name="ArchiFabric" id="id-0bd6ef4f13a74bfca4e1bdf36e081659"/>
+    <element xsi:type="archimate:ApplicationComponent" name="Application Component" id="id-7d53587b753f477e83788a0c0adf7a3a"/>
   </folder>
   <folder name="Technology &amp; Physical" id="id-3040aba3535d445daea019f3f9c14c5e" type="technology">
+    <folder name="archifabric-pdf" id="id-ee93ddc1993b4cd49c3bdffc0167ec48">
+      <folder name="artifacts" id="id-27ebe8feca3a4ce6a1e3bed844dbd1ac">
+        <element xsi:type="archimate:Artifact" name="Document.mjs" id="id-ff071a5cbe40422983a0cb5a1895c13a">
+          <documentation>The `Document.mjs` module serves as the root rendering artifact within the ArchiFabric engine and inherently extends the abstract `Artifact` base class. Its primary technical responsibility is to construct the main HTML wrapper (typically a `&lt;div>` appended with dynamically parsed CSS classes) that safely encapsulates all subsequent generated markup. During this initialization phase, it also triggers the optional insertion of a front page placeholder via the markup engine.
+
+A key design pattern in its `render(modelElement, targetElement)` method is the strict separation of metadata from visual text. The module explicitly evaluates `modelElement.labelExpression` solely to register the `documentTitle` within the `globalVars` map. Furthermore, it executes a silent expression parsing on the `modelElement.documentation`. This guarantees that any global setters are registered in the engine's memory without their raw string values ever being appended to the actual HTML output.
+
+To process child artifacts, the module instantiates the `ModelStructure` class to retrieve the spatial pairings between templates and their corresponding target data. It implements a robust, recursive helper function named `processTemplateNode`. This function seamlessly dives into nested ArchiMate view references (`archimate-diagram-model`), scanning these modular building blocks specifically for executable `diagram-model-group` elements. It ensures that purely visual view names are ignored, routing only valid artifact nodes to `this.artifactory.render()`.
+
+Finally, the Document module enforces ArchiFabric's contextual data inheritance principles. When processing and routing its nested children, the script evaluates the spatial pairing links. If a child artifact does not have a specific data target explicitly drawn via an ArchiMate relationship, the module ensures that the child safely inherits the `targetElement` context from the root Document, guaranteeing uninterrupted data flow down the execution tree.</documentation>
+          <property key="GitHub" value="[archifabric-pdf/artifacts/Document.mjs](https://github.com/Optiprise/archi-fabric/blob/main/archifabric-pdf/artifacts/Document.mjs)"/>
+        </element>
+        <element xsi:type="archimate:Artifact" name="Catalog.mjs" id="id-eb5c39f9b906477a8f18da0ba9a84271"/>
+        <element xsi:type="archimate:Artifact" name="Diagram.mjs" id="id-9e5ea7b5fff1496f89c0434933587bcc"/>
+        <element xsi:type="archimate:Artifact" name="Documentation.mjs" id="id-6ff81b03c2f34e7580f664a970d3fd8e"/>
+        <element xsi:type="archimate:Artifact" name="CSS.mjs" id="id-7dca23ddae114dfebdd00d29b6c3e99c"/>
+        <element xsi:type="archimate:Artifact" name="Matrix.mjs" id="id-9a961329dbd841c69cf8263b14a43854"/>
+        <element xsi:type="archimate:Artifact" name="Section.mjs" id="id-183ee89f07e7465aa0fc2f5d99784449"/>
+        <element xsi:type="archimate:Artifact" name="TOC.mjs" id="id-fca5faf0ff6a4d5280791a8900b18703"/>
+      </folder>
+      <folder name="core" id="id-a056a1f615c148e68f324fbc123de1b5">
+        <element xsi:type="archimate:Artifact" name="Artifact.mjs" id="id-238115a915704128976b3a7d9fb75261"/>
+        <element xsi:type="archimate:Artifact" name="Artifactory.mjs" id="id-89ff81f6ba4d4bf8bc1baef3d0cd3a8f"/>
+      </folder>
+      <folder name="utils" id="id-a94077793e3c4d1cae50746788b65976"/>
+    </folder>
     <element xsi:type="archimate:Artifact" name="artifactory/&lt;&lt;artifact>>.mjs" id="id-dc50a2b35dd64bcf960cc429fa74b2cf"/>
     <element xsi:type="archimate:SystemSoftware" name="Archi" id="id-3c0ec7d0818b46cb9a51ed4ffa648640"/>
     <element xsi:type="archimate:SystemSoftware" name="jArchi" id="id-b76f51699d7e4c8b9e2499b366e37002"/>
@@ -132,6 +164,7 @@
     <element xsi:type="archimate:TriggeringRelationship" id="id-bb225ae27b7d4562ae8163af90bb23ad" source="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8" target="id-8edc94ba834546d98aa880f90b56615e"/>
     <element xsi:type="archimate:TriggeringRelationship" id="id-06676f43e40647c9ba979e9de0e2725e" source="id-8edc94ba834546d98aa880f90b56615e" target="id-063fe022022f473099ce8e41478cc9d6"/>
     <element xsi:type="archimate:TriggeringRelationship" id="id-0912115f00fd403e9b4c8822fef4513b" source="id-063fe022022f473099ce8e41478cc9d6" target="id-8021ef59d01348eeaa8351983d349747"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-2b587ddf52c94cd5a7faba03250498eb" source="id-7d53587b753f477e83788a0c0adf7a3a" target="id-5908fbd489124fd4b612c9d19659b482"/>
   </folder>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
     <folder name="Design" id="id-2ed8b36ace364ad5bfb238bed1283d14">
@@ -864,8 +897,8 @@ figcaption.logo-caption {
     margin: 1em 0;
     padding: 1em 1.5em;
 
-    background-color: #f5f5f5;
-    border-left: 4px solid #999;
+    background-color: #eff4fa;
+    border-left: 4px solid #214478;
 
     border-radius: 8px;
 
@@ -1024,6 +1057,537 @@ Follow these steps to build your first report visually:
           </child>
         </element>
       </folder>
+      <folder name="Artifacts" id="id-86cf8fbb70ae4130a41d1a0f825547cd">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Document" id="id-a758bf44f0c44d22be8a1ddc6c385193">
+          <child xsi:type="archimate:Group" id="id-0604d6d8941e4f7f8c178ba41e3e296b" name="Document" targetConnections="id-a24abd6c93e44bcb898af1b1613ed95f id-a4247ee7eaed4621bf37ff5d5067d546" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-81f031b30a4943c081080533c2bf29d5" lineWidth="2" lineColor="#1a5fb4" source="id-0604d6d8941e4f7f8c178ba41e3e296b" target="id-b0b8acc914c944e3af15e1fb09ce257b" type="1"/>
+            <child xsi:type="archimate:Group" id="id-7ba16c0684024935b1ecc0f09ec2cd43" name="Document" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+              <bounds y="216" width="400" height="61"/>
+              <feature name="labelExpression" value="TOC"/>
+            </child>
+            <child xsi:type="archimate:Group" id="id-5dacddf8c78c4b8cac01c4d7d50aca34" name="Document" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+              <bounds y="132" width="400" height="61"/>
+              <feature name="labelExpression" value="Section"/>
+            </child>
+            <child xsi:type="archimate:Group" id="id-d686807f692347fca724981b8d423462" name="Document" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+              <bounds y="48" width="400" height="61"/>
+              <feature name="labelExpression" value="CSS"/>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-b0b8acc914c944e3af15e1fb09ce257b" targetConnections="id-81f031b30a4943c081080533c2bf29d5" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-ff071a5cbe40422983a0cb5a1895c13a">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Document extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-5b40c668ab27497eba0c873d3f3f0c45" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-a4247ee7eaed4621bf37ff5d5067d546" lineWidth="2" lineColor="#1a5fb4" source="id-5b40c668ab27497eba0c873d3f3f0c45" target="id-0604d6d8941e4f7f8c178ba41e3e296b" type="1"/>
+            <child xsi:type="archimate:Note" id="id-20660ae1d5604b7ab2664ecb5b111942" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-9b4c6b7d9a644a148b6920993ac3a763" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-9a7175fbfce9426bb9729c545c4d3ca5" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-f913146486d34e53aad3ef5b9f91cce2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Document &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-870550c4dac147a393d3320cbfa66886" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-1bfce21163e94f72bbebf8517455e8f6" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+              <content>&lt;String></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-0b42f465de1d4a529cd459068fc33d49" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-05311a551f8d4bcbb47ba53a276c6634" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-a24abd6c93e44bcb898af1b1613ed95f" lineWidth="2" lineColor="#1a5fb4" source="id-05311a551f8d4bcbb47ba53a276c6634" target="id-0604d6d8941e4f7f8c178ba41e3e296b" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>${set:Author:John Doe}
+${set:Reference:ArchiFabric}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-ac256e0b005e47f4a48427a6d2adde1e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <documentation>The **Document** artifact acts as the foundational wrapper for your entire ArchiFabric report. By serving as the root container on your canvas, it dictates where the publication begins and ends. Every visual element, section, or matrix that you nest spatially inside this container will be systematically compiled into a single, cohesive PDF document.
+
+Configuring this root artifact is straightforward and visually intuitive. By setting the **Name** property to `Document`, you instruct the engine to use this specific module. The **Label Expression** plays a crucial role here: the text you provide in this field (for example, `My First Document`) is automatically extracted to define the final filename of your generated PDF, as well as establishing the global title of the report.
+
+Additionally, the Document artifact allows you to orchestrate global settings without cluttering your visual output. You can use the artifact's **Documentation** field to silently set global variables—such as authors, versions, or reference links—using standard expression tags (e.g., `${set:Author:John Doe}`). The engine will parse these variables in the background, making them available throughout your entire report, while keeping the main document perfectly clean. You can also append parameters like `class=&lt;classname>` to the Name field to apply custom CSS styling to the overall document wrapper.</documentation>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Artifacts" id="id-589357f49592435784f007f66f47de4e">
+          <child xsi:type="archimate:Group" id="id-b2bf5ee0c2b04262885c2d6ffc739407" name="Section" textAlignment="1">
+            <bounds x="12" y="24" width="400" height="253"/>
+            <feature name="labelExpression" value="Artifacts"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-51b3a50046114e00939495abe43558cd" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+              <bounds y="36" width="145" height="193"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-76deb2a1377e4ab69fde9026ebea4b75" model="id-a758bf44f0c44d22be8a1ddc6c385193">
+              <bounds x="144" y="108" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-69fa68c0c1ae4613a589a75ad3dda727" model="id-85d75f6e7fda42e790e3e6829ef508ff">
+              <bounds x="144" y="60" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-af09f462fee44dc6a462808121f27fc9" model="id-309858853fb2465bbb62938824e3f3f2">
+              <bounds x="144" y="36" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-edcdeb5c6c92433f98c7e1f4547bdf39" model="id-df0d0ec25ec04bcea69f617758228255">
+              <bounds x="144" y="84" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-17b24241f7b046b2ba3f50a94e76604c" model="id-52e04c9f8dba4faa9d8740287e664067">
+              <bounds x="144" y="132" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-6c554b51afef4470be24e80d77421ac3" model="id-a56d1cd7235a48e59a8ee56a1932a050">
+              <bounds x="144" y="156" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-49184d7253744b009562b261d729f926" model="id-7fe76c98f54c4177b125063dc166f1e5">
+              <bounds x="144" y="180" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-82e45a48748e4279ac4f5da7bcb14009" model="id-17411f72759b46e896127eef87f057b4">
+              <bounds x="144" y="204" width="253" height="25"/>
+            </child>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Catalog" id="id-309858853fb2465bbb62938824e3f3f2">
+          <child xsi:type="archimate:Group" id="id-e1e6e75cf6174a05b3b540a96cd8b0c0" name="Catelog" targetConnections="id-6246139d683e4276998a9a3b403e3087 id-b287d055d00540b2af33dfbf46436c1d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-57a1add830a142b285c023d0816257ae" lineWidth="2" lineColor="#1a5fb4" source="id-e1e6e75cf6174a05b3b540a96cd8b0c0" target="id-41d892fa70784b1696c09446c3527fd5" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-cebb6695bb83432683b30a750ad5808f" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-b287d055d00540b2af33dfbf46436c1d" lineWidth="2" lineColor="#1a5fb4" source="id-cebb6695bb83432683b30a750ad5808f" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1"/>
+            <child xsi:type="archimate:Note" id="id-2cdb0821e8fa43c089a39a5f49599648" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-d335b9e5191e45cea9351a96d66de94a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-69be4bf0dbd74d398a6ecee4d99259d9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="72" width="237" height="25"/>
+              <content>&lt;view|model></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-330d7b872e644569b859b577777cf291" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="72" width="85" height="25"/>
+              <content>scope=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-418d04f63ad24d8594717ca71f21a712" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-347486f95f9b4f398d282654de4b7fdc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Catalog &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-70ae48d52ae34e71854cf2f00516c96e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-2e32122c5b9e46b9b7d7c342ccbe2864" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-7a34ec32ecaa42908d73a229a83ac219" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-f246462967de45c1bc43955739616ff4" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-6246139d683e4276998a9a3b403e3087" lineWidth="2" lineColor="#1a5fb4" source="id-f246462967de45c1bc43955739616ff4" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+            </child>
+            <child xsi:type="archimate:Note" id="id-5fb491c3be7f4882a87ca53334eb32e8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-41d892fa70784b1696c09446c3527fd5" targetConnections="id-57a1add830a142b285c023d0816257ae" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-eb5c39f9b906477a8f18da0ba9a84271">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Catalog extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="CSS" id="id-85d75f6e7fda42e790e3e6829ef508ff">
+          <child xsi:type="archimate:Group" id="id-4016b73ac38c44e1b849fd933158eca4" name="CSS" targetConnections="id-265c641fcf8040aeb472a41832eb0e00 id-ada415bcfe5c4294bb78b7fa7dd2f414" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-629c79cdafd3491e8e96b5a98f4bd3a9" lineWidth="2" lineColor="#1a5fb4" source="id-4016b73ac38c44e1b849fd933158eca4" target="id-d5a1d731d7e34ab49bb411eabf9693ac" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-216aacf573b043adb72cc97062c33301" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-ada415bcfe5c4294bb78b7fa7dd2f414" lineWidth="2" lineColor="#1a5fb4" source="id-216aacf573b043adb72cc97062c33301" target="id-4016b73ac38c44e1b849fd933158eca4" type="1"/>
+            <child xsi:type="archimate:Note" id="id-7858fbd4c386446cbb675764172dec05" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-6109bbb3e2bb43c1849250fb78b44d56" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-f96ccef0be3944f1bace48711072659a" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-ec859667f6a84369a31654e8927569ea" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>CSS &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-93ea786de35244d2a58fdb61214f091e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-23670c7719b54c75854520a71b1e317a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-c7accfeb3428467596f947c94a68b676" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-35063096aca64b3394d1020282cde088" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-265c641fcf8040aeb472a41832eb0e00" lineWidth="2" lineColor="#1a5fb4" source="id-35063096aca64b3394d1020282cde088" target="id-4016b73ac38c44e1b849fd933158eca4" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>@page portrait { 
+	size: A4; 
+}
+</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-76f1b082d3f041e6bb4c9e5c066b62eb" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-d5a1d731d7e34ab49bb411eabf9693ac" targetConnections="id-629c79cdafd3491e8e96b5a98f4bd3a9" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-7dca23ddae114dfebdd00d29b6c3e99c">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Catalog extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Diagram" id="id-df0d0ec25ec04bcea69f617758228255">
+          <child xsi:type="archimate:Group" id="id-977fcb503f49401f98dec26f72331899" name="Diagram" targetConnections="id-57a6f92bc13643608d014c059fc47dfb id-a769a5f3d2f347889488c7a605528c66" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-bafc00b5b88647478ad51def75f5c46d" lineWidth="2" lineColor="#1a5fb4" source="id-977fcb503f49401f98dec26f72331899" target="id-8b8c597dc35c4ebd808c9bee23c78c13" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-3aa01a14783c4e6eaa186b88d39badd1" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-a769a5f3d2f347889488c7a605528c66" lineWidth="2" lineColor="#1a5fb4" source="id-3aa01a14783c4e6eaa186b88d39badd1" target="id-977fcb503f49401f98dec26f72331899" type="1"/>
+            <child xsi:type="archimate:Note" id="id-1dbc057bc99c4dc78a0d59d2f5a355ec" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-97b9ed608b714569a4d8526887b16320" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-0451ccac2fe0424bac2d35f5997869d4" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-0c983e08935a41e9a61e0676c1fdbea5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Diagram &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-03fbb88b6c3f47dfa10822007aa6f3a9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-d46be397e419462fa827058e33bf5ca2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-340bc8d8ea284cda813fd827316b1048" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-86faecc64e3349adba2107ec7f404885" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-57a6f92bc13643608d014c059fc47dfb" lineWidth="2" lineColor="#1a5fb4" source="id-86faecc64e3349adba2107ec7f404885" target="id-977fcb503f49401f98dec26f72331899" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+            </child>
+            <child xsi:type="archimate:Note" id="id-80dcc19f6add455b8e0477649fd7819c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-8b8c597dc35c4ebd808c9bee23c78c13" targetConnections="id-bafc00b5b88647478ad51def75f5c46d" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-9e5ea7b5fff1496f89c0434933587bcc">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Documentation" id="id-52e04c9f8dba4faa9d8740287e664067">
+          <child xsi:type="archimate:Group" id="id-762b5e1d5cf2413cbe12cf7cd5fb103e" name="Documentation" targetConnections="id-6a117db1938d4b13845ca11cf8afef1e id-3bcaf3459bba419581f65bbc3ecb2a4b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-f1eb3327a18349e5a82779134d7120dd" lineWidth="2" lineColor="#1a5fb4" source="id-762b5e1d5cf2413cbe12cf7cd5fb103e" target="id-05483630b19549e0ae84c81c0109c067" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-30579197ff8b488684bcfc1bce5291d5" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-3bcaf3459bba419581f65bbc3ecb2a4b" lineWidth="2" lineColor="#1a5fb4" source="id-30579197ff8b488684bcfc1bce5291d5" target="id-762b5e1d5cf2413cbe12cf7cd5fb103e" type="1"/>
+            <child xsi:type="archimate:Note" id="id-4bd2db0741344969800e1beb07795e66" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-bcbc158043d244238c6ba680ed8b86bf" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-45869635f4874e0db97f61ba8513fefe" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-b434e5f94bcd4dd1985f7a42730f3c87" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Documentation &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-e0711dd989c1442db22b0531b1b95a3d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-53c9b39ef95e4cfb878b6b513aa612ac" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-1b52596b59d64a43aa3b1768330e2b29" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-7d585458212748968dc94f990ff0e9f8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-6a117db1938d4b13845ca11cf8afef1e" lineWidth="2" lineColor="#1a5fb4" source="id-7d585458212748968dc94f990ff0e9f8" target="id-762b5e1d5cf2413cbe12cf7cd5fb103e" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>${set:Author:John Doe}
+${set:Reference:ArchiFabric}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-07e96b2db3914f39b870000c450b871b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-05483630b19549e0ae84c81c0109c067" targetConnections="id-f1eb3327a18349e5a82779134d7120dd" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-6ff81b03c2f34e7580f664a970d3fd8e">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Document extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Matrix" id="id-a56d1cd7235a48e59a8ee56a1932a050">
+          <child xsi:type="archimate:Group" id="id-2ae534f0260f417abd697653bc5dca90" name="Matrix" targetConnections="id-125c3b3d5dba4d30ac5a16fb9bb5d161 id-8475ba2a01734ccaaf5d11c3660bd9e3" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-5ea1aef523654f28adab318329d94427" lineWidth="2" lineColor="#1a5fb4" source="id-2ae534f0260f417abd697653bc5dca90" target="id-96e32c472a0e40f9913850ed6414e3b2" type="1"/>
+            <child xsi:type="archimate:Note" id="id-2e0757b6ddbe488e9d9773b5c88b8040" textAlignment="1" borderType="1">
+              <bounds x="204" y="132" width="145" height="49"/>
+              <sourceConnection id="id-337cc53a31294dfd99005dfe630c54e6" source="id-2e0757b6ddbe488e9d9773b5c88b8040" target="id-6fe74ea1a6fc44e0b2e0b7c2f025d39b"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-cab28c86deff49f19af29b88209438a7" archimateElement="id-7d53587b753f477e83788a0c0adf7a3a">
+              <bounds x="48" y="132" width="145" height="49"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-6fe74ea1a6fc44e0b2e0b7c2f025d39b" targetConnections="id-337cc53a31294dfd99005dfe630c54e6" source="id-cab28c86deff49f19af29b88209438a7" target="id-e1ae60de86384571947f56b0804538f7" archimateRelationship="id-2b587ddf52c94cd5a7faba03250498eb">
+                <bendpoint startX="132" endX="-12" endY="48"/>
+              </sourceConnection>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-e1ae60de86384571947f56b0804538f7" targetConnections="id-6fe74ea1a6fc44e0b2e0b7c2f025d39b" archimateElement="id-5908fbd489124fd4b612c9d19659b482">
+              <bounds x="204" y="72" width="145" height="49"/>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-7f7d71f2ca55473cb6410988771fb5c3" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="217"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-8475ba2a01734ccaaf5d11c3660bd9e3" lineWidth="2" lineColor="#1a5fb4" source="id-7f7d71f2ca55473cb6410988771fb5c3" target="id-2ae534f0260f417abd697653bc5dca90" type="1"/>
+            <child xsi:type="archimate:Note" id="id-4f207d601036482c93eed2e3ffd6de1c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-8fc01cd1fd114a96baf5c702f3150936" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-67804e9660ec416e92ae38e3712c52f8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="72" width="237" height="25"/>
+              <content>[view|model]</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-6f978df7e1fe4e8484217203ea4106fc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="72" width="85" height="25"/>
+              <content>rowscope=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-b0e912efb4c14e6f882ca7380964410d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="108" width="237" height="25"/>
+              <content>[view|model]</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-adffc3fe9167474d878e730fae22680f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="108" width="85" height="25"/>
+              <content>colscope=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-9cc35d6c6b8d415c8f321f63dc5a6c86" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-45421d747e614939ba6ce6fb81b1399c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Matrix &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-3e5d0a0108ae4df0be15ec2d7a13eb30" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-aca155dfa4714bdfa26071c2685a0091" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-51775f80d45e4a09a36a51dc746acc9a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-13d60889671146a4af809e2afc969654" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-125c3b3d5dba4d30ac5a16fb9bb5d161" lineWidth="2" lineColor="#1a5fb4" source="id-13d60889671146a4af809e2afc969654" target="id-2ae534f0260f417abd697653bc5dca90" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>@page portrait { 
+	size: A4; 
+}
+</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-d7552ac501244af6940dcc8a82f0f7dc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-96e32c472a0e40f9913850ed6414e3b2" targetConnections="id-5ea1aef523654f28adab318329d94427" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-9a961329dbd841c69cf8263b14a43854">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Catalog extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Section" id="id-7fe76c98f54c4177b125063dc166f1e5">
+          <child xsi:type="archimate:Group" id="id-3ca63a14cb754e8fa4d4db03fa5ba60e" name="Section" targetConnections="id-3c03ae38f95545948b4d35e984a63f45 id-da7c2636640e4da58b71a5fcba1dc801" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-f4b97dc371aa4ea09f0beec19b9859a8" lineWidth="2" lineColor="#1a5fb4" source="id-3ca63a14cb754e8fa4d4db03fa5ba60e" target="id-9a53891238954057835a112e0fa10d9f" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-6f624a6d093044618562f4e780d34703" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-da7c2636640e4da58b71a5fcba1dc801" lineWidth="2" lineColor="#1a5fb4" source="id-6f624a6d093044618562f4e780d34703" target="id-3ca63a14cb754e8fa4d4db03fa5ba60e" type="1"/>
+            <child xsi:type="archimate:Note" id="id-f771fe53c87746128d9f6e41d8c4bd87" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-448018f0482c40c0953c738cc5b62dc5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-d59539bd358847edb70d49c171d77cf7" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-9cd0f93d304c4c0b98324792e3f63135" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>Section &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-2fc43bf5c6284b1ba24fc361c5974374" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-d911e89e745e4778a20d057c342a14e9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+              <content>&lt;String></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-ec79778cc7d44fd4adc2c0763c9da19e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-82bbc6f94cbf42c1b52ab31290167fa4" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-3c03ae38f95545948b4d35e984a63f45" lineWidth="2" lineColor="#1a5fb4" source="id-82bbc6f94cbf42c1b52ab31290167fa4" target="id-3ca63a14cb754e8fa4d4db03fa5ba60e" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>${set:Author:John Doe}
+${set:Reference:ArchiFabric}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-4c00090f893e440aba28905d7f1a8eb6" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-9a53891238954057835a112e0fa10d9f" targetConnections="id-f4b97dc371aa4ea09f0beec19b9859a8" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-183ee89f07e7465aa0fc2f5d99784449">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Document extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="TOC" id="id-17411f72759b46e896127eef87f057b4">
+          <child xsi:type="archimate:Group" id="id-a2ac7c17c9b04f1eb67f851d25ab820b" name="TOC" targetConnections="id-8c34dbd8d40c4030a647f955b9fab34c id-6597d48791e14b1f9b07850fcbe7cef5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-4b227f4220ea420cad67a27065dd57a0" lineWidth="2" lineColor="#1a5fb4" source="id-a2ac7c17c9b04f1eb67f851d25ab820b" target="id-496ee3f4bf054f6b83063b4fcaba385b" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-ca49a93ab21440b1995f4d0704f748fe" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="169"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-6597d48791e14b1f9b07850fcbe7cef5" lineWidth="2" lineColor="#1a5fb4" source="id-ca49a93ab21440b1995f4d0704f748fe" target="id-a2ac7c17c9b04f1eb67f851d25ab820b" type="1"/>
+            <child xsi:type="archimate:Note" id="id-2e04e73939f143d49d73f4f1ac0e8895" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="36" width="237" height="25"/>
+              <content>&lt;CSS class name></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-054a55e9c7f14daeb3767faac2f9fd22" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="36" width="85" height="25"/>
+              <content>class=</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:Group" id="id-4d9c83d93e12423b84fe70ea2ba02863" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+            <child xsi:type="archimate:Note" id="id-3b38be7322a74294bca475cdc79fd5c6" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="24" width="201" height="25"/>
+              <content>TOC &lt;paramters></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-051722a906e44ab2b5c1ddcbb463244e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="120" height="25"/>
+              <content>Documentation:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-bf94fa33b37341b2b99579c3b850623f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="144" width="201" height="25"/>
+              <content>&lt;String></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-c8f55d3ac50b4534856b00a09e6e72b9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="24" width="120" height="25"/>
+              <content>Name:</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-ca582f04a4364d6290da2d1d1ed50c33" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="132" y="60" width="201" height="73"/>
+              <sourceConnection id="id-8c34dbd8d40c4030a647f955b9fab34c" lineWidth="2" lineColor="#1a5fb4" source="id-ca582f04a4364d6290da2d1d1ed50c33" target="id-a2ac7c17c9b04f1eb67f851d25ab820b" type="1">
+                <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+              </sourceConnection>
+              <content>${set:Author:John Doe}
+${set:Reference:ArchiFabric}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-795dc1386eb647bdb47dc80c2178bcd1" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="120" height="25"/>
+              <content>Label Expression:</content>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-496ee3f4bf054f6b83063b4fcaba385b" targetConnections="id-4b227f4220ea420cad67a27065dd57a0" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-fca5faf0ff6a4d5280791a8900b18703">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Document extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+          </child>
+        </element>
+      </folder>
       <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation ArchiFabric" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
         <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
           <bounds x="36" y="24" width="400" height="433"/>
@@ -1053,6 +1617,9 @@ Follow these steps to build your first report visually:
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-85b910d9646a42c0b6e80cb8c4d73971" model="id-537f4a565eb5462e9ceff10eaac27339">
             <bounds y="252" width="400" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
+            <bounds y="300" width="400" height="25"/>
           </child>
           <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}</documentation>
         </child>
