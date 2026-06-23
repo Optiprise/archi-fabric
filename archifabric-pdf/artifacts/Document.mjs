@@ -11,7 +11,7 @@ import { ModelStructure } from '../core/ModelStructure.mjs';
 export default class Document extends Artifact {
     constructor(artifactory) {
         super('Document', artifactory);
-        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-a758bf44f0c44d22be8a1ddc6c385193';
     }
 
     render(modelElement, targetElement) {

@@ -11,7 +11,7 @@ import { QueryBuilder } from '../core/QueryBuilder.mjs';
 export default class Matrix extends Artifact {
     constructor(artifactory) {
         super('Matrix', artifactory);
-        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-a56d1cd7235a48e59a8ee56a1932a050';
     }
 
     render(modelElement, targetElement) {

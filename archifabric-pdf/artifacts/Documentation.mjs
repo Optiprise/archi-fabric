@@ -9,7 +9,7 @@ import { Artifact } from '../core/Artifact.mjs';
 export default class Documentation extends Artifact {
     constructor(artifactory) {
         super('Documentation', artifactory);
-        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-52e04c9f8dba4faa9d8740287e664067';
     }
 
     render(modelElement, targetElement) {

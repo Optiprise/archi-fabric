@@ -15,7 +15,7 @@ export default class Catalog extends Artifact {
      */
     constructor(artifactory) {
         super('Catalog', artifactory);
-        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=model';
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-309858853fb2465bbb62938824e3f3f2';
     }
 
     /**

@@ -14,6 +14,7 @@ export default class Diagram extends Artifact {
      */
     constructor(artifactory) {
         super('Diagram', artifactory);
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-df0d0ec25ec04bcea69f617758228255';
         
         // Default settings for jArchi Base64 rendering
         this.defaultImageQuality = 0.5;

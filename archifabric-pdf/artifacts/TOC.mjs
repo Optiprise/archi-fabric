@@ -14,6 +14,7 @@ export default class TOC extends Artifact {
      */
     constructor(artifactory) {
         super('TOC', artifactory);
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-17411f72759b46e896127eef87f057b4';
     }
 
     /**

@@ -17,6 +17,8 @@ export default class Section extends Artifact {
      */
     constructor(artifactory) {
         super('Section', artifactory);
+
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-7fe76c98f54c4177b125063dc166f1e5';
         
         // Retain the registration for the ${header} command for future use
         // (e.g., inside data-driven lists or tables like the Catalog).
