@@ -15,7 +15,7 @@ export default class Document extends Artifact {
     }
 
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         try {
             const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
@@ -40,7 +40,7 @@ export default class Document extends Artifact {
                 }
             }
 
-            // 4. SILENT EXPRESSION PARSING (The missing link!)
+            // 4. SILENT EXPRESSION PARSING 
             // We parse the documentation to trigger any ${set:var:val} commands globally.
             // We explicitly DO NOT call renderElementDocumentation() here because we don't 
             // want to print it as HTML. The visual 'Documentation' artifact handles printing.
@@ -66,7 +66,7 @@ export default class Document extends Artifact {
                 // RULE: Only diagram-model-groups can contain artifact modules.
                 else if ($(templateNode).is('diagram-model-group')) {
                     const parsed = this.parseTemplateName(templateNode.name);
-                    this.artifactory.render(parsed.baseName, templateNode, currentTarget);
+                    this.artifactory.render(parsed.baseName, templateNode, templateNode);
                 } 
                 else {
                     this.lb.log(`Warning: Ignored unsupported template node type: ${templateNode.type}`);

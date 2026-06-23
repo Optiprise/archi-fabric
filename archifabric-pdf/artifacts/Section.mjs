@@ -34,7 +34,7 @@ export default class Section extends Artifact {
      * @param {Object} targetElement - The actual Archi element providing the data/context.
      */
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         // 1. Evaluate Title
         let displayTitle = '';
@@ -63,7 +63,9 @@ export default class Section extends Artifact {
         
         // 4. Render Title as a Header
         if (isHeading) {
-            this.markup.appendContent(this.markup.header(displayTitle, modelElement.id));
+            const headerId = (targetElement && targetElement.id !== modelElement.id) ? targetElement.id : modelElement.id;
+            
+            this.markup.appendContent(this.markup.header(displayTitle, headerId));
         }
 
         // 5. Render Documentation

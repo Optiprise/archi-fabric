@@ -15,7 +15,7 @@ export default class Matrix extends Artifact {
     }
 
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         try {
             // 1. Parse configuration parameters

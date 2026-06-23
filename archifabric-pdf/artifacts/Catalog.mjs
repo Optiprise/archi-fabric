@@ -24,7 +24,7 @@ export default class Catalog extends Artifact {
      * @param {Object} targetElement - The actual Archi view or concept being processed.
      */
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         // 1. Analyze the Visual Grid
         const modelStructure = new ModelStructure(this.lb, modelElement);

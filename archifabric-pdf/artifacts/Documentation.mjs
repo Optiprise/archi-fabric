@@ -13,7 +13,7 @@ export default class Documentation extends Artifact {
     }
 
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(${targetElement ? targetElement.name : 'undefined'})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         try {
             if (targetElement && targetElement.documentation) {

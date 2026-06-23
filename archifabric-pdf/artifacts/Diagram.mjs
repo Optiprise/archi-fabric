@@ -27,7 +27,7 @@ export default class Diagram extends Artifact {
      * @param {Object} targetElement - The actual Archi view or element to render.
      */
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
         
         // 1. Analyze the Template for Scale and View overrides FIRST
         const modelStructure = new ModelStructure(this.lb, modelElement);

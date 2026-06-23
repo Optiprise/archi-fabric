@@ -1051,10 +1051,79 @@ Follow these steps to build your first report visually:
             <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
               <bounds x="144" y="36" width="253" height="25"/>
             </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-2c249c496c3b422993e847ce9c59cb46" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
+            <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
               <bounds x="144" y="60" width="253" height="25"/>
             </child>
           </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Adding CSS" id="id-bd8e20f792d5491890dcb3c31e8ac4fb">
+          <child xsi:type="archimate:Group" id="id-3d5384d8ac594bdfbb90212348a39d9d" name="Document" targetConnections="id-522a34e41d784ec68613cf74e57e6c0a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="420" y="36" width="400" height="180"/>
+            <feature name="labelExpression" value="My First Document"/>
+            <child xsi:type="archimate:Group" id="id-25014cd031124b32b624b22de4da1d05" name="Section" targetConnections="id-a8b4162de683455dafe6db430cca8f07" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+              <bounds y="84" width="400" height="49"/>
+              <feature name="labelExpression" value="Hello World!"/>
+            </child>
+          </child>
+          <child xsi:type="archimate:Note" id="id-01fbe7487a36412f895110db24f1d247" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds x="24" y="108" width="284" height="77"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-a8b4162de683455dafe6db430cca8f07" lineWidth="2" lineColor="#1a5fb4" source="id-01fbe7487a36412f895110db24f1d247" target="id-25014cd031124b32b624b22de4da1d05" type="1">
+              <bendpoint startX="206" startY="-14" endX="-248" endY="-12"/>
+            </sourceConnection>
+          </child>
+          <child xsi:type="archimate:Note" id="id-c028ace4197e43fb887211d8d46fe8bc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+            <bounds x="28" y="120" width="120" height="25"/>
+            <content>Name:</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-566399c63c5c41b4af6d811b11697e6c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+            <bounds x="148" y="156" width="156" height="25"/>
+            <content>Hello World!</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-28252c1fcd134e1f871febd4085bbb69" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+            <bounds x="148" y="120" width="156" height="25"/>
+            <content>Section</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-7bc3c7b6171c4a7d824d6e0f39ea4a5b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+            <bounds x="28" y="156" width="120" height="25"/>
+            <content>Label Expression:</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-22bebefc12764a718adb7d0c75ce6fd2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds x="24" y="12" width="284" height="77"/>
+            <feature name="lineStyle" value="3"/>
+            <sourceConnection id="id-522a34e41d784ec68613cf74e57e6c0a" lineWidth="2" lineColor="#1a5fb4" source="id-22bebefc12764a718adb7d0c75ce6fd2" target="id-3d5384d8ac594bdfbb90212348a39d9d" type="1">
+              <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
+            </sourceConnection>
+          </child>
+          <child xsi:type="archimate:Note" id="id-6a1b43a047e84ce0b1009d8519f5ecb5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+            <bounds x="28" y="24" width="120" height="25"/>
+            <content>Name:</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-3bb25efb407c4fbeb0f9c8fc1fa73f80" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+            <bounds x="28" y="60" width="120" height="25"/>
+            <content>Label Expression:</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-ff0f37a423ce4d238731879611de6534" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+            <bounds x="148" y="24" width="156" height="25"/>
+            <content>Document</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-1fd701b568e44876a0c7d99c03ec91eb" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+            <bounds x="148" y="60" width="156" height="25"/>
+            <content>My First Document</content>
+          </child>
+          <documentation>Now that you understand the basic principles, let's put the visual engine into practice by creating a simple &quot;Hello World&quot; document. In this exercise, we will use two core Artifacts: a **Document** and a **Section**.
+
+Follow these steps to build your first report visually:
+
+1. **Create the Root Artifact:** Drag a standard **Group** (Visual Group) onto your Archi canvas.
+2. **Assign the Module:** In the Properties view, set the **Name** of this group to `Document`. This tells the ArchiFabric engine to treat this container as the main document wrapper.
+3. **Set the Document Title:** Set the **Label Expression** of this group to `My First Document`. For a Document artifact, this expression automatically determines the generated PDF's filename and the global document title.
+4. **Nest a Chapter:** Drag a second **Group** and drop it *inside* the Document group to nest it spatially.
+5. **Assign the Child Module:** Set the **Name** of this nested group to `Section`.
+6. **Set the Chapter Heading:** Set the **Label Expression** of this nested group to `Hello World!`. For a Section artifact, this expression generates a formatted chapter heading (e.g., an `&lt;h1>` HTML tag).
+7. **Generate the Output:** Run the ArchiFabric script from your Archi Scripts menu.
+
+> Within seconds, ArchiFabric will compile your visual structure and generate a PDF file named **My First Document.pdf**. When you open it, you will see a clean, formatted document containing your very first chapter titled **Hello World!**.</documentation>
         </element>
       </folder>
       <folder name="Artifacts" id="id-86cf8fbb70ae4130a41d1a0f825547cd">

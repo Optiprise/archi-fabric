@@ -29,7 +29,7 @@ export default class CSS extends Artifact {
      * @param {Object} targetElement - The actual Archi element providing the context.
      */
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
 
         let cssFound = false;
 

@@ -23,7 +23,7 @@ export default class TOC extends Artifact {
      * @param {Object} targetElement - The actual Archi element (usually the same as modelElement).
      */
     render(modelElement, targetElement) {
-        this.lb.enter(`${this.name}.render(model: ${modelElement.name})`);
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
 
         // 1. Evaluate the label for an optional title
         const rawLabel = modelElement.labelExpression || modelElement.name;
