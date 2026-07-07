@@ -8,6 +8,14 @@ import { Artifact } from '../core/Artifact.mjs';
 import { ModelStructure } from '../core/ModelStructure.mjs';
 import { QueryBuilder } from '../core/QueryBuilder.mjs';
 
+
+class RelationDescriptor {
+    constructor(type, direction) {
+        this.type = type;
+        this.direction = direction;
+    }
+}
+
 export default class Catalog extends Artifact { 
     /**
      * Initializes the Catalog artifact.
@@ -66,18 +74,19 @@ export default class Catalog extends Artifact {
         try {
             if (modelStructure.archimateElement) {
                 const templateType = modelStructure.archimateElement.type;
-                let relationType = inlineParams['rel'] || null;
 
                 const isTargetView = targetElement && targetElement.type === 'archimate-diagram-model';
                 sourceElement = isTargetView ? null : (targetElement.concept || targetElement);
+                const relation = this._getRelationDescriptor(
+                    modelStructure.archimateElement,
+                    sourceElement
+                );
 
-                if (modelStructure.archimateElement && !relationType) {
-                    $(modelStructure.archimateElement).inRels().each(rel => {
-                        if (rel.concept) relationType = rel.concept.type;
-                    });
-                }
-                this.lb.log(`modelStructure: ${modelStructure.archimateElement}, relationType: ${relationType}`);
-
+                this.lb.log(
+                    `modelStructure: ${modelStructure.archimateElement.name}, ` +
+                    `sourceElement: ${sourceElement ? sourceElement.name : 'none'}, ` +
+                    `relation: ${relation ? relation.type + '/' + relation.direction : 'none'}`
+                );
 
                 // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb);
@@ -86,7 +95,8 @@ export default class Catalog extends Artifact {
                     currentView: currentView, 
                     select: {
                         types: [templateType],
-                        relationType: relationType,
+                        relationType: relation ? relation.type : null,
+                        relationDirection: relation ? relation.direction : null,
                         sourceElement: sourceElement,
                         pattern: pattern
                     },
@@ -242,5 +252,45 @@ export default class Catalog extends Artifact {
         }
         this.markup.appendContent(`</div>\n`);
         this.lb.leave();
+    }
+
+    _getRelationDescriptor(childTemplateElement, sourceElement) {
+        if (!childTemplateElement || !sourceElement) {
+            return null;
+        }
+
+        const matches = [];
+
+        // sourceElement-type -> childTemplateElement
+        $(childTemplateElement).inRels().each(rel => {
+            if (
+                rel?.concept &&
+                rel?.source?.concept &&
+                rel.source.concept.type === sourceElement.type
+            ) {
+                matches.push(new RelationDescriptor(rel.concept.type, "out"));
+            }
+        });
+
+        // childTemplateElement -> sourceElement-type
+        $(childTemplateElement).outRels().each(rel => {
+            if (
+                rel?.concept &&
+                rel?.target?.concept &&
+                rel.target.concept.type === sourceElement.type
+            ) {
+                matches.push(new RelationDescriptor(rel.concept.type, "in"));
+            }
+        });
+
+        if (matches.length > 1) {
+            throw new Error(
+                `Catalog template error: expected exactly one visual relation between source type ` +
+                `'${sourceElement.type}' and child template '${childTemplateElement.name}', ` +
+                `but found ${matches.length}.`
+            );
+        }
+
+        return matches.length === 1 ? matches[0] : null;
     }
 }

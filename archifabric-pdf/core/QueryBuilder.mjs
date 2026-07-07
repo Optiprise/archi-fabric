@@ -27,7 +27,7 @@ export class QueryBuilder {
 
         this.lb.log(`QueryBuilder: Fetching data. Scope: ${effectiveScope}, currentView: ${currentView}, Type filter: ${types}`);
 
-        let data = this._selectElements(select, types);
+        let data = this._selectElements(select);
 
         data = this._applyScope(data, effectiveScope, currentView);
         data = this._applyTypeFilter(data, types);
@@ -118,31 +118,49 @@ export class QueryBuilder {
         );
     }
 
-    _selectElements(select, types) {
-        if (select.sourceElement && select.relationType) {
-            const rels = $(select.sourceElement).outRels(select.relationType);
+    _selectElements(select) {
+        const types = select.types || [];
 
-            const data = Array.from(rels.map(r => r.target));
+        if (select.sourceElement && select.relationType) {
+            let related = [];
+
+            if (select.relationDirection === "in") {
+                related = Array.from(
+                    $(select.sourceElement)
+                        .inRels(select.relationType)
+                        .map(r => r.source)
+                );
+            } else {
+                related = Array.from(
+                    $(select.sourceElement)
+                        .outRels(select.relationType)
+                        .map(r => r.target)
+                );
+            }
 
             this.lb.log(
-                `QueryBuilder: Followed ${select.relationType} from ${select.sourceElement.name}. Found ${data.length} relation targets.`
+                `QueryBuilder: Relation selection found ${related.length} elements. ` +
+                `relation=${select.relationType}/${select.relationDirection || "out"}`
             );
 
-            return data;
+            return this._uniqueById(related);
         }
 
         if (!types || types.length === 0) {
-            this.lb.log("QueryBuilder: No type filter provided. Returning empty result.");
+            this.lb.log("QueryBuilder: No relation and no type filter. Returning empty result.");
             return [];
         }
 
-        const elements = Array.from($(this.modelElement.model).find(types[0]));
+        const elements = Array.from(
+            $(this.modelElement.model).find(types[0])
+        );
 
-        this.lb.log(`QueryBuilder: Scanned model for ${types[0]}. Found ${elements.length} elements.`);
+        this.lb.log(
+            `QueryBuilder: Type selection scanned model for '${types[0]}'. Found ${elements.length} elements.`
+        );
 
         return elements;
     }
-
     _applyScope(data, scope, currentView) {
         if (scope !== 'view') {
             return data;
@@ -174,6 +192,18 @@ export class QueryBuilder {
         );
     }
 
+    _uniqueById(elements) {
+        const seen = {};
+        const result = [];
+
+        elements.forEach(e => {
+            if (!e || !e.id || seen[e.id]) return;
+            seen[e.id] = true;
+            result.push(e);
+        });
+
+        return result;
+    }
 
     _isVisibleInView(element, currentView) {
         if (!element || !currentView) {

@@ -14,25 +14,21 @@ export default class Documentation extends Artifact {
 
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
-        
-        try {
-            if (targetElement && targetElement.documentation) {
-                // CRUCIAL FIX: Run the raw text through the ExpressionParser first!
-                // This ensures ${set:var:val} commands are silently executed and removed,
-                // and ${var:name} commands are replaced with their values.
-                const parsedDoc = this.parseExpression(targetElement.documentation, targetElement);
-                
-                // Then convert the cleaned text to HTML using the Markup engine
-                if (parsedDoc && parsedDoc.trim() !== '') {
-                    this.markup.appendContent(this.markup.parse(parsedDoc) + '\n');
-                }
-            } else {
-                this.lb.log('No documentation found for target element.');
-            }
-        } catch (err) {
-            this.lb.error(`Error rendering Documentation: ${err.message}`, modelElement);
-        } finally {
-            this.lb.leave();
+
+        let content = '';
+
+        if (modelElement.labelExpression && modelElement.labelExpression.trim() !== '') {
+            content = this.parseExpression(modelElement.labelExpression, targetElement);
+        } else {
+            content = targetElement && targetElement.documentation
+                ? targetElement.documentation
+                : '';
         }
+
+        if (content && String(content).trim() !== '') {
+            this.markup.appendContent(this.markup.parse(String(content)) + '\n');
+        }
+
+        this.lb.leave();
     }
 }
