@@ -42,6 +42,7 @@ export default class Catalog extends Artifact {
         const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
         const baseCssClass = this.markup.genHtmlClass(baseName);
         const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
+        const gap = Number(inlineParams['gap'] ?? structuralParams['gap'] ?? 0);
 
         const scope = inlineParams['scope'] || 'view';
         const sort = inlineParams['sort'] || 'name';
@@ -75,6 +76,8 @@ export default class Catalog extends Artifact {
                         if (rel.concept) relationType = rel.concept.type;
                     });
                 }
+                this.lb.log(`modelStructure: ${modelStructure.archimateElement}, relationType: ${relationType}`);
+
 
                 // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb);
@@ -116,7 +119,12 @@ export default class Catalog extends Artifact {
         `);
 
         const flexDir = structuralParams.listDirection === 'H' ? 'row' : 'column';
-        const wrapperStyle = `display: flex; flex-direction: ${flexDir}; flex-wrap: wrap; gap: 10px; width: 100%;`;
+        const wrapperStyle =
+            `display: flex; ` +
+            `flex-direction: ${flexDir}; ` +
+            `flex-wrap: wrap; ` +
+            `gap: ${gap}px; ` +
+            `width: 100%;`;
         
         const elementId = (targetElement && targetElement.id) || modelElement.id;
         this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}-wrapper${customCssClass}" style="${wrapperStyle}">\n`);
@@ -173,6 +181,7 @@ export default class Catalog extends Artifact {
                     if (typeof this.resolveArtifactName === 'function') {
                         artifactName = this.resolveArtifactName(childNode);
                     }
+                    this.lb.log(`this.artifactory.render(artifactName, childNode, dataContext): ${artifactName}, childNode: ${childNode.name}, dataContext: ${dataContext ? dataContext.name : 'null'}`);
                     this.artifactory.render(artifactName, childNode, dataContext);
                 } else {
                     // --- ADVANCED FEATURE: EXPLICIT RELATIONSHIP PROXY MATCHING ---

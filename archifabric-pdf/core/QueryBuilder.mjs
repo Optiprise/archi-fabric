@@ -13,6 +13,7 @@ export class QueryBuilder {
         this.modelElement = modelElement;
         this.targetElement = targetElement;
         this.lb = logger;
+        this.lb.log(`QueryBuilder: constructor(modelElement=${modelElement}, targetElement=${targetElement})`);
     }
 
     /**
@@ -21,59 +22,17 @@ export class QueryBuilder {
      * @returns {Array} - The resulting list of ArchiMate elements.
      */
     fetch({ scope = 'view', currentView = null, select = {}, sort = 'name' }) {
-        this.lb.log(`QueryBuilder: Fetching data. Scope: ${scope}, Type filter: ${select.types}`);
+        const effectiveScope = scope || 'view';
+        const types = select.types || [];
 
-        let data = [];
+        this.lb.log(`QueryBuilder: Fetching data. Scope: ${effectiveScope}, currentView: ${currentView}, Type filter: ${types}`);
 
-        // 1. Resolve Data Selection (Relation or direct query)
-        if (select.sourceElement && select.relationType) {
-            // Logic: Follow the formal ArchiMate path: Source -> OutRels -> Target
-            const rels = $(select.sourceElement).outRels(select.relationType);
-            data = rels.map(r => r.target).filter(e => select.types.includes(e.type));
-            this.lb.log(`QueryBuilder: Followed ${select.relationType} from ${select.sourceElement.name}. Found ${data.length} total model targets.`);
-        } else {
-            // Fallback: Scan entire model for the requested type
-            const allModels = $(this.modelElement.model).find(select.types[0]);
-            data = Array.from(allModels).filter(e => e.concept).map(e => e.concept);
-            this.lb.log(`QueryBuilder: Scanned entire model. Found ${data.length} elements.`);
-        }
+        let data = this._selectElements(select, types);
 
-        // 2. Apply Scope Filtering (View vs Model)
-        if (scope === 'view') {
-            if (currentView) {
-                data = data.filter(e => {
-                    // Does this concept have a visual node present in the current view?
-                    const refsInView = $(e).objectRefs().filter(node => node.view && node.view.id === currentView.id);
-                    return refsInView.length > 0;
-                });
-                this.lb.log(`QueryBuilder: Scope applied (view). Filtered down to ${data.length} targets visually present in diagram.`);
-            } else {
-                this.lb.log(`QueryBuilder: Warning - scope is 'view' but no view context was provided. Returning 0 targets.`);
-                data = [];
-            }
-        }
+        data = this._applyScope(data, effectiveScope, currentView);
+        data = this._applyTypeFilter(data, types);
+        data = this._applyPattern(data, select.pattern);
 
-        // 3. Apply Regex Pattern Filtering (name or documentation)
-        if (select.pattern) {
-            try {
-                // i-flag makes the regex case-insensitive
-                const regex = new RegExp(select.pattern, 'i'); 
-                const initialLength = data.length;
-                
-                data = data.filter(e => {
-                    const matchName = e.name && regex.test(e.name);
-                    const matchDoc = e.documentation && regex.test(e.documentation);
-                    return matchName || matchDoc;
-                });
-                
-                this.lb.log(`QueryBuilder: Applied Regex pattern '${select.pattern}'. Filtered from ${initialLength} down to ${data.length} targets.`);
-            } catch (err) {
-                // Failsafe for invalid regex syntax
-                this.lb.log(`QueryBuilder: Invalid Regex pattern '${select.pattern}'. Skipping regex filter. Error: ${err.message}`);
-            }
-        }
-
-        // 4. Apply Sort
         return this._applySort(data, sort, currentView);
     }
 
@@ -132,5 +91,101 @@ export class QueryBuilder {
             }
             return arr.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
         }
+    }
+
+    _applyPattern(data, pattern) {
+        if (!pattern) return data;
+
+        try {
+            const regex = new RegExp(pattern, 'i');
+
+            return data.filter(e => {
+                const matchName = e.name && regex.test(e.name);
+                const matchDoc = e.documentation && regex.test(e.documentation);
+                return matchName || matchDoc;
+            });
+        } catch (err) {
+            this.lb.log(`QueryBuilder: Invalid Regex pattern '${pattern}'. Skipping.`);
+            return data;
+        }
+    }
+
+    _containsElement(elements, candidate) {
+        return elements.some(element =>
+            element &&
+            candidate &&
+            element.id === candidate.id
+        );
+    }
+
+    _selectElements(select, types) {
+        if (select.sourceElement && select.relationType) {
+            const rels = $(select.sourceElement).outRels(select.relationType);
+
+            const data = Array.from(rels.map(r => r.target));
+
+            this.lb.log(
+                `QueryBuilder: Followed ${select.relationType} from ${select.sourceElement.name}. Found ${data.length} relation targets.`
+            );
+
+            return data;
+        }
+
+        if (!types || types.length === 0) {
+            this.lb.log("QueryBuilder: No type filter provided. Returning empty result.");
+            return [];
+        }
+
+        const elements = Array.from($(this.modelElement.model).find(types[0]));
+
+        this.lb.log(`QueryBuilder: Scanned model for ${types[0]}. Found ${elements.length} elements.`);
+
+        return elements;
+    }
+
+    _applyScope(data, scope, currentView) {
+        if (scope !== 'view') {
+            return data;
+        }
+
+        if (!currentView) {
+            this.lb.log("QueryBuilder: scope=view but no currentView was provided. Returning 0 elements.");
+            return [];
+        }
+
+        const scoped = data.filter(e => this._isVisibleInView(e, currentView));
+
+        this.lb.log(
+            `QueryBuilder: Scope applied (view). Filtered from ${data.length} down to ${scoped.length} elements.`
+        );
+
+        return scoped;
+    }
+
+    _applyTypeFilter(data, types) {
+        if (!types || types.length === 0) {
+            return data;
+        }
+
+        return data.filter(e =>
+            e &&
+            e.type &&
+            types.indexOf(e.type) !== -1
+        );
+    }
+
+
+    _isVisibleInView(element, currentView) {
+        if (!element || !currentView) {
+            return false;
+        }
+
+        const refsInView = $(element).objectRefs().filter(node =>
+            node &&
+            node.view &&
+            node.view.id === currentView.id
+        );
+
+        return refsInView.length > 0;
     }
 }
