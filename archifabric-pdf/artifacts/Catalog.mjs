@@ -78,10 +78,10 @@ export default class Catalog extends Artifact {
                 const isTargetView = targetElement && targetElement.type === 'archimate-diagram-model';
                 sourceElement = isTargetView ? null : (targetElement.concept || targetElement);
                 const relation = this._getRelationDescriptor(
+                    modelElement, 
                     modelStructure.archimateElement,
                     sourceElement
                 );
-
                 this.lb.log(
                     `modelStructure: ${modelStructure.archimateElement.name}, ` +
                     `sourceElement: ${sourceElement ? sourceElement.name : 'none'}, ` +
@@ -254,40 +254,53 @@ export default class Catalog extends Artifact {
         this.lb.leave();
     }
 
-    _getRelationDescriptor(childTemplateElement, sourceElement) {
+    _getRelationDescriptor(modelElement, childTemplateElement, sourceElement) {
         if (!childTemplateElement || !sourceElement) {
             return null;
         }
 
         const matches = [];
 
-        // sourceElement-type -> childTemplateElement
+        // Hulpfunctie om visueel te checken of een node 'binnen' onze eigen Catalog-groep ligt
+        const isInsideCurrentCatalog = (visualNode) => {
+            let parent = $(visualNode).parent();
+            while (parent && parent.length > 0) {
+                if (parent.first().id === modelElement.id) return true;
+                parent = parent.parent();
+            }
+            return false;
+        };
+
+        // Check alle inkomende relaties
         $(childTemplateElement).inRels().each(rel => {
-            if (
-                rel?.concept &&
-                rel?.source?.concept &&
-                rel.source.concept.type === sourceElement.type
-            ) {
-                matches.push(new RelationDescriptor(rel.concept.type, "out"));
+            if (rel?.concept && rel?.source?.concept && rel.source.concept.type === sourceElement.type) {
+                // We zoeken de relatie met de parent. Deze moet dus BUITEN deze groep liggen!
+                if (!isInsideCurrentCatalog(rel.source)) {
+                    matches.push(new RelationDescriptor(rel.concept.type, "out"));
+                }
             }
         });
 
-        // childTemplateElement -> sourceElement-type
+        // Check alle uitgaande relaties
         $(childTemplateElement).outRels().each(rel => {
-            if (
-                rel?.concept &&
-                rel?.target?.concept &&
-                rel.target.concept.type === sourceElement.type
-            ) {
-                matches.push(new RelationDescriptor(rel.concept.type, "in"));
+            if (rel?.concept && rel?.target?.concept && rel.target.concept.type === sourceElement.type) {
+                // We zoeken de relatie met de parent. Deze moet dus BUITEN deze groep liggen!
+                if (!isInsideCurrentCatalog(rel.target)) {
+                    matches.push(new RelationDescriptor(rel.concept.type, "in"));
+                }
             }
         });
 
+        // Deduplicatie en foutafhandeling
         if (matches.length > 1) {
+            const unique = Array.from(new Set(matches.map(m => m.type + '/' + m.direction)))
+                                .map(str => new RelationDescriptor(str.split('/')[0], str.split('/')[1]));
+            if (unique.length === 1) return unique[0];
+
             throw new Error(
                 `Catalog template error: expected exactly one visual relation between source type ` +
                 `'${sourceElement.type}' and child template '${childTemplateElement.name}', ` +
-                `but found ${matches.length}.`
+                `but found conflicting relations (${matches.length} matches). Ensure your template structure is unambiguous.`
             );
         }
 

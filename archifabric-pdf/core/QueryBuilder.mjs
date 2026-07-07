@@ -21,15 +21,36 @@ export class QueryBuilder {
      * @param {Object} config - { scope, currentView, select, sort }
      * @returns {Array} - The resulting list of ArchiMate elements.
      */
+    /**
+     * Executes the query based on provided configuration.
+     * @param {Object} config - { scope, currentView, select, sort }
+     * @returns {Array} - The resulting list of ArchiMate elements.
+     */
+    
     fetch({ scope = 'view', currentView = null, select = {}, sort = 'name' }) {
         const effectiveScope = scope || 'view';
         const types = select.types || [];
 
-        this.lb.log(`QueryBuilder: Fetching data. Scope: ${effectiveScope}, currentView: ${currentView}, Type filter: ${types}`);
+        this.lb.log(`QueryBuilder: Fetching data. Scope: ${effectiveScope}, currentView: ${currentView ? currentView.name : 'null'}, Type filter: ${types}`);
 
-        let data = this._selectElements(select);
+        let data = [];
 
-        data = this._applyScope(data, effectiveScope, currentView);
+        // 1. IMPLEMENTATIE VAN SCOPE=OBJECT
+        // Sla alle zware queries en relatie-controles over en pak uitsluitend het actieve target element.
+        if (effectiveScope === 'object') {
+            const concept = this.targetElement && (this.targetElement.concept || this.targetElement);
+            if (concept && concept.id) {
+                data = [concept];
+            }
+            this.lb.log(`QueryBuilder: Scope is 'object'. Bypassed relations and isolated query to target element '${concept ? concept.name : 'unknown'}'.`);
+        } 
+        // 2. LOGICA VOOR SCOPE=VIEW EN SCOPE=MODEL
+        else {
+            data = this._selectElements(select);
+            data = this._applyScope(data, effectiveScope, currentView);
+        }
+
+        // 3. Pas type- en patroonfilters toe (zelfs bij een object, om de sjabloon-integriteit te bewaken)
         data = this._applyTypeFilter(data, types);
         data = this._applyPattern(data, select.pattern);
 
@@ -121,11 +142,18 @@ export class QueryBuilder {
     _selectElements(select) {
         const types = select.types || [];
 
-        if (select.sourceElement && select.relationType) {
+
+        const forceTypeSelect = this.modelElement?.name?.includes('select=type');
+        
+        if (forceTypeSelect) {
+            this.lb.log("QueryBuilder: 'select=type' parameter applied. Bypassing spatial relation filter.");
+        }
+
+        if (select.sourceElement && select.relationType && !forceTypeSelect) {
             let related = [];
 
             if (select.relationDirection === "in") {
-                related = Array.from(
+                const newLocal = related = Array.from(
                     $(select.sourceElement)
                         .inRels(select.relationType)
                         .map(r => r.source)
