@@ -115,5 +115,25 @@ export class ExpressionParser {
         
         // ${hline} -> HTML Horizontal line
         this.registerHandler('hline', () => '<hr>\n');
+
+        // ${vspace:height} -> Vertical spacing (e.g., ${vspace:2em})
+        this.registerHandler('vspace', (args) => {
+            const height = args[0] || '1em'; // Default to 1em if no height is specified
+            // We return raw HTML that WeasyPrint can interpret for spacing
+            return `<div style="display: block; height: ${height}; width: 100%;"></div>\n`;
+        });
+
+        // ${hspace:width} -> Horizontal spacing (e.g., ${hspace:10px})
+        this.registerHandler('hspace', (args) => {
+            const width = args[0] || '1em'; // Default to 1em if no width is specified
+            // We return raw HTML that WeasyPrint can interpret for spacing
+            return `<span style="display: inline-block; width: ${width};"></span>\n`;
+        });
+
+        // ${pagebreak} -> Forces a page break in the PDF output
+        this.registerHandler('pagebreak', () => {
+            // We print raw HTML that WeasyPrint interprets as a page break
+            return '<div style="page-break-before: always;"></div>\n';
+        });
     }
-}
+}   

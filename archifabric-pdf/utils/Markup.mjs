@@ -191,12 +191,57 @@ export class Markup {
 
     /**
      * Parses raw Markdown into HTML.
+     * Intercepts standard Markdown headings (#) to make them relative to the 
+     * current document markup level, and automatically adds them to the TOC.
      * @param {string} mdContent - The Markdown string.
      * @returns {string} The parsed HTML.
      */
     parse(mdContent) {
-        return marked.parse(mdContent);
+        if (!mdContent) return '';
+        
+        let processedContent = '';
+        const lines = String(mdContent).split(/\r?\n|\r/);
+        let inCodeBlock = false;
+        
+        lines.forEach((line) => {
+            // Detect code block fences (```), and toggle the inCodeBlock flag. We do not want to process headers inside code blocks.
+            if (line.trim().startsWith('```')) {
+                inCodeBlock = !inCodeBlock;
+            }
+            
+            // Detect Markdown headers (e.g., #, ##, ###) and process them relative to the current document level.
+            const headerMatch = line.match(/^(#{1,6})\s+(.*)$/);
+            
+            if (headerMatch && !inCodeBlock) {
+                const depth = headerMatch[1].length;
+                const title = headerMatch[2].trim();
+                
+                // We temporarily increase the document level to ensure that the header is rendered at the correct depth in the final HTML. This allows for nested sections and proper TOC generation.
+                const originalLevel = this.#documentLevel;
+                
+                // We add the depth of the Markdown header to the current document level to get the final heading level. For example, if the current document level is 1 (Section) and we encounter a Markdown header with 2 hashes (##), it will be rendered as an <h3> in the final HTML.
+                // This ensures that the document structure remains consistent and that the TOC reflects the correct hierarchy.
+                // Example: in a Section (level 1), '## Subtitle' becomes <h3> (1 + 2 = 3)
+                this.#documentLevel = originalLevel + depth;
+
+                // Generate a unique ID for the header to ensure that it can be linked to from the TOC. We use a UUID to avoid collisions, especially in documents with repeated titles.
+                const headerId = "md-" + UUID.randomUUID().toString().substring(0, 8);
+                
+                // Append the processed header to the content buffer, and also add it to the TOC buffer. The TOC entry will link to the generated header ID, allowing for easy navigation within the document.
+                processedContent += '\n' + this.header(title, headerId) + '\n';
+                
+                // We restore the original document level after processing the header to ensure that subsequent content is rendered at the correct depth. This is important for maintaining the overall structure of the document, especially when multiple headers are present.
+                this.#documentLevel = originalLevel;
+            } else {
+                //  For non-header lines, we simply append them to the processed content. This includes paragraphs, lists, code blocks, and any other Markdown elements. We do not modify these lines, as they will be parsed by the marked library into the appropriate HTML elements.
+                processedContent += line + '\n';
+            }
+        });
+
+        // Parse the remaining Markdown to HTML
+        return marked.parse(processedContent);
     }
+    /**
     
     /**
      * Parses raw inline Markdown into HTML (ignoring block elements).

@@ -91,7 +91,7 @@ export default class Diagram extends Artifact {
         // Generate the base CSS class, and append any custom class if provided
         const baseCssClass = this.markup.genHtmlClass(baseName);
         const customCssClass = params['class'] ? ` ${params['class']}` : '';
-        const cssClass = baseCssClass + alignmentClass + customCssClass;
+        const cssClass = alignmentClass + ' ' + baseCssClass + customCssClass;
         
         // The caption should default to the actual View's name.
         // If the user provided a labelExpression on the template (e.g. "Figure: ${name}"), we evaluate it against the View.

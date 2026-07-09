@@ -52,20 +52,23 @@ export default class Section extends Artifact {
         const baseCssClass = this.markup.genHtmlClass(baseName);
         const customCssClass = params['class'] ? ` ${params['class']}` : '';
         const cssClass = baseCssClass + customCssClass;
-        
+        let elementId = modelElement.id;
+
+        if (targetElement && targetElement.id && targetElement.id !== modelElement.id) {
+            elementId = `${targetElement.id}-${modelElement.id}`;
+        }
+
         // ONLY increase the document depth if this section has a visible heading
         if (isHeading) {
             this.markup.levelUp(); 
         }
         
-        // 3. Open the HTML Section using the combined CSS classes
-        this.markup.appendContent(`<section id="${targetElement.id}" class="${cssClass}">\n`);
+        // 3. Open the HTML Section using the combined CSS classes and unique ID
+        this.markup.appendContent(`<section id="id-${elementId}" class="${cssClass}">\n`);
         
         // 4. Render Title as a Header
         if (isHeading) {
-            const headerId = (targetElement && targetElement.id !== modelElement.id) ? targetElement.id : modelElement.id;
-            
-            this.markup.appendContent(this.markup.header(displayTitle, headerId));
+            this.markup.appendContent(this.markup.header(displayTitle, `id-${elementId}`));
         }
 
         // 5. Render Documentation
