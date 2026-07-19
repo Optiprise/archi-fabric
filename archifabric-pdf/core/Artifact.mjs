@@ -13,7 +13,7 @@ export class Artifact {
     constructor(name, artifactory) {
         this.name = name;
         this.artifactory = artifactory;
-        
+
         /** * Optional URL pointing to documentation or troubleshooting guides for this artifact.
          * Subclasses can override this to provide specific help links upon failure.
          * @type {string|null} 
@@ -75,7 +75,7 @@ export class Artifact {
         this.artifactory.parser.registerHandler(command, handler);
     }
 
-    
+
     /**
      * Parses the raw name of a template element to extract the base artifact name and any inline parameters.
      * Expected format: "ArtifactName param1=value1 param2="multiple values""
@@ -86,26 +86,26 @@ export class Artifact {
         if (!rawName || typeof rawName !== 'string') {
             return { baseName: '', params: {} };
         }
-        
+
         // 1. Extract the base name (the first word before any spaces)
-        const baseNameMatch = rawName.match(/^([^\s]+)/);
+        const baseNameMatch = /^([^\s]+)/.exec(rawName);
         const baseName = baseNameMatch ? baseNameMatch[1] : '';
         const params = {};
-        
+
         // 2. Advanced regex that supports key=value, key="value", and key='value'
         const paramRegex = /(\w+)\s*=\s*(?:([^"'\s]+)|"([^"]*)"|'([^']*)')/g;
         let match;
-        
+
         while ((match = paramRegex.exec(rawName)) !== null) {
             const key = match[1];
             // The value can be in match[2] (unquoted), match[3] (double-quoted), or match[4] (single-quoted)
             const value = match[2] || match[3] || match[4] || '';
             params[key] = value;
         }
-        
+
         return { baseName, params };
     }
- 
+
     /**
      * Finds an ArchiMate relationship visually attached to the provided template node (e.g., a Note).
      * @param {Object} node - The visual node (usually a diagram-model-note) in the template.
@@ -117,7 +117,7 @@ export class Artifact {
             const connections = $(node).outRels();
             for (const conn of connections) {
                 const target = conn.target;
-                if (target && target.concept && target.concept.source && target.concept.target) {
+                if (target?.concept?.source && target?.concept?.target) {
                     this.lb.log(`Attached relationship found: ${target.concept.type}`);
                     return target.concept;
                 }
@@ -135,7 +135,7 @@ export class Artifact {
      * @param {Object} targetElement - The data context for the expression parser.
      */
     renderElementDocumentation(modelElement, targetElement) {
-        if (modelElement && modelElement.documentation) {
+        if (modelElement?.documentation) {
             const parsedDoc = this.parseExpression(modelElement.documentation, targetElement);
             if (parsedDoc && parsedDoc.trim() !== '') {
                 this.markup.appendContent(this.markup.parse(parsedDoc) + '\n');

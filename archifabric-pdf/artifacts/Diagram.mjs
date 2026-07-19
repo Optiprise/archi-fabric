@@ -7,7 +7,7 @@
 import { Artifact } from '../core/Artifact.mjs';
 import { ModelStructure } from '../core/ModelStructure.mjs';
 
-export default class Diagram extends Artifact { 
+export default class Diagram extends Artifact {
     /**
      * Initializes the Diagram artifact with default image quality and margin settings.
      * @param {Object} artifactory - The main Artifactory instance.
@@ -15,9 +15,9 @@ export default class Diagram extends Artifact {
     constructor(artifactory) {
         super('Diagram', artifactory);
         this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-df0d0ec25ec04bcea69f617758228255';
-        
+
         // Default settings for jArchi Base64 rendering
-        this.defaultImageQuality = 0.5;
+        this.defaultImageQuality = 1;
         this.defaultImageMargin = 4;
     }
 
@@ -28,18 +28,85 @@ export default class Diagram extends Artifact {
      */
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
-        
+
         // 1. Analyze the Template for Scale and View overrides FIRST
         const modelStructure = new ModelStructure(this.lb, modelElement);
         const children = modelStructure.sortedElements;
-        
+
+        let { viewToRender, scale, alignmentClass } = this._parseSizingAndAlignment(modelElement, children, targetElement);
+
+        // Safety check: if targetElement was passed as a reference, resolve it to the actual view
+        if ($(viewToRender).is('diagram-model-reference') && viewToRender.refView) {
+            viewToRender = viewToRender.refView;
+        }
+
+        if (!viewToRender || !$(viewToRender).is('archimate-diagram-model')) {
+            this.lb.error(`Diagram artifact requires an 'archimate-diagram-model' (View) as target, but received: ${viewToRender ? viewToRender.type : 'undefined'}`);
+            this.lb.leave();
+            return; // Abort ONLY this image, do not crash the script!
+        }
+
+        // Validate that we actually have a valid view object to render
+        if (!viewToRender?.id) {
+            this.lb.error("No valid view found to render for Diagram artifact.");
+            this.lb.leave();
+            return;
+        }
+
+        // Extract base name and optional custom parameters (e.g., class=page-break)
+        const { baseName, params } = this.parseTemplateName(modelElement.name);
+
+        // Generate the base CSS class, and append any custom class if provided
+        const baseCssClass = this.markup.genHtmlClass(baseName);
+        const customCssClass = params['class'] ? ` ${params['class']}` : '';
+        const cssClass = alignmentClass + ' ' + baseCssClass + customCssClass;
+
+        // The caption should default to the actual View's name.
+        // If the user provided a labelExpression on the template (e.g. "Figure: ${name}"), we evaluate it against the View.
+        let captionText = viewToRender.name;
+        if (modelElement.labelExpression) {
+            captionText = this.parseExpression(modelElement.labelExpression, viewToRender);
+        }
+
+        // 3. Retrieve Global Variables for Quality & Margin (or fallback to defaults)
+        const options = this._getImageOptions();
+
+        // 4. Generate the Image and HTML
+        try {
+            this.lb.log(`Rendering Base64 PNG for view: ${viewToRender.name} | Quality: ${options.scale}`);
+            const base64Image = $.model.renderViewAsBase64(viewToRender, "PNG", options);
+
+            this.markup.appendContent(`\n<figure class="${cssClass}-figure">\n`);
+
+            // Note: Weasyprint supports width="X%" natively on images.
+            this.markup.appendContent(`  <img class="${cssClass}-img" src="data:image/png;base64,${base64Image}" alt="${viewToRender.name}" width="${scale}%" />\n`);
+
+            this.markup.appendContent(`  <figcaption class="${cssClass}-caption" view-name="${viewToRender.name}">${captionText}</figcaption>\n`);
+            this.markup.appendContent(`</figure>\n`);
+
+        } catch (error) {
+            this.lb.error(`Failed to render Base64 image: ${error.message}`);
+        }
+
+        this.lb.leave();
+    }
+
+    /**
+     * Analyzes the template's child element (if any) to determine scale, layout alignment, and potential view overrides.
+     * @param {Object} modelElement - The Archi template element defining the diagram layout and scale.
+     * @param {Array} children - Sorted child elements of the template.
+     * @param {Object} targetElement - The actual Archi view or element to render.
+     * @returns {Object} An object containing the resolved viewToRender, scale, and alignmentClass.
+     * @private
+     */
+    _parseSizingAndAlignment(modelElement, children, targetElement) {
         let viewToRender = targetElement;
         let scale = 100; // Default width is 100%
         let alignmentClass = ' align-center';
 
         if (children.length > 0) {
             const sizingElement = children[0];
-            
+
             // Calculate scale: child width / parent width
             scale = Math.round((sizingElement.bounds.width / modelElement.bounds.width) * 100);
             this.lb.log(`Calculated scale: ${scale}% based on child element.`);
@@ -54,7 +121,7 @@ export default class Diagram extends Artifact {
                 const parentWidth = modelElement.bounds.width;
                 const childX = sizingElement.bounds.x;
                 const childWidth = sizingElement.bounds.width;
-                
+
                 // Bereken het middelpunt van de child ten opzichte van de parent
                 const childCenter = childX + (childWidth / 2);
 
@@ -62,70 +129,26 @@ export default class Diagram extends Artifact {
                     alignmentClass = ' align-left';
                 } else if (childCenter > (parentWidth / 3) * 2) {
                     alignmentClass = 'align-right';
-                } 
+                }
                 this.lb.log(`Diagram position calculated: ${alignmentClass} (center: ${childCenter}, parent width: ${parentWidth})`);
             }
         }
-        
-        // Safety check: if targetElement was passed as a reference, resolve it to the actual view
-        if ($(viewToRender).is('diagram-model-reference') && viewToRender.refView) {
-            viewToRender = viewToRender.refView;
-        }
 
-        if (!viewToRender || !$(viewToRender).is('archimate-diagram-model')) {
-            this.lb.error(`Diagram artifact requires an 'archimate-diagram-model' (View) as target, but received: ${viewToRender ? viewToRender.type : 'undefined'}`);
-            this.lb.leave();
-            return; // Abort ONLY this image, do not crash the script!
-        }
-        
-        // Validate that we actually have a valid view object to render
-        if (!viewToRender || !viewToRender.id) {
-            this.lb.error("No valid view found to render for Diagram artifact.");
-            this.lb.leave();
-            return;
-        }
+        return { viewToRender, scale, alignmentClass };
+    }
 
-        // Extract base name and optional custom parameters (e.g., class=page-break)
-        const { baseName, params } = this.parseTemplateName(modelElement.name);        
-
-        // Generate the base CSS class, and append any custom class if provided
-        const baseCssClass = this.markup.genHtmlClass(baseName);
-        const customCssClass = params['class'] ? ` ${params['class']}` : '';
-        const cssClass = alignmentClass + ' ' + baseCssClass + customCssClass;
-        
-        // The caption should default to the actual View's name.
-        // If the user provided a labelExpression on the template (e.g. "Figure: ${name}"), we evaluate it against the View.
-        let captionText = viewToRender.name; 
-        if (modelElement.labelExpression) {
-            captionText = this.parseExpression(modelElement.labelExpression, viewToRender);
-        }
-
-        // 3. Retrieve Global Variables for Quality & Margin (or fallback to defaults)
+    /**
+     * Retrieves global image quality and margin options or falls back to defaults.
+     * @returns {Object} An options object with scale and margin properties.
+     * @private
+     */
+    _getImageOptions() {
         const globalQuality = this.globalVars.get('imageQuality');
-        const imageQuality = globalQuality !== undefined ? parseFloat(globalQuality) : this.defaultImageQuality;
+        const imageQuality = globalQuality !== undefined ? Number.parseFloat(globalQuality) : this.defaultImageQuality;
 
         const globalMargin = this.globalVars.get('imageMargin');
-        const imageMargin = globalMargin !== undefined ? parseInt(globalMargin, 10) : this.defaultImageMargin;
+        const imageMargin = globalMargin !== undefined ? Number.parseInt(globalMargin, 10) : this.defaultImageMargin;
 
-        const options = { scale: imageQuality, margin: imageMargin };
-
-        // 4. Generate the Image and HTML
-        try {
-            this.lb.log(`Rendering Base64 PNG for view: ${viewToRender.name} | Quality: ${imageQuality}`);
-            const base64Image = $.model.renderViewAsBase64(viewToRender, "PNG", options);
-
-            this.markup.appendContent(`\n<figure class="${cssClass}-figure">\n`);
-            
-            // Note: Weasyprint supports width="X%" natively on images.
-            this.markup.appendContent(`  <img class="${cssClass}-img" src="data:image/png;base64,${base64Image}" alt="${viewToRender.name}" width="${scale}%" />\n`);
-            
-            this.markup.appendContent(`  <figcaption class="${cssClass}-caption" view-name="${viewToRender.name}">${captionText}</figcaption>\n`);
-            this.markup.appendContent(`</figure>\n`);
-            
-        } catch (error) {
-            this.lb.error(`Failed to render Base64 image: ${error.message}`);
-        }
-
-        this.lb.leave();
+        return { scale: imageQuality, margin: imageMargin };
     }
 }

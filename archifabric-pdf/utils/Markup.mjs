@@ -17,11 +17,11 @@ const UUID = Java.type('java.util.UUID');
 function escapeHtml(unsafe) {
     if (!unsafe) return "";
     return unsafe
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replaceAll('&', "&amp;")
+        .replaceAll('<', "&lt;")
+        .replaceAll('>', "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll('\'', "&#039;");
 }
 
 // ============================================================================
@@ -48,7 +48,7 @@ marked.use({
                     titleAttr = ` title="${escapeHtml(token.title)}"`;
                 }
             }
-            
+
             // Ensure the image tag is strictly closed for XML/WeasyPrint compatibility
             return `<img src="${href}" alt="${text}"${titleAttr}${widthAttr}${heightAttr} />`;
         }
@@ -62,12 +62,12 @@ marked.use({
 
 export class Markup {
     #documentLevel = 0;
-    #contentBuffer = []; 
+    #contentBuffer = [];
     #tocBuffer = [];
-    
+
     // Using a Set ensures that identical CSS blocks (e.g., from multiple catalogs) are automatically deduplicated
     #cssBuffer = new Set();
-    
+
     // Unique UUID placeholders for safe string replacement
     #frontPageID = "";
     #tocID = "";
@@ -81,7 +81,7 @@ export class Markup {
     constructor(lb, language = 'Markdown') {
         this.lb = lb;
         this.language = language;
-        this.frontPageHtml = ""; 
+        this.frontPageHtml = "";
     }
 
     /**
@@ -112,7 +112,7 @@ export class Markup {
 
     genHtmlClass(unsafeName) {
         this.lb.enter(`Markup.genHtmlClass(${unsafeName})`);
-        
+
         if (typeof unsafeName !== 'string') {
             this.lb.leave('not a string');
             return String(unsafeName);
@@ -122,7 +122,7 @@ export class Markup {
             .replace(/[&<>"']/g, "")
             .replace(/\s+/g, "-")
             .toLowerCase();
-            
+
         this.lb.leave(className);
         return className;
     }
@@ -155,11 +155,11 @@ export class Markup {
 
     levelUp(customClass = '') {
         this.#documentLevel++;
-        
+
         // Combineer de classes van het bovenliggende niveau met de nieuwe classes
-        const parentClass = this.#classStack.length > 0 ? this.#classStack[this.#classStack.length - 1] : '';
+        const parentClass = this.#classStack.length > 0 ? this.#classStack.at(-1) : '';
         const combined = [parentClass, customClass].filter(c => c && c.trim() !== '').join(' ');
-        
+
         // Zet ze op de stack
         this.#classStack.push(combined);
         this.lb.log(`Level Up: [${this.#documentLevel}], Active Classes: ${combined}`);
@@ -173,13 +173,13 @@ export class Markup {
 
     header(title, target, customClass = '') {
         this.lb.enter(`Markup.header(${title}, ${target})`);
-        
+
         let idAttr = '';
         let headerClassAttr = '';
         let tocClassAttr = `toc h${this.#documentLevel}`;
 
         // Combineer de overgeërfde classes van de stack met de lokaal meegegeven class
-        const stackClass = this.#classStack.length > 0 ? this.#classStack[this.#classStack.length - 1] : '';
+        const stackClass = this.#classStack.length > 0 ? this.#classStack.at(-1) : '';
         const combinedClass = [stackClass, customClass].filter(c => c && c.trim() !== '').join(' ');
 
         // Verwijder eventuele dubbele classes (als een sectie 'bijlage' heeft, hoeven we het niet 2x te printen)
@@ -193,14 +193,14 @@ export class Markup {
         if (target && title) {
             const anchorId = `${target}-h${this.#documentLevel}`;
             idAttr = `id="${anchorId}"`;
-            
+
             // Zet de gecombineerde class ook op de lijst in de Inhoudsopgave!
             this.#tocBuffer.push(`<li class="${tocClassAttr}"><a href="#${anchorId}">${escapeHtml(title)}</a></li>\n`);
         }
-        
+
         // Genereer de tag met de class (zodat h2.bijlage ook direct werkt)
         const content = title ? `<h${this.#documentLevel} ${idAttr}${headerClassAttr}>${title}</h${this.#documentLevel}>\n` : '';
-        
+
         this.lb.leave();
         return content;
     }
@@ -221,27 +221,27 @@ export class Markup {
      */
     parse(mdContent) {
         if (!mdContent) return '';
-        
+
         let processedContent = '';
         const lines = String(mdContent).split(/\r?\n|\r/);
         let inCodeBlock = false;
-        
+
         lines.forEach((line) => {
             // Detect code block fences (```), and toggle the inCodeBlock flag. We do not want to process headers inside code blocks.
             if (line.trim().startsWith('```')) {
                 inCodeBlock = !inCodeBlock;
             }
-            
+
             // Detect Markdown headers (e.g., #, ##, ###) and process them relative to the current document level.
             const headerMatch = line.match(/^(#{1,6})\s+(.*)$/);
-            
+
             if (headerMatch && !inCodeBlock) {
                 const depth = headerMatch[1].length;
                 const title = headerMatch[2].trim();
-                
+
                 // We temporarily increase the document level to ensure that the header is rendered at the correct depth in the final HTML. This allows for nested sections and proper TOC generation.
                 const originalLevel = this.#documentLevel;
-                
+
                 // We add the depth of the Markdown header to the current document level to get the final heading level. For example, if the current document level is 1 (Section) and we encounter a Markdown header with 2 hashes (##), it will be rendered as an <h3> in the final HTML.
                 // This ensures that the document structure remains consistent and that the TOC reflects the correct hierarchy.
                 // Example: in a Section (level 1), '## Subtitle' becomes <h3> (1 + 2 = 3)
@@ -249,10 +249,10 @@ export class Markup {
 
                 // Generate a unique ID for the header to ensure that it can be linked to from the TOC. We use a UUID to avoid collisions, especially in documents with repeated titles.
                 const headerId = "md-" + UUID.randomUUID().toString().substring(0, 8);
-                
+
                 // Append the processed header to the content buffer, and also add it to the TOC buffer. The TOC entry will link to the generated header ID, allowing for easy navigation within the document.
                 processedContent += '\n' + this.header(title, headerId) + '\n';
-                
+
                 // We restore the original document level after processing the header to ensure that subsequent content is rendered at the correct depth. This is important for maintaining the overall structure of the document, especially when multiple headers are present.
                 this.#documentLevel = originalLevel;
             } else {
@@ -282,7 +282,7 @@ export class Markup {
      */
     get html() {
         this.lb.enter('Markup.get html()');
-        
+
         let bodyHtml = this.#contentBuffer.join('');
         const tocHtml = this.#tocBuffer.join('');
         const cssHtml = Array.from(this.#cssBuffer).join('\n\n');

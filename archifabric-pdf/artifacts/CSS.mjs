@@ -6,14 +6,14 @@
  */
 import { Artifact } from '../core/Artifact.mjs';
 
-export default class CSS extends Artifact { 
+export default class CSS extends Artifact {
     /**
      * Initializes the CSS injection artifact.
      * @param {Object} artifactory - The main Artifactory instance.
      */
     constructor(artifactory) {
         super('CSS', artifactory);
-        
+
         /**
          * URL pointing to documentation for the CSS artifact.
          * Automatically shown by the LogBook if this module crashes.
@@ -34,13 +34,13 @@ export default class CSS extends Artifact {
         let cssFound = false;
 
         // 1. Extract CSS from the template element (the CSS artifact box itself)
-        if (modelElement && modelElement.documentation) {
+        if (modelElement?.documentation) {
             this.lb.log(`Injecting custom CSS from model element documentation: ${modelElement.name || modelElement.id}`);
             this.markup.appendCss(modelElement.documentation + '\n');
             cssFound = true;
         }
-        
-        // 2. Extract CSS from the target element (e.g., a Note content or object documentation)
+
+        // 2. Extract CSS from the target element (e.g., a Note's content or object documentation)
         if (targetElement) {
             const targetCss = targetElement.content || targetElement.documentation || '';
             if (targetCss.trim() !== '') {
@@ -53,7 +53,7 @@ export default class CSS extends Artifact {
         if (!cssFound) {
             this.lb.log(`Warning: No CSS content found in either the model or target element.`);
         }
-        
+
         this.lb.leave();
     }
 }
