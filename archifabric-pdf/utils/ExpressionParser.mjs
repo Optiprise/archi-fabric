@@ -135,5 +135,26 @@ export class ExpressionParser {
             // We print raw HTML that WeasyPrint interprets as a page break
             return '<div style="page-break-before: always;"></div>\n';
         });
+
+        // ${addToList:MijnBijlagen:De naam van de bijlage} -> Voegt items stil toe aan een array
+        this.registerHandler('addToList', (args) => {
+            const listName = args[0];
+            const item = args.slice(1).join(':'); // Voor het geval er dubbele punten in de titel staan
+            
+            let list = this.artifactory.globalVars.get(listName) || [];
+            list.push(item);
+            this.artifactory.globalVars.set(listName, list);
+            
+            return ''; // Print niets op het scherm, gebeurt puur in het geheugen
+        });
+
+        // ${printList:MijnBijlagen} -> Print de verzamelde array als een nette HTML lijst
+        this.registerHandler('printList', (args) => {
+            const listName = args[0];
+            const list = this.artifactory.globalVars.get(listName) || [];
+            
+            if (list.length === 0) return '';
+            return '<ul class="custom-list">\n' + list.map(i => `  <li>${i}</li>\n`).join('') + '</ul>\n';
+        });
     }
 }   

@@ -21,11 +21,6 @@ export class QueryBuilder {
      * @param {Object} config - { scope, currentView, select, sort }
      * @returns {Array} - The resulting list of ArchiMate elements.
      */
-    /**
-     * Executes the query based on provided configuration.
-     * @param {Object} config - { scope, currentView, select, sort }
-     * @returns {Array} - The resulting list of ArchiMate elements.
-     */
 
     fetch({ scope = 'view', currentView = null, select = {}, sort = 'name' }) {
         const effectiveScope = scope || 'view';

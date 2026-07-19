@@ -71,6 +71,7 @@ export class Markup {
     // Unique UUID placeholders for safe string replacement
     #frontPageID = "";
     #tocID = "";
+    #classStack = [];
 
     /**
      * Initializes the Markup engine.
@@ -152,31 +153,53 @@ export class Markup {
         this.lb.leave();
     }
 
-    levelUp() {
+    levelUp(customClass = '') {
         this.#documentLevel++;
-        this.#tocBuffer.push(`<ul class="toc h${this.#documentLevel}">\n`);
-        this.lb.log(`Level Up: [${this.#documentLevel}]`);
+        
+        // Combineer de classes van het bovenliggende niveau met de nieuwe classes
+        const parentClass = this.#classStack.length > 0 ? this.#classStack[this.#classStack.length - 1] : '';
+        const combined = [parentClass, customClass].filter(c => c && c.trim() !== '').join(' ');
+        
+        // Zet ze op de stack
+        this.#classStack.push(combined);
+        this.lb.log(`Level Up: [${this.#documentLevel}], Active Classes: ${combined}`);
     }
 
     levelDown() {
-        this.#tocBuffer.push(`</ul>\n`);
+        this.#classStack.pop(); // Verwijder de classes van dit niveau weer
         this.#documentLevel = Math.max(0, this.#documentLevel - 1);
         this.lb.log(`Level Down: [${this.#documentLevel}]`);
     }
 
-    header(title, target) {
+    header(title, target, customClass = '') {
         this.lb.enter(`Markup.header(${title}, ${target})`);
         
         let idAttr = '';
+        let headerClassAttr = '';
+        let tocClassAttr = `toc h${this.#documentLevel}`;
+
+        // Combineer de overgeërfde classes van de stack met de lokaal meegegeven class
+        const stackClass = this.#classStack.length > 0 ? this.#classStack[this.#classStack.length - 1] : '';
+        const combinedClass = [stackClass, customClass].filter(c => c && c.trim() !== '').join(' ');
+
+        // Verwijder eventuele dubbele classes (als een sectie 'bijlage' heeft, hoeven we het niet 2x te printen)
+        const uniqueClasses = [...new Set(combinedClass.split(/\s+/))].join(' ');
+
+        if (uniqueClasses !== '') {
+            headerClassAttr = ` class="${uniqueClasses}"`;
+            tocClassAttr += ` ${uniqueClasses}`;
+        }
+
         if (target && title) {
             const anchorId = `${target}-h${this.#documentLevel}`;
             idAttr = `id="${anchorId}"`;
             
-            // Add entry to Table of Contents buffer
-            this.#tocBuffer.push(`<li class="toc h${this.#documentLevel}"><a href="#${anchorId}">${escapeHtml(title)}</a></li>\n`);
+            // Zet de gecombineerde class ook op de lijst in de Inhoudsopgave!
+            this.#tocBuffer.push(`<li class="${tocClassAttr}"><a href="#${anchorId}">${escapeHtml(title)}</a></li>\n`);
         }
         
-        const content = title ? `<h${this.#documentLevel} ${idAttr}>${title}</h${this.#documentLevel}>\n` : '';
+        // Genereer de tag met de class (zodat h2.bijlage ook direct werkt)
+        const content = title ? `<h${this.#documentLevel} ${idAttr}${headerClassAttr}>${title}</h${this.#documentLevel}>\n` : '';
         
         this.lb.leave();
         return content;
@@ -269,7 +292,8 @@ export class Markup {
             bodyHtml = bodyHtml.replace(this.#frontPageID, this.frontPageHtml);
         }
         if (this.#tocID !== "") {
-            bodyHtml = bodyHtml.replace(this.#tocID, tocHtml);
+            const flatTocHtml = this.#tocBuffer.length > 0 ? '<ul class="toc">\n' + tocHtml + '</ul>\n' : '';
+            bodyHtml = bodyHtml.replace(this.#tocID, flatTocHtml);
         }
 
         // We DO NOT run marked.parse(bodyHtml) here anymore, because the content 

@@ -50,7 +50,7 @@ export default class Document extends Artifact {
 
             // 5. Process Nested Children via ModelStructure
             const modelStructure = new ModelStructure(this.lb, modelElement);
-            const pairs = modelStructure.getTemplateTargetPairs(targetElement);
+            const pairs = modelStructure.getTemplateTargetPairs();
 
             // HELPER: Recursive function to handle Views as modular building blocks
             const processTemplateNode = (templateNode, currentTarget) => {
@@ -66,7 +66,8 @@ export default class Document extends Artifact {
                 // RULE: Only diagram-model-groups can contain artifact modules.
                 else if ($(templateNode).is('diagram-model-group')) {
                     const parsed = this.parseTemplateName(templateNode.name);
-                    this.artifactory.render(parsed.baseName, templateNode, templateNode);
+                    // GEFIXT: Gebruik currentTarget in plaats van templateNode als data context
+                    this.artifactory.render(parsed.baseName, templateNode, currentTarget);
                 } 
                 else {
                     this.lb.log(`Warning: Ignored unsupported template node type: ${templateNode.type}`);
@@ -75,8 +76,18 @@ export default class Document extends Artifact {
 
             // Loop through all mapped pairs and process them
             for (const pair of pairs) {
-                const resolvedTarget = pair.target || targetElement;
-                processTemplateNode(pair.template, resolvedTarget);
+                const { template, targets } = pair;
+                
+                // GEFIXT: Verwerk gekoppelde targets exact zoals in Section.mjs
+                if (targets && targets.length > 0) {
+                    for (const targetNode of targets) {
+                        const actualTarget = $(targetNode).is('diagram-model-reference') ? targetNode.refView : targetNode;
+                        processTemplateNode(template, actualTarget);
+                    }
+                } else {
+                    // Fallback: overerf de data context van het Document zelf als er niets is gekoppeld
+                    processTemplateNode(template, targetElement);
+                }
             }
 
             // 6. Close Root HTML Container

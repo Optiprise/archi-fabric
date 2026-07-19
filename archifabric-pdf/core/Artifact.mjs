@@ -75,9 +75,10 @@ export class Artifact {
         this.artifactory.parser.registerHandler(command, handler);
     }
 
+    
     /**
      * Parses the raw name of a template element to extract the base artifact name and any inline parameters.
-     * Expected format: "ArtifactName param1=value1 param2=value2"
+     * Expected format: "ArtifactName param1=value1 param2="multiple values""
      * @param {string} rawName - The raw name string from the Archi element.
      * @returns {Object} An object containing { baseName: string, params: Object }.
      */
@@ -86,24 +87,25 @@ export class Artifact {
             return { baseName: '', params: {} };
         }
         
-        const parts = rawName.trim().split(/\s+/);
-        const baseName = parts.shift();
+        // 1. Extract the base name (the first word before any spaces)
+        const baseNameMatch = rawName.match(/^([^\s]+)/);
+        const baseName = baseNameMatch ? baseNameMatch[1] : '';
         const params = {};
         
-        parts.forEach(part => {
-            const splitIndex = part.indexOf('=');
-            if (splitIndex > -1) {
-                const key = part.slice(0, splitIndex).trim();
-                const value = part.slice(splitIndex + 1).trim();
-                if (key) {
-                    params[key] = value;
-                }
-            }
-        });
+        // 2. Advanced regex that supports key=value, key="value", and key='value'
+        const paramRegex = /(\w+)\s*=\s*(?:([^"'\s]+)|"([^"]*)"|'([^']*)')/g;
+        let match;
+        
+        while ((match = paramRegex.exec(rawName)) !== null) {
+            const key = match[1];
+            // The value can be in match[2] (unquoted), match[3] (double-quoted), or match[4] (single-quoted)
+            const value = match[2] || match[3] || match[4] || '';
+            params[key] = value;
+        }
         
         return { baseName, params };
     }
-
+ 
     /**
      * Finds an ArchiMate relationship visually attached to the provided template node (e.g., a Note).
      * @param {Object} node - The visual node (usually a diagram-model-note) in the template.

@@ -43,7 +43,7 @@ export default class Section extends Artifact {
         }
         
         // Determine if this section acts as a visible heading in the document
-        const isHeading = displayTitle && displayTitle.trim() !== '';
+        let isHeading = displayTitle && displayTitle.trim() !== '';
 
         // 2. Extract base name and optional custom parameters (e.g., class=page-break)
         const { baseName, params } = this.parseTemplateName(modelElement.name);
@@ -56,11 +56,16 @@ export default class Section extends Artifact {
 
         if (targetElement && targetElement.id && targetElement.id !== modelElement.id) {
             elementId = `${targetElement.id}-${modelElement.id}`;
+            if (params['displaytitle'] ===  'target') {
+                displayTitle = displayTitle || targetElement.name; // Fallback to target name if no labelExpression
+                isHeading = true; // Ensure we treat this as a heading if we have a target name
+            }   
         }
 
         // ONLY increase the document depth if this section has a visible heading
         if (isHeading) {
-            this.markup.levelUp(); 
+            // We increase the document depth to ensure that nested sections or artifacts are correctly represented in the TOC and document structure.
+            this.markup.levelUp(params['class']); 
         }
         
         // 3. Open the HTML Section using the combined CSS classes and unique ID
@@ -68,7 +73,9 @@ export default class Section extends Artifact {
         
         // 4. Render Title as a Header
         if (isHeading) {
-            this.markup.appendContent(this.markup.header(displayTitle, `id-${elementId}`));
+            // If the user has specified a custom display title via parameters, use it; otherwise, use the evaluated label expression.
+            const customClassOnly = params['class'] || '';
+            this.markup.appendContent(this.markup.header(displayTitle, `id-${elementId}`, customClassOnly));
         }
 
         // 5. Render Documentation
