@@ -698,48 +698,50 @@ table {
             <child xsi:type="archimate:Group" id="id-312b7dc388fb42218bbca2c5aff9f262" name="TOC class=new-page" textAlignment="1">
               <bounds y="252" width="565" height="97"/>
               <feature name="labelExpression" value="Table of Content"/>
-              <documentation>.toc-title {
-    font-size: 11pt;
-    font-family: 'Adwaita Sans';
-	text-transform: uppercase;
-	color: #214478;
-}
-
-section.toc {
-	break-before: page;
-}
-
+              <documentation>/* Haal standaard inspringing en opsommingstekens weg van de lijst */
 ul.toc {
-	display: block;
-	margin: 1em 0;
-}
-ul.toc a{
-	text-decoration: none;
-	color: #000000;
+    list-style-type: none;
+    padding: 0;
+    margin: 1em 0;
+    display: block;
 }
 
-ul.toc a::after {
-  content: leader('.') ' ' target-counter(attr(href), page);
+li.toc {
+    display: block;
 }
 
-ul.toc li {
-  display: block;
+/* Base link styling */
+li.toc a {
+    text-decoration: none;
+    color: #000000;
 }
 
-ul.toc.h1 a {
-	color: #214478;
-	font-family: 'Comfortaa';
-	font-size: 11pt;
-	font-variant: all-small-caps;
+li.toc a::after {
+    content: leader('.') ' ' target-counter(attr(href), page);
 }
 
-ul.toc.h2 a {
-	color: #000000;
-	font-family: 'Comfortaa';
-	font-size: 9pt;
-	font-style: italic;
-	font-variant: normal;
-}</documentation>
+/* Opmaken en inspringen per niveau */
+li.toc.h1 { 
+    margin-top: 10px; /* Extra witregel boven een nieuw H1 hoofdstuk */
+}
+li.toc.h1 a {
+    color: #214478;
+    font-family: 'SegoeUI-Semibold';
+    font-size: 11pt;
+    font-variant: all-small-caps;
+}
+
+li.toc.h2 { padding-left: 15px; } /* Inspringing voor h2 */
+li.toc.h2 a {
+    color: #000000;
+    font-family: 'SegoeUI';
+    font-size: 9pt;
+    font-style: italic;
+    font-variant: normal;
+}
+
+li.toc.h3 { padding-left: 30px; } /* Verder inspringen voor h3 */
+li.toc.h4 { padding-left: 45px; } /* Verder inspringen voor h4 */</documentation>
             </child>
             <child xsi:type="archimate:DiagramModelReference" id="id-dff20b2734c7444a9fc9027c8b337e7e" model="id-64d0c3e5c45f4b1f857b7fb86f6bdcfa">
               <bounds y="192" width="564" height="36"/>
@@ -935,14 +937,14 @@ figcaption.logo-caption {
       <folder name="Installing ArchiFabric" id="id-f4cc6fbc57cc4ba79f96b346d1c849f7">
         <element xsi:type="archimate:ArchimateDiagramModel" name="Installing ArchiFabric" id="id-e78f9b3dda82436e92347b22d14e7b6d">
           <child xsi:type="archimate:DiagramObject" id="id-4594912267b9426abd47ac8523694548" archimateElement="id-458db027d2354da78e90e3e7d4cd5131">
-            <bounds x="168" y="228" width="120" height="55"/>
+            <bounds x="192" y="228" width="120" height="55"/>
             <sourceConnection xsi:type="archimate:Connection" id="id-e10c04f608484772954e7dfa646946ed" source="id-4594912267b9426abd47ac8523694548" target="id-4e77723cc403435fb327691f300170cf" archimateRelationship="id-0b464192d8bc421186d14af292821184"/>
           </child>
           <child xsi:type="archimate:DiagramObject" id="id-a2c7b79d47d1467e9620b9eb87346caa" archimateElement="id-250ac27ed6374668830b75e8c2bdf2b9">
-            <bounds x="168" y="282" width="120" height="55"/>
+            <bounds x="192" y="282" width="120" height="55"/>
           </child>
           <child xsi:type="archimate:DiagramObject" id="id-9bb5f51045784627aa157db9699e90d1" archimateElement="id-1ac744adee614afb97977d115c2e7968">
-            <bounds x="168" y="342" width="120" height="55"/>
+            <bounds x="192" y="342" width="120" height="55"/>
           </child>
           <child xsi:type="archimate:DiagramObject" id="id-d16066835bc64522b207f85773f200ac" targetConnections="id-638afb106ae44c6c95113ec661fa32b1" archimateElement="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8">
             <bounds x="360" y="131" width="133" height="55"/>
@@ -966,6 +968,7 @@ figcaption.logo-caption {
           <child xsi:type="archimate:DiagramObject" id="id-1b3132e4466f4f24bdab9318e27b0d95" imagePath="images/_uv4EsGvdEfGwfJg_K5oWAw.png" imagePosition="9" archimateElement="id-87aaf17143274ad78a414882ed3f9772">
             <bounds x="792" y="240" width="180" height="149"/>
             <feature name="imageSource" value="1"/>
+            <feature name="labelExpression" value=" "/>
             <sourceConnection xsi:type="archimate:Connection" id="id-c938189001d34a4fadec91d56f1b5a23" source="id-1b3132e4466f4f24bdab9318e27b0d95" target="id-ac0b968a99154f139a20a6d81795af89" archimateRelationship="id-b0a7053e377048e3a0dbbc9e99cfe2c0"/>
           </child>
           <documentation>Before you can start weaving your architecture models into cohesive documents, you need to set up ArchiFabric within your Archi environment. ArchiFabric runs on top of the jArchi scripting engine and utilizes external open-source tools to generate high-quality PDFs.</documentation>
@@ -1234,17 +1237,17 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
           </child>
         </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="Catalog" id="id-309858853fb2465bbb62938824e3f3f2">
-          <child xsi:type="archimate:Group" id="id-e1e6e75cf6174a05b3b540a96cd8b0c0" name="Catelog" targetConnections="id-6246139d683e4276998a9a3b403e3087 id-b287d055d00540b2af33dfbf46436c1d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+          <child xsi:type="archimate:Group" id="id-e1e6e75cf6174a05b3b540a96cd8b0c0" name="Catalog" targetConnections="id-6246139d683e4276998a9a3b403e3087 id-b287d055d00540b2af33dfbf46436c1d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
             <bounds x="396" y="48" width="400" height="361"/>
             <sourceConnection id="id-57a1add830a142b285c023d0816257ae" lineWidth="2" lineColor="#1a5fb4" source="id-e1e6e75cf6174a05b3b540a96cd8b0c0" target="id-41d892fa70784b1696c09446c3527fd5" type="1"/>
           </child>
-          <child xsi:type="archimate:Group" id="id-cebb6695bb83432683b30a750ad5808f" name="&lt;parameters>" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
-            <bounds y="240" width="337" height="169"/>
+          <child xsi:type="archimate:Group" id="id-cebb6695bb83432683b30a750ad5808f" name="[parameters]" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="240" width="337" height="241"/>
             <feature name="lineStyle" value="3"/>
             <sourceConnection id="id-b287d055d00540b2af33dfbf46436c1d" lineWidth="2" lineColor="#1a5fb4" source="id-cebb6695bb83432683b30a750ad5808f" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1"/>
             <child xsi:type="archimate:Note" id="id-2cdb0821e8fa43c089a39a5f49599648" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="36" width="237" height="25"/>
-              <content>&lt;CSS class name></content>
+              <content>&quot;&lt;CSS class name> ......&quot;</content>
             </child>
             <child xsi:type="archimate:Note" id="id-d335b9e5191e45cea9351a96d66de94a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="36" width="85" height="25"/>
@@ -1252,11 +1255,35 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             </child>
             <child xsi:type="archimate:Note" id="id-69be4bf0dbd74d398a6ecee4d99259d9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="72" width="237" height="25"/>
-              <content>&lt;view|model></content>
+              <content>{model|view|object}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-330d7b872e644569b859b577777cf291" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="72" width="85" height="25"/>
               <content>scope=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-107d612f49ed41d2a6321b018caa58f8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="108" width="237" height="25"/>
+              <content>{name|position}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-4143fc5cd6d04a3b89ff7a1ebb1f7afe" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="108" width="85" height="25"/>
+              <content>sort=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-4a0c44fb26bc43c1bcdb8252e05a0a83" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="144" width="237" height="25"/>
+              <content>&lt;Regular Expression></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-bea6756e603c4f7e8cffe7d737503872" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="85" height="25"/>
+              <content>pattern=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-f125353fbf7048e4a5bcec8844447fff" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="180" width="237" height="25"/>
+              <content>&lt;number></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-8498d97fb02949d0837378771d6b2752" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="180" width="85" height="25"/>
+              <content>gap=</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-418d04f63ad24d8594717ca71f21a712" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
@@ -1264,7 +1291,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             <feature name="lineStyle" value="3"/>
             <child xsi:type="archimate:Note" id="id-347486f95f9b4f398d282654de4b7fdc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="132" y="24" width="201" height="25"/>
-              <content>Catalog &lt;paramters></content>
+              <content>Catalog [paramters]</content>
             </child>
             <child xsi:type="archimate:Note" id="id-70ae48d52ae34e71854cf2f00516c96e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
               <bounds x="12" y="60" width="120" height="25"/>
@@ -1272,6 +1299,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             </child>
             <child xsi:type="archimate:Note" id="id-2e32122c5b9e46b9b7d7c342ccbe2864" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="132" y="144" width="201" height="25"/>
+              <content>&lt;string></content>
             </child>
             <child xsi:type="archimate:Note" id="id-7a34ec32ecaa42908d73a229a83ac219" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
               <bounds x="12" y="24" width="120" height="25"/>
@@ -1282,6 +1310,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
               <sourceConnection id="id-6246139d683e4276998a9a3b403e3087" lineWidth="2" lineColor="#1a5fb4" source="id-f246462967de45c1bc43955739616ff4" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1">
                 <bendpoint startX="206" startY="-2" endX="-248" endY="-78"/>
               </sourceConnection>
+              <content>&lt;text></content>
             </child>
             <child xsi:type="archimate:Note" id="id-5fb491c3be7f4882a87ca53334eb32e8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
               <bounds x="12" y="144" width="120" height="25"/>
@@ -1293,6 +1322,40 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             <feature name="gradient" value="0"/>
             <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Catalog extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
           </child>
+          <documentation>The **Catalog** artifact is a powerful engine for dynamically generating tables, lists, or repeating blocks of architectural elements straight from your model. By combining a visual template with a robust querying system, it transforms raw model data into beautifully formatted, presentation-ready overviews.
+
+To configure a Catalog, you create a Group on your canvas and set its **Name** to `Catalog`. The internal structure of this group dictates the layout of your data (typically using Notes to represent column headers and row templates), while inline parameters allow you to precisely query, filter, and sort the output.
+
+### Core Properties
+
+* **Name:** Must begin with `Catalog`. This is also where you define your query and styling parameters (see below).
+* **Label Expression:** Sets the heading of the catalog (e.g., printed as an `&lt;h2>` or `&lt;h3>` depending on its nested level in the document).
+* **Documentation:** Renders as introductory text directly beneath the heading, right before the actual table or list begins.
+
+### Query &amp; Styling Parameters
+
+You can fine-tune exactly which elements the Catalog retrieves and how they are presented by adding parameters directly into the Name field. You can now use quotes to pass multiple values to a single parameter, such as multiple CSS classes.
+
+*Format example: `Catalog scope=view sort=name class=&quot;catalog-table custom-margin&quot;*`
+
+* **`scope={model | view | object}`**
+Determines the search boundary for the catalog's query.
+* `model`: Scans the entire Archi repository.
+* `view`: *(Highly Optimized)* Scans only the visual elements present on the current canvas. This is the recommended scope for large repositories as it significantly improves rendering performance.
+* `object`: Scans for elements that have a specific relationship with a targeted source element.
+
+
+* **`sort={name | position}`**
+Controls the order of the generated items. Use `name` for standard alphabetical sorting, or `position` to intuitively order elements based on their visual X/Y coordinates on your Archi diagram.
+* **`pattern=&lt;Regular Expression>`**
+Filters the retrieved elements by their name using standard Regex. For example, `pattern=&quot;^SAP.*&quot;` will only include elements whose name starts with &quot;SAP&quot;.
+* **`class=&quot;&lt;CSS class name>&quot;`**
+Injects one or multiple custom CSS classes into the root HTML container of the catalog. This gives you absolute control over the styling, such as applying specific border colors or avoiding page breaks.
+* **`gap=&lt;number>`**
+Defines the vertical spacing between repeating blocks. This is especially useful when you are rendering a list of standalone blocks (like User Stories or Requirements) instead of a standard grid table.
+
+> **Visual Template Pro-Tip:**
+> To build your layout, simply place visual Notes inside the Catalog group. The ArchiFabric engine interprets the top notes as your table headers, and the notes below them as your repeating row template. Use expression tags like `${name}` or `${property:Lifecycle}` inside the row notes to dynamically inject the data of your queried elements!</documentation>
         </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="CSS" id="id-85d75f6e7fda42e790e3e6829ef508ff">
           <child xsi:type="archimate:Group" id="id-4016b73ac38c44e1b849fd933158eca4" name="CSS" targetConnections="id-265c641fcf8040aeb472a41832eb0e00 id-ada415bcfe5c4294bb78b7fa7dd2f414" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
@@ -1494,7 +1557,7 @@ ${set:Reference:ArchiFabric}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-6f978df7e1fe4e8484217203ea4106fc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="72" width="85" height="25"/>
-              <content>rowscope=</content>
+              <content>rowScope=</content>
             </child>
             <child xsi:type="archimate:Note" id="id-b0e912efb4c14e6f882ca7380964410d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="108" width="237" height="25"/>
@@ -1502,7 +1565,23 @@ ${set:Reference:ArchiFabric}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-adffc3fe9167474d878e730fae22680f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="108" width="85" height="25"/>
-              <content>colscope=</content>
+              <content>colScope=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-fbe072464d694db5a467ff1269ffb38b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="144" width="237" height="25"/>
+              <content>[view|model]</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-acaa24bc65fe42569f9140d6737dabe4" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="144" width="85" height="25"/>
+              <content>rowSort=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-eff3736914564cd685886abf71fa42eb" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="180" width="237" height="25"/>
+              <content>[view|model]</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-aa89450cbe5e45228212a9df63ceaf28" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="180" width="85" height="25"/>
+              <content>colSort=</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-9cc35d6c6b8d415c8f321f63dc5a6c86" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
@@ -1560,6 +1639,14 @@ ${set:Reference:ArchiFabric}</content>
             <child xsi:type="archimate:Note" id="id-448018f0482c40c0953c738cc5b62dc5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="36" width="85" height="25"/>
               <content>class=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-65e95149d1c84cddbec4f0c5c85d669c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="60" width="85" height="25"/>
+              <content>displaytitle=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-b21480f8e1d34c0a8da8a204e5839577" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="60" width="237" height="25"/>
+              <content>target</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-d59539bd358847edb70d49c171d77cf7" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
@@ -1690,7 +1777,8 @@ ${set:Reference:ArchiFabric}</content>
           <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
             <bounds y="300" width="400" height="25"/>
           </child>
-          <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}</documentation>
+          <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}
+</documentation>
         </child>
       </element>
     </folder>
