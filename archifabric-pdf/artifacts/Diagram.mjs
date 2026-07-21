@@ -122,7 +122,7 @@ export default class Diagram extends Artifact {
                 const childX = sizingElement.bounds.x;
                 const childWidth = sizingElement.bounds.width;
 
-                // Bereken het middelpunt van de child ten opzichte van de parent
+                // Determine alignment based on the center of the child element relative to the parent width
                 const childCenter = childX + (childWidth / 2);
 
                 if (childCenter < (parentWidth / 3)) {
