@@ -28,30 +28,32 @@ export default class CSS extends Artifact {
      * @param {Object} modelElement - The Archi template element defining the CSS artifact.
      * @param {Object} targetElement - The actual Archi element providing the context.
      */
+    /**
+     * Reads the CSS content from the model template and adds it to the Markup engine's CSS buffer.
+     * @param {Object} modelElement - The Archi template element defining the CSS artifact.
+     * @param {Object} targetElement - The actual Archi element providing the context.
+     */
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
 
         let cssFound = false;
 
-        // 1. Extract CSS from the template element (the CSS artifact box itself)
+        // 1. Extract CSS ONLY from the template element (the CSS artifact box itself)
         if (modelElement?.documentation) {
             this.lb.log(`Injecting custom CSS from model element documentation: ${modelElement.name || modelElement.id}`);
-            this.markup.appendCss(modelElement.documentation + '\n');
+            
+            // Optioneel: We evalueren de CSS eerst, zodat je variabelen in je CSS kunt gebruiken!
+            const parsedCSS = this.artifactory.parser.evaluate(modelElement.documentation, targetElement, this);
+            
+            this.markup.appendCss(parsedCSS + '\n');
             cssFound = true;
         }
 
-        // 2. Extract CSS from the target element (e.g., a Note's content or object documentation)
-        if (targetElement) {
-            const targetCss = targetElement.content || targetElement.documentation || '';
-            if (targetCss.trim() !== '') {
-                this.lb.log(`Injecting custom CSS from target element: ${targetElement.name || targetElement.id}`);
-                this.markup.appendCss(targetCss + '\n');
-                cssFound = true;
-            }
-        }
+        // 2. (VERWIJDERD) We halen GEEN documentatie meer uit het targetElement. 
+        // Dit voorkomt dat gewone tekst of markdown van een hoofdstuk in de stylesheet lekt.
 
         if (!cssFound) {
-            this.lb.log(`Warning: No CSS content found in either the model or target element.`);
+            this.lb.log(`Warning: No CSS content found in the model element.`);
         }
 
         this.lb.leave();
