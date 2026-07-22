@@ -61,7 +61,7 @@ marked.use({
 // ============================================================================
 
 export class Markup {
-    #documentLevel = 0;
+    #documentLevel = 1;
     #contentBuffer = [];
     #tocBuffer = [];
 

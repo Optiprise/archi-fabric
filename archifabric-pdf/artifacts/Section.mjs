@@ -62,11 +62,6 @@ export default class Section extends Artifact {
             }   
         }
 
-        // ONLY increase the document depth if this section has a visible heading
-        if (isHeading) {
-            // We increase the document depth to ensure that nested sections or artifacts are correctly represented in the TOC and document structure.
-            this.markup.levelUp(params['class']); 
-        }
         
         // 3. Open the HTML Section using the combined CSS classes and unique ID
         this.markup.appendContent(`<section id="id-${elementId}" class="${cssClass}">\n`);
@@ -76,6 +71,7 @@ export default class Section extends Artifact {
             // If the user has specified a custom display title via parameters, use it; otherwise, use the evaluated label expression.
             const customClassOnly = params['class'] || '';
             this.markup.appendContent(this.markup.header(displayTitle, `id-${elementId}`, customClassOnly));
+            this.markup.levelUp(params['class']); 
         }
 
         // 5. Render Documentation
