@@ -216,11 +216,39 @@ export class QueryBuilder {
             return data;
         }
 
-        return data.filter(e =>
-            e &&
-            e.type &&
-            types.indexOf(e.type) !== -1
-        );
+        // 1. Bepaal of het visuele sjabloon in Archi een specialisatie (profiel) heeft
+        let targetSpecialization = null;
+        
+        // Check het root-element (bijv. voor Section artifacts)
+        const mainConcept = this.modelElement.concept || this.modelElement;
+        if (types.includes(mainConcept.type) && mainConcept.specialization) {
+            targetSpecialization = mainConcept.specialization;
+        }
+
+        // Check de geneste elementen (bijv. de rij-sjablonen binnen een Catalog of Matrix)
+        $(this.modelElement).children('element').each(child => {
+            const concept = child.concept || child;
+            if (types.includes(concept.type) && concept.specialization) {
+                targetSpecialization = concept.specialization;
+            }
+        });
+
+        // 2. Filter de data op basis van Type én Specialisatie
+        return data.filter(e => {
+            // Check A: Komt het hoofdtype overeen?
+            if (!e || !e.type || types.indexOf(e.type) === -1) {
+                return false;
+            }
+
+            // Check B: Als ons sjabloon een specialisatie vereist, moet het element deze exact matchen
+            if (targetSpecialization) {
+                if (e.specialization !== targetSpecialization) {
+                    return false;
+                }
+            }
+
+            return true;
+        });
     }
 
     _uniqueById(elements) {
