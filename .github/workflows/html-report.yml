@@ -77,7 +77,7 @@ jobs:
           mkdir -p Archi/dropins
           
           # Decrypt jArchi using the GPG secret
-          gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.JARCHI_PASSWD }}" \
+          gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSWD }}" \
           --output jarchi.archiplugin .github/secrets/jarchi.archiplugin.gpg
           
           # Extract the .arciplugin to a temporary folder and move the .jar to dropins
