@@ -81,7 +81,7 @@ jobs:
           --output jarchi.archiplugin .github/secrets/jarchi.archiplugin.gpg
           
           # Extract the .arciplugin to a temporary folder and move the .jar to dropins
-          unzip -o jarchi.arciplugin -d temp_jarchi/
+          unzip -o jarchi.archiplugin -d temp_jarchi/
           mv temp_jarchi/plugins/*.jar Archi/dropins/
           
           # Cleanup temporary files
