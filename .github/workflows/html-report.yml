@@ -78,7 +78,7 @@ jobs:
           
           # Decrypt jArchi using the GPG secret
           gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.JARCHI_PASSWORD }}" \
-          --output jarchi.arciplugin .github/secrets/jarchi.arciplugin.gpg
+          --output jarchi.archiplugin .github/secrets/jarchi.archiplugin.gpg
           
           # Extract the .arciplugin to a temporary folder and move the .jar to dropins
           unzip -o jarchi.arciplugin -d temp_jarchi/
