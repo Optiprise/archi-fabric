@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARCHI_VERSION: "5.10.0-beta3"
+  ARCHI_VERSION: "5.10.0-beta4"
 
 permissions:
   contents: read
@@ -57,7 +57,7 @@ jobs:
         run: |
           set -e
           PRIMARY_URL="https://github.com/archimatetool/archi.io/releases/download/${ARCHI_VERSION}/Archi-Linux64-${ARCHI_VERSION}.tgz"
-          FALLBACK_URL="https://www.archimatetool.com/downloads/archi/ea510/Archi-Linux64-${ARCHI_VERSION}.tgz"
+          FALLBACK_URL="https://www.archimatetool.com/downloads/archi/beta/Archi-Linux64-${ARCHI_VERSION}.tgz"
 
           echo "Trying primary download location..."
           if curl -fsSL -o archi.tgz "$PRIMARY_URL"; then
