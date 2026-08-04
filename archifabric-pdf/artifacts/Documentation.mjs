@@ -6,6 +6,7 @@
  */
 import { Artifact } from '../core/Artifact.mjs';
 
+
 export default class Documentation extends Artifact {
     constructor(artifactory) {
         super('Documentation', artifactory);
@@ -14,6 +15,10 @@ export default class Documentation extends Artifact {
 
     render(modelElement, targetElement) {
         this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
+            const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
+            const baseCssClass = this.markup.genHtmlClass(baseName);
+            const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
+            const elementId = (targetElement?.id) || modelElement.id;
 
         let content = '';
 
@@ -26,7 +31,9 @@ export default class Documentation extends Artifact {
         }
 
         if (content && String(content).trim() !== '') {
+            this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}${customCssClass}">\n`);
             this.markup.appendContent(this.markup.parse(String(content)) + '\n');
+            this.markup.appendContent(`</div>\n`);
         }
 
         this.lb.leave();
