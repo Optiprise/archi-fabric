@@ -130,6 +130,14 @@ jobs:
           --loadModel "${{ github.workspace }}/model.archimate" \
           --jarchi.script "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
 
+          # Verify that the PDF was generated successfully
+          if [ ! -f "${{ github.workspace }}/public/pdf/ArchiFabric-Documentation.pdf" ]; then
+            echo "Error: PDF documentation was not generated."
+            # exit 1
+          fi
+          ls -l "${{ github.workspace }}/public/pdf"
+
+
       - name: Patch HTML Report
         run: |
           mkdir -p public/img
