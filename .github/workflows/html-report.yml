@@ -121,6 +121,7 @@ jobs:
           
           # Export the environment variable so ArchiFabric knows where to save the PDF
           export ARCHIFABRIC_EXPORT_PATH="${{ github.workspace }}/public/pdf"
+          export MODELSTRUCTURE_ID="id-a2affb8beaa748dd84e2a14f3d7ab868"
           
           # Execute ArchiFabric via the jArchi command-line parameter
           dbus-run-session -- xvfb-run -a Archi/Archi \

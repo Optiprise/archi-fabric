@@ -64,10 +64,23 @@ export class Engine {
             // 1. Initialize the Artifactory (dynamically load all artifact modules)
             await this.artifactory.loadAndInit();
 
-            // 2. Validate user selection in Archi
-            const structureView = selection.filter('archimate-diagram-model').first();
+            // 2. Determine the structure view (Environment Variable OR UI Selection)
+            const System = Java.type('java.lang.System');
+            const envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
+            
+            let structureView;
+
+            if (envModelStructureId) {
+                this.lb.log(`Environment variable MODELSTRUCTURE_ID found: ${envModelStructureId}`);
+                // Select the view by ID and ensure it is an archimate-diagram-model
+                structureView = $('#' + envModelStructureId).filter('archimate-diagram-model').first();
+            } else {
+                this.lb.log('No MODELSTRUCTURE_ID environment variable found. Falling back to UI selection.');
+                structureView = selection.filter('archimate-diagram-model').first();
+            }
+
             if (!structureView) {
-                throw new Error('Please select a valid ArchiMate diagram view representing the document structure.');
+                throw new Error('Please select a valid ArchiMate diagram view representing the document structure, or provide a valid MODELSTRUCTURE_ID environment variable.');
             }
 
             // 3. Find the main container and delegate processing
@@ -96,7 +109,7 @@ export class Engine {
      * @private
      */
     _findAndProcessMainStructure(collection) {
-        this.lb.enter(`Engine._findAndProcessMainStructure(${collection.name})`);
+        this.lb.enter(`Engine._findAndProcessMainStructure(${collection.name}) with id: ${collection.id}`);
 
         $(collection).children('diagram-model-group').each(groupElement => {
             this.lb.log(`Root document structure found: ${groupElement.name}`);
