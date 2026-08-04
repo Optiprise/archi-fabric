@@ -74,20 +74,19 @@ jobs:
           rm -f archi.tgz
           
           # Create the dropins directory for plugins
-          mkdir -p Archi/dropins
+          mkdir -p ${HOME}/.archi/dropins
           
           # Decrypt jArchi using the GPG secret
           gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSWD }}" \
           --output jarchi.archiplugin .github/secrets/jarchi.archiplugin.gpg
           
           # Extract the .arciplugin to a temporary folder and move the .jar to dropins
-          unzip -o jarchi.archiplugin -d temp_jarchi/
-          mv temp_jarchi/plugins/*.jar Archi/dropins/
+          unzip -o jarchi.archiplugin -d ${HOME}/.archi/dropins/
           
           # Cleanup temporary files
-          rm -rf temp_jarchi jarchi.arciplugin
+          rm -rf jarchi.archiplugin
           
-          echo "Archi ${ARCHI_VERSION} and jArchi installed successfully in the dropins directory."
+          echo "Archi ${ARCHI_VERSION} and jArchi installed successfully"
 
       - name: Configure jArchi Preferences (Disable CommonJS)
         if: steps.cache-archi.outputs.cache-hit != 'true'
