@@ -1868,11 +1868,28 @@ ${set:Reference:ArchiFabric}</content>
         </child>
       </element>
     </folder>
-    <element xsi:type="archimate:ArchimateDiagramModel" name="Introduction to ArchiFabric" id="id-df59907750814cc2ae56514218afaf99">
-      <child xsi:type="archimate:DiagramObject" id="id-cbcb70e96b3c460b874fe45127a1f38c" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" fillColor="#ffffff" textPosition="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9" archimateElement="id-0bd6ef4f13a74bfca4e1bdf36e081659">
-        <bounds x="12" y="12" width="397" height="396"/>
-        <feature name="imageSource" value="1"/>
+    <element xsi:type="archimate:ArchimateDiagramModel" name="Online User Guide" id="id-df59907750814cc2ae56514218afaf99">
+      <child xsi:type="archimate:Note" id="id-8f37b1280f664476bc976cbe6023fea0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" textPosition="1">
+        <bounds x="540" y="96" width="97" height="49"/>
+      </child>
+      <child xsi:type="archimate:DiagramModelReference" id="id-8cbd6034a89b4956bdafb99f80a5e7d0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-e78f9b3dda82436e92347b22d14e7b6d">
+        <bounds x="540" y="96" width="97" height="49"/>
+        <feature name="iconVisible" value="2"/>
         <feature name="lineStyle" value="3"/>
+      </child>
+      <child xsi:type="archimate:Group" id="id-e39c494f3cc143f9a3c99c0f5ab39e8c" name="AchiFabric" lineWidth="3" lineColor="#1a5fb4" textAlignment="1" fillColor="#ffffff" borderType="1">
+        <bounds x="12" y="24" width="529" height="637"/>
+        <feature name="labelExpression" value=" "/>
+        <feature name="deriveElementLineColor" value="false"/>
+        <child xsi:type="archimate:DiagramObject" id="id-cbcb70e96b3c460b874fe45127a1f38c" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" fillColor="#ffffff" textPosition="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9" archimateElement="id-0bd6ef4f13a74bfca4e1bdf36e081659">
+          <bounds x="60" y="12" width="397" height="396"/>
+          <feature name="imageSource" value="1"/>
+          <feature name="lineStyle" value="3"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-d5219a2192714e51aabc575de908108f" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" alpha="0" textPosition="1" borderType="2">
+          <bounds x="48" y="468" width="433" height="80"/>
+          <content>Online User Guide</content>
+        </child>
       </child>
       <documentation>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
 
@@ -1893,6 +1910,12 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
 At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather than relying on rigid, hardcoded export scripts, it empowers users to design dynamic report templates visually using standard Archi concepts, notes, and relationships. Through an intelligent set of rendering artifacts—such as Catalogs, Matrices, Sections, and Diagrams—architects can visually infer layouts, query specific model scopes, and apply precise filtering mechanisms like Regular Expressions. This data-driven approach ensures that your documentation remains perfectly synchronized with your evolving architecture, granting unparalleled freedom in how information is structured, sorted, and styled.
 
 Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
+
+## User Documentation:
+
+- [User Guide ArchiFabric (PDF)](https://optiprise.nl/archi-fabric/pdf/User%20Guide%20ArchiFabric.pdf)
+- [Online Documentation](https://optiprise.nl/archi-fabric/id-53dd07a57c7c4111904e34eaabca33f6/views/id-df59907750814cc2ae56514218afaf99.html)
+
 
 ## Acknowledgments
 
