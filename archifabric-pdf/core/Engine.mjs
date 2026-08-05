@@ -29,6 +29,7 @@ export class Engine {
         // Checks for ARCHIFABRIC_EXPORT_PATH but falls back to DOCGEN_EXPORT_PATH for backwards compatibility
         const System = Java.type('java.lang.System');
         this.exportPath = System.getenv('ARCHIFABRIC_EXPORT_PATH') || System.getenv('DOCGEN_EXPORT_PATH');
+        this.envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
         
         // Determine Weasyprint executable path based on OS platform
         this.weasyprintExe = $.process.platform === 'win32' 
@@ -65,15 +66,14 @@ export class Engine {
             await this.artifactory.loadAndInit();
 
             // 2. Determine the structure view (Environment Variable OR UI Selection)
-            const System = Java.type('java.lang.System');
-            const envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
+
             
             let structureView;
 
-            if (envModelStructureId) {
-                this.lb.log(`Environment variable MODELSTRUCTURE_ID found: ${envModelStructureId}`);
+            if (this.envModelStructureId) {
+                this.lb.log(`Environment variable MODELSTRUCTURE_ID found: ${this.envModelStructureId}`);
                 // Select the view by ID and ensure it is an archimate-diagram-model
-                structureView = $('#' + envModelStructureId).filter('archimate-diagram-model').first();
+                structureView = $('#' + this.envModelStructureId).filter('archimate-diagram-model').first();
             } else {
                 this.lb.log('No MODELSTRUCTURE_ID environment variable found. Falling back to UI selection.');
                 structureView = selection.filter('archimate-diagram-model').first();
@@ -152,8 +152,10 @@ export class Engine {
                 this.lb.log(`Executing Weasyprint for file: ${pdfFile}`);
                 $.child_process.exec(this.weasyprintExe, '-p', '--optimize-images', '-e', 'utf8', htmlFile, pdfFile);
                 
-                 this.lb.log(`Successfully generated: ${pdfFile}`);
-                window.alert(`ArchiFabric-PDF:\n${pdfFile} successfully generated.`);
+                this.lb.log(`Successfully generated: ${pdfFile}`);
+                if (!this.envModelStructureId) {
+                    window.alert(`ArchiFabric-PDF:\n${pdfFile} successfully generated.`);
+                }
             } catch (error) {
                 throw new Error(`PDF Generation failed. Please check if Weasyprint is installed correctly.\nDetails: ${error.message}`);
             }

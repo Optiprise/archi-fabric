@@ -103,7 +103,7 @@ jobs:
           dbus-run-session -- xvfb-run -a Archi/Archi \
           -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
-          --jarchi.script "$(pwd)/disable-commonjs.ajs"
+          --script.runScript "$(pwd)/disable-commonjs.ajs"
 
       - name: Generate HTML Report
         run: |
@@ -128,7 +128,7 @@ jobs:
           -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
           --loadModel "${{ github.workspace }}/model.archimate" \
-          --jarchi.script "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
+          --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
 
           # Verify that the PDF was generated successfully
           if [ ! -f "${{ github.workspace }}/public/pdf/ArchiFabric-Documentation.pdf" ]; then
