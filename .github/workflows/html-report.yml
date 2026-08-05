@@ -42,7 +42,6 @@ jobs:
           key: archi-${{ env.ARCHI_VERSION }}-os-${{ runner.os }}-hash-${{ hashFiles('.github/workflows/html-report.yml') }}
 
       - name: Install System Dependencies (Xvfb & WeasyPrint)
-        if: steps.cache-archi.outputs.cache-hit != 'true'
         run: |
           export DEBIAN_FRONTEND=noninteractive
           sudo apt-get update
