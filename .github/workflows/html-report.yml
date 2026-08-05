@@ -91,6 +91,8 @@ jobs:
       - name: Configure jArchi Preferences (Disable CommonJS)
         if: steps.cache-archi.outputs.cache-hit != 'true'
         run: |
+          # Create default jArchi script folder
+          mkdir -p "~/Documents/Archi/scripts"
           # Create the configuration script on the fly
           cat << 'EOF' > disable-commonjs.ajs
           const prefs = Java.type('com.archimatetool.script.ArchiScriptPlugin').getInstance().getPreferenceStore();
