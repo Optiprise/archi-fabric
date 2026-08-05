@@ -49,8 +49,7 @@ jobs:
           sudo apt-get install -y --no-install-recommends xvfb dbus-x11 libgtk2.0-0 \
           libswt-gtk-4-jni at-spi2-core libxext6 libxrender1 libxi6 libxtst6 libglib2.0-0 \
           libcairo2 libpango-1.0-0 libpangocairo-1.0-0 unzip patch fontconfig \
-          fonts-comfortaa fonts-dejavu fonts-liberation fonts-noto \
-          fonts-roboto fonts-roboto-hinted fonts-roboto-mono fonts-roboto-slab \
+          fonts-comfortaa fonts-dejavu fonts-liberation fonts-noto fonts-roboto \
           libxml2-dev libxslt-dev libffi-dev libcairo2-dev libpango1.0-dev python3 python3-pip
           
           sudo pip3 install WeasyPrint
