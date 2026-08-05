@@ -1832,7 +1832,7 @@ ${set:Reference:ArchiFabric}</content>
       <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation ArchiFabric" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
         <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
           <bounds x="36" y="24" width="400" height="433"/>
-          <feature name="labelExpression" value="user-guide-archifabric"/>
+          <feature name="labelExpression" value="User Guide ArchiFabric"/>
           <child xsi:type="archimate:DiagramModelReference" id="id-ae4f7f6e362b4134b941b1c03c45677a" model="id-ef4b538cebd145ea8568b51b7f63342c">
             <bounds y="24" width="400" height="25"/>
           </child>

@@ -133,7 +133,12 @@ jobs:
           -consoleLog -nosplash \
           --loadModel "${{ github.workspace }}/model.archimate" \
           --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
+
+          # Temporary workaround to ensure document is printed WeasyPrint 
+          weasyprint --version
+          weasyprint -p --optimize-images -e utf8 "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
           
+          rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
           ls -l "${{ github.workspace }}/public/pdf"
 
 
