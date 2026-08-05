@@ -89,7 +89,6 @@ jobs:
           echo "Archi ${ARCHI_VERSION} and jArchi installed successfully"
 
       - name: Configure jArchi Preferences (Disable CommonJS)
-        if: steps.cache-archi.outputs.cache-hit != 'true'
         run: |
           # Create default jArchi script folder
           mkdir -p "${HOME}/Documents/Archi/scripts"
