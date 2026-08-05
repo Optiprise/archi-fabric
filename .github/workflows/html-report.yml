@@ -92,9 +92,9 @@ jobs:
         if: steps.cache-archi.outputs.cache-hit != 'true'
         run: |
           # Create default jArchi script folder
-          mkdir -p "~/Documents/Archi/scripts"
+          mkdir -p "${HOME}/Documents/Archi/scripts"
           # Create the configuration script on the fly
-          cat << 'EOF' > disable-commonjs.ajs
+          cat << 'EOF' > ${HOME}/Documents/Archi/scripts/disable-commonjs.ajs
           const prefs = Java.type('com.archimatetool.script.ArchiScriptPlugin').getInstance().getPreferenceStore();
           console.log("CommonJS module system is currently enabled: " + prefs.getBoolean('commonJSEnabled'));
           prefs.setValue('commonJSEnabled', false);
@@ -105,7 +105,7 @@ jobs:
           dbus-run-session -- xvfb-run -a Archi/Archi \
           -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
-          --script.runScript "$(pwd)/disable-commonjs.ajs"
+          --script.runScript "${HOME}/Documents/Archi/scripts/disable-commonjs.ajs"
 
       - name: Generate HTML Report
         run: |
