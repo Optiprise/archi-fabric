@@ -131,6 +131,8 @@ jobs:
           --loadModel "${{ github.workspace }}/model.archimate" \
           --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
 
+          weasyprint -p --optimize-images -e utf8 "${{ github.workspace }}/public/pdf/user-guide-archifabric.html" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
+
           # Verify that the PDF was generated successfully
           if [ ! -f "${{ github.workspace }}/public/pdf/ArchiFabric-Documentation.pdf" ]; then
             echo "Error: PDF documentation was not generated."
