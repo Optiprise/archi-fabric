@@ -51,7 +51,7 @@ export class Engine {
         
         // Determine Weasyprint executable path based on OS platform
         this.weasyprintExe = $.process.platform === 'win32' 
-            ? __DIR__ + '../weasyprint/weasyprint.exe' 
+            ? __DIR__ + '../weasyprint/dist/weasyprint.exe' 
             : 'weasyprint';
             
         this._setupGlobals();
