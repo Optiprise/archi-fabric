@@ -14,7 +14,7 @@
 
 * **Archi:** The core modeling environment itself. You can download the latest version from the [Archi download page](https://www.archimatetool.com/download/).
 * **jArchi Plugin:** This plugin provides the scripting engine that powers ArchiFabric. Currently, the jArchi plugin is available exclusively to Patreon supporters of the Archi project. We highly recommend becoming a Patreon member—not only to gain access to this essential plugin, but also to support the continued software development and maintenance of Archi. You can find more information here: [jArchi Plugin](https://www.archimatetool.com/plugins/#jArchi).
-* **WeasyPrint:** The rendering engine used to convert the generated HTML into high-quality PDFs. You can find the latest releases on their [GitHub page](https://github.com/Kozea/WeasyPrint/releases).
+* **WeasyPrint:** The rendering engine used to convert the generated HTML into high-quality PDFs. You can find the latest releases on their [GitHub page](https://github.com/Kozea/WeasyPrint/releases) and documentation on [Weasyprint documentation hub](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#installation).
 * *For Linux and macOS:* WeasyPrint is generally available through your native package manager and can be installed system-wide.
 * *For Windows:* You can download the provided ZIP file. In a later phase, a standalone `.exe` file may be included directly within the ArchiFabric folder for a smoother installation experience.</documentation>
         </element>
@@ -1129,21 +1129,6 @@ Follow these steps to build your first report visually:
 
 > Within seconds, ArchiFabric will compile your visual structure and generate a PDF file named **My First Document.pdf**. When you open it, you will see a clean, formatted document containing your very first chapter titled **Hello World!**.</documentation>
         </element>
-        <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-537f4a565eb5462e9ceff10eaac27339">
-          <child xsi:type="archimate:Group" id="id-7d8882387c624fa4b3887ba5477ba034" name="Section" textAlignment="1">
-            <bounds x="36" y="24" width="400" height="253"/>
-            <feature name="labelExpression" value="Working with ArchiFabric"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-874cbbf92df54a379bd0fdbb0ca0566a" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-              <bounds y="36" width="145" height="61"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
-              <bounds x="144" y="36" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
-              <bounds x="144" y="60" width="253" height="25"/>
-            </child>
-          </child>
-        </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="Adding CSS" id="id-bd8e20f792d5491890dcb3c31e8ac4fb">
           <child xsi:type="archimate:Group" id="id-3d5384d8ac594bdfbb90212348a39d9d" name="Document" targetConnections="id-522a34e41d784ec68613cf74e57e6c0a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
             <bounds x="420" y="36" width="400" height="180"/>
@@ -1287,39 +1272,6 @@ ${set:Reference:ArchiFabric}</content>
 Configuring this root artifact is straightforward and visually intuitive. By setting the **Name** property to `Document`, you instruct the engine to use this specific module. The **Label Expression** plays a crucial role here: the text you provide in this field (for example, `My First Document`) is automatically extracted to define the final filename of your generated PDF, as well as establishing the global title of the report.
 
 Additionally, the Document artifact allows you to orchestrate global settings without cluttering your visual output. You can use the artifact's **Documentation** field to silently set global variables—such as authors, versions, or reference links—using standard expression tags (e.g., `${set:Author:John Doe}`). The engine will parse these variables in the background, making them available throughout your entire report, while keeping the main document perfectly clean. You can also append parameters like `class=&lt;classname>` to the Name field to apply custom CSS styling to the overall document wrapper.</documentation>
-        </element>
-        <element xsi:type="archimate:ArchimateDiagramModel" name="Artifacts" id="id-589357f49592435784f007f66f47de4e">
-          <child xsi:type="archimate:Group" id="id-b2bf5ee0c2b04262885c2d6ffc739407" name="Section" textAlignment="1">
-            <bounds x="12" y="24" width="400" height="253"/>
-            <feature name="labelExpression" value="Artifacts"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-51b3a50046114e00939495abe43558cd" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-              <bounds y="36" width="145" height="193"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-76deb2a1377e4ab69fde9026ebea4b75" model="id-a758bf44f0c44d22be8a1ddc6c385193">
-              <bounds x="144" y="108" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-69fa68c0c1ae4613a589a75ad3dda727" model="id-85d75f6e7fda42e790e3e6829ef508ff">
-              <bounds x="144" y="60" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-af09f462fee44dc6a462808121f27fc9" model="id-309858853fb2465bbb62938824e3f3f2">
-              <bounds x="144" y="36" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-edcdeb5c6c92433f98c7e1f4547bdf39" model="id-df0d0ec25ec04bcea69f617758228255">
-              <bounds x="144" y="84" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-17b24241f7b046b2ba3f50a94e76604c" model="id-52e04c9f8dba4faa9d8740287e664067">
-              <bounds x="144" y="132" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-6c554b51afef4470be24e80d77421ac3" model="id-a56d1cd7235a48e59a8ee56a1932a050">
-              <bounds x="144" y="156" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-49184d7253744b009562b261d729f926" model="id-7fe76c98f54c4177b125063dc166f1e5">
-              <bounds x="144" y="180" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-82e45a48748e4279ac4f5da7bcb14009" model="id-17411f72759b46e896127eef87f057b4">
-              <bounds x="144" y="204" width="253" height="25"/>
-            </child>
-          </child>
         </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="Catalog" id="id-309858853fb2465bbb62938824e3f3f2">
           <child xsi:type="archimate:Group" id="id-e1e6e75cf6174a05b3b540a96cd8b0c0" name="Catalog" targetConnections="id-6246139d683e4276998a9a3b403e3087 id-b287d055d00540b2af33dfbf46436c1d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
@@ -1829,7 +1781,82 @@ ${set:Reference:ArchiFabric}</content>
           </child>
         </element>
       </folder>
-      <element xsi:type="archimate:ArchimateDiagramModel" name="User Documentation ArchiFabric" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
+    </folder>
+    <folder name="Online User Guide" id="id-7cf22bf430d54fe9827934e2e5a783df">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Online User Guide" id="id-df59907750814cc2ae56514218afaf99">
+        <child xsi:type="archimate:Note" id="id-e839a7be0b0349b6b8a19c557c25a9e2" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="220" textPosition="1">
+          <bounds x="540" y="336" width="97" height="49"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-8f37b1280f664476bc976cbe6023fea0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1784f8" alpha="200" textPosition="1">
+          <bounds x="540" y="96" width="97" height="49"/>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-8cbd6034a89b4956bdafb99f80a5e7d0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-e78f9b3dda82436e92347b22d14e7b6d">
+          <bounds x="540" y="96" width="97" height="49"/>
+          <feature name="iconVisible" value="2"/>
+          <feature name="lineStyle" value="3"/>
+        </child>
+        <child xsi:type="archimate:Group" id="id-e39c494f3cc143f9a3c99c0f5ab39e8c" name="AchiFabric" lineWidth="3" lineColor="#1a5fb4" textAlignment="1" fillColor="#ffffff" borderType="1">
+          <bounds x="12" y="24" width="529" height="637"/>
+          <feature name="labelExpression" value=" "/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <child xsi:type="archimate:DiagramObject" id="id-cbcb70e96b3c460b874fe45127a1f38c" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" fillColor="#ffffff" textPosition="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9" archimateElement="id-0bd6ef4f13a74bfca4e1bdf36e081659">
+            <bounds x="60" y="12" width="397" height="396"/>
+            <feature name="imageSource" value="1"/>
+            <feature name="lineStyle" value="3"/>
+          </child>
+          <child xsi:type="archimate:Note" id="id-d5219a2192714e51aabc575de908108f" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" alpha="0" textPosition="1" borderType="2">
+            <bounds x="48" y="468" width="433" height="80"/>
+            <content>Online User Guide</content>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-77339241e5c04ecd863a6d7ad7d5369d" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-a9dfa348bd6f47fba1c3f4cbae9907d2">
+          <bounds x="540" y="336" width="97" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <feature name="iconVisible" value="2"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-c0af53d00ec749c387f860a6ba970b2e" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1784f8" alpha="210" textPosition="1">
+          <bounds x="540" y="144" width="97" height="49"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-5f4c00ddc8f14278b44ef4eac08b9fd0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="200" textPosition="1">
+          <bounds x="540" y="288" width="97" height="49"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-36cf4ac6aae34678b5c5af5c5c9ee34b" fontColor="#ffffff" fillColor="#214378" textPosition="1">
+          <bounds x="540" y="264" width="97" height="25"/>
+          <content>Technical Guide</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-6c348e5eeced40aca9c80676e2614db0" fontColor="#ffffff" fillColor="#1784f8" textPosition="1">
+          <bounds x="540" y="72" width="97" height="25"/>
+          <content>User Guide</content>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-6b2cb4d788024fcf86ab5b076604b044" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-1c67f362803a49a1b0831ad13e9fd921">
+          <bounds x="540" y="288" width="97" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <feature name="iconVisible" value="2"/>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-8c945d7c8c4745a18f1a9a5913758020" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-3f34458a00854c65a0b78cc41cb3ff33">
+          <bounds x="540" y="144" width="97" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <feature name="iconVisible" value="2"/>
+        </child>
+        <documentation>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
+
+At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather than relying on rigid, hardcoded export scripts, it empowers users to design dynamic report templates visually using standard Archi concepts, notes, and relationships. Through an intelligent set of rendering artifacts—such as Catalogs, Matrices, Sections, and Diagrams—architects can visually infer layouts, query specific model scopes, and apply precise filtering mechanisms like Regular Expressions. This data-driven approach ensures that your documentation remains perfectly synchronized with your evolving architecture, granting unparalleled freedom in how information is structured, sorted, and styled.
+
+Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
+
+## Acknowledgments
+
+ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the ambition to contribute a robust, open-source publishing solution to the global enterprise architecture community. We would like to acknowledge the outstanding foundations upon which this suite is built:
+
+* **Archi®** is a registered trademark of Phillip Beauvoir.
+* **ArchiMate®** and **TOGAF®** are registered trademarks of The Open Group.</documentation>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Artifacts" id="id-a9dfa348bd6f47fba1c3f4cbae9907d2"/>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Design" id="id-1c67f362803a49a1b0831ad13e9fd921"/>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-3f34458a00854c65a0b78cc41cb3ff33"/>
+    </folder>
+    <folder name="PDF User Guide" id="id-cc65cd18bdd5406fb6291673200d4dfa">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="PDF User Guide" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
         <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
           <bounds x="36" y="24" width="400" height="433"/>
           <feature name="labelExpression" value="User Guide ArchiFabric"/>
@@ -1867,43 +1894,55 @@ ${set:Reference:ArchiFabric}</content>
 </documentation>
         </child>
       </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Artifacts" id="id-589357f49592435784f007f66f47de4e">
+        <child xsi:type="archimate:Group" id="id-b2bf5ee0c2b04262885c2d6ffc739407" name="Section" textAlignment="1">
+          <bounds x="12" y="24" width="400" height="253"/>
+          <feature name="labelExpression" value="Artifacts"/>
+          <child xsi:type="archimate:DiagramModelReference" id="id-51b3a50046114e00939495abe43558cd" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+            <bounds y="36" width="145" height="193"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-76deb2a1377e4ab69fde9026ebea4b75" model="id-a758bf44f0c44d22be8a1ddc6c385193">
+            <bounds x="144" y="108" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-69fa68c0c1ae4613a589a75ad3dda727" model="id-85d75f6e7fda42e790e3e6829ef508ff">
+            <bounds x="144" y="60" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-af09f462fee44dc6a462808121f27fc9" model="id-309858853fb2465bbb62938824e3f3f2">
+            <bounds x="144" y="36" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-edcdeb5c6c92433f98c7e1f4547bdf39" model="id-df0d0ec25ec04bcea69f617758228255">
+            <bounds x="144" y="84" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-17b24241f7b046b2ba3f50a94e76604c" model="id-52e04c9f8dba4faa9d8740287e664067">
+            <bounds x="144" y="132" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-6c554b51afef4470be24e80d77421ac3" model="id-a56d1cd7235a48e59a8ee56a1932a050">
+            <bounds x="144" y="156" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-49184d7253744b009562b261d729f926" model="id-7fe76c98f54c4177b125063dc166f1e5">
+            <bounds x="144" y="180" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-82e45a48748e4279ac4f5da7bcb14009" model="id-17411f72759b46e896127eef87f057b4">
+            <bounds x="144" y="204" width="253" height="25"/>
+          </child>
+        </child>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-537f4a565eb5462e9ceff10eaac27339">
+        <child xsi:type="archimate:Group" id="id-7d8882387c624fa4b3887ba5477ba034" name="Section" textAlignment="1">
+          <bounds x="36" y="24" width="400" height="253"/>
+          <feature name="labelExpression" value="Working with ArchiFabric"/>
+          <child xsi:type="archimate:DiagramModelReference" id="id-874cbbf92df54a379bd0fdbb0ca0566a" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+            <bounds y="36" width="145" height="61"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
+            <bounds x="144" y="36" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
+            <bounds x="144" y="60" width="253" height="25"/>
+          </child>
+        </child>
+      </element>
     </folder>
-    <element xsi:type="archimate:ArchimateDiagramModel" name="Online User Guide" id="id-df59907750814cc2ae56514218afaf99">
-      <child xsi:type="archimate:Note" id="id-8f37b1280f664476bc976cbe6023fea0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" textPosition="1">
-        <bounds x="540" y="96" width="97" height="49"/>
-      </child>
-      <child xsi:type="archimate:DiagramModelReference" id="id-8cbd6034a89b4956bdafb99f80a5e7d0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-e78f9b3dda82436e92347b22d14e7b6d">
-        <bounds x="540" y="96" width="97" height="49"/>
-        <feature name="iconVisible" value="2"/>
-        <feature name="lineStyle" value="3"/>
-      </child>
-      <child xsi:type="archimate:Group" id="id-e39c494f3cc143f9a3c99c0f5ab39e8c" name="AchiFabric" lineWidth="3" lineColor="#1a5fb4" textAlignment="1" fillColor="#ffffff" borderType="1">
-        <bounds x="12" y="24" width="529" height="637"/>
-        <feature name="labelExpression" value=" "/>
-        <feature name="deriveElementLineColor" value="false"/>
-        <child xsi:type="archimate:DiagramObject" id="id-cbcb70e96b3c460b874fe45127a1f38c" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" fillColor="#ffffff" textPosition="2" imagePath="images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" imagePosition="9" archimateElement="id-0bd6ef4f13a74bfca4e1bdf36e081659">
-          <bounds x="60" y="12" width="397" height="396"/>
-          <feature name="imageSource" value="1"/>
-          <feature name="lineStyle" value="3"/>
-        </child>
-        <child xsi:type="archimate:Note" id="id-d5219a2192714e51aabc575de908108f" font="1|Comfortaa|20.0|1|GTK|1|" fontColor="#1a5fb4" alpha="0" textPosition="1" borderType="2">
-          <bounds x="48" y="468" width="433" height="80"/>
-          <content>Online User Guide</content>
-        </child>
-      </child>
-      <documentation>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
-
-At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather than relying on rigid, hardcoded export scripts, it empowers users to design dynamic report templates visually using standard Archi concepts, notes, and relationships. Through an intelligent set of rendering artifacts—such as Catalogs, Matrices, Sections, and Diagrams—architects can visually infer layouts, query specific model scopes, and apply precise filtering mechanisms like Regular Expressions. This data-driven approach ensures that your documentation remains perfectly synchronized with your evolving architecture, granting unparalleled freedom in how information is structured, sorted, and styled.
-
-Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
-
-## Acknowledgments
-
-ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the ambition to contribute a robust, open-source publishing solution to the global enterprise architecture community. We would like to acknowledge the outstanding foundations upon which this suite is built:
-
-* **Archi®** is a registered trademark of Phillip Beauvoir.
-* **ArchiMate®** and **TOGAF®** are registered trademarks of The Open Group.</documentation>
-    </element>
   </folder>
   <purpose>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
 

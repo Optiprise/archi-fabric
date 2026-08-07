@@ -1,0 +1,64 @@
+# Build and Publish ArchiFabric Release Packages
+name: Build and Publish ArchiFabric Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+env:
+  WEASYPRINT_VERSION: "69.0"
+
+jobs:
+  build-and-release:
+    name: Create Release Packages
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. Maak de Generieke ZIP (Alleen de archifabric-pdf map, zonder WeasyPrint)
+      - name: Create Generic Scripts Archive (Linux/MacOS)
+        run: |
+          mkdir -p dist/generic
+          # Kopieer uitsluitend de map 'archifabric-pdf' naar de werkmap
+          cp -r archifabric-pdf dist/generic/
+          
+          cd dist/generic
+          # Doordat we hier zippen, is 'archifabric-pdf' de hoofdmap in de zip
+          zip -r ../ArchiFabric-${{ github.ref_name }}-Generic.zip archifabric-pdf
+          cd ../..
+
+      # 2. Maak de Windows bundel (archifabric-pdf INCLUSIEF WeasyPrint)
+      - name: Create Windows Bundle
+        run: |
+          mkdir -p dist/windows
+          # Kopieer weer de schone archifabric-pdf map
+          cp -r archifabric-pdf dist/windows/
+          
+          # Maak de weasyprint map AAN BINNEN archifabric-pdf
+          mkdir -p dist/windows/archifabric-pdf/weasyprint
+          
+          # Download WeasyPrint voor Windows
+          curl -L -o weasyprint.zip "https://github.com/Kozea/WeasyPrint/releases/download/v${{ env.WEASYPRINT_VERSION }}/weasyprint-windows.zip"
+          
+          # Pak uit in de juiste map en ruim op
+          unzip weasyprint.zip -d dist/windows/archifabric-pdf/weasyprint/
+          rm weasyprint.zip
+          
+          cd dist/windows
+          # Zip de map. Resultaat: 'archifabric-pdf' is de hoofdmap, met weasyprint erin genest.
+          zip -r ../ArchiFabric-${{ github.ref_name }}-Windows.zip archifabric-pdf
+          cd ../..
+
+      # 3. Publiceer de GitHub Release
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            dist/ArchiFabric-${{ github.ref_name }}-Generic.zip
+            dist/ArchiFabric-${{ github.ref_name }}-Windows.zip
