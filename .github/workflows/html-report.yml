@@ -38,7 +38,9 @@ jobs:
         id: cache-archi
         uses: actions/cache@v4
         with:
-          path: Archi
+          path: |
+            Archi
+            ~/.archi
           key: archi-${{ env.ARCHI_VERSION }}-os-${{ runner.os }}-hash-${{ hashFiles('.github/workflows/html-report.yml') }}
 
       - name: Install System Dependencies (Xvfb & WeasyPrint)
