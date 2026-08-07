@@ -6,7 +6,23 @@
     <folder name="Documentation" id="id-5820d46412bc45319493e74b6984dff9">
       <folder name="Installing ArchiFabric" id="id-1f7111b41635475d8bcce94b6f654eed">
         <element xsi:type="archimate:BusinessProcess" name="Download the Suite" id="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8">
-          <documentation>Clone or download the latest release of the ArchiFabric repository from GitHub.</documentation>
+          <documentation>ArchiFabric is distributed as an open-source project via GitHub. The most recent, stable version of the suite is always available for download from the official Releases page.
+
+**Steps to download:**
+
+1. Navigate to the official ArchiFabric Releases page: [https://github.com/Optiprise/archi-fabric/releases](https://github.com/Optiprise/archi-fabric/releases).
+2. Look for the version at the top of the page marked with the green **Latest** label.
+3. Expand the **Assets** section at the bottom of the release notes.
+
+You will find two different ZIP files here. It is important to choose the package that matches your operating system, as the underlying PDF generator (WeasyPrint) is system-specific.
+
+* **ArchiFabric-[version]-Windows.zip** *(Recommended for Windows)*
+This is a complete, standalone bundle for Windows users. In addition to the ArchiFabric scripts, this package contains a *pre-compiled* version of WeasyPrint. The major advantage of this bundle is that PDF generation works out of the box, without the need to install Python or deal with strict corporate firewalls blocking downloads during execution.
+* **ArchiFabric-[version]-Generic.zip** *(For macOS &amp; Linux)*
+This package exclusively contains the clean ArchiFabric scripts. Because package management varies greatly across macOS and Linux, WeasyPrint is not included here. You can easily install WeasyPrint on these systems yourself via the terminal (see the next section for instructions).
+
+**What's next?**
+Download the ZIP file that applies to your system to your local computer (e.g., your `Downloads` folder). Do *not* extract the file just yet; in the next step (2.1.3), we will explain exactly how to correctly integrate these files into your Archi environment.</documentation>
           <property key="Reference" value="[GitHub](https://github.com/Optiprise/archi-fabric)"/>
         </element>
         <element xsi:type="archimate:BusinessEvent" name="Prerequisites" id="id-d1773676f4e04009b7b377b2e9d4acb1">
@@ -18,11 +34,36 @@
 * *For Linux and macOS:* WeasyPrint is generally available through your native package manager and can be installed system-wide.
 * *For Windows:* You can download the provided ZIP file. In a later phase, a standalone `.exe` file may be included directly within the ArchiFabric folder for a smoother installation experience.</documentation>
         </element>
-        <element xsi:type="archimate:BusinessProcess" name="Locate the Scripts Folder" id="id-8edc94ba834546d98aa880f90b56615e">
-          <documentation>Open Archi, navigate to the Scripts window, and click the &quot;Open Scripts Folder&quot; button to reveal the local directory on your machine.</documentation>
+        <element xsi:type="archimate:BusinessProcess" name="Extract and Install ArchiFabric" id="id-8edc94ba834546d98aa880f90b56615e">
+          <documentation>Now that you have downloaded the correct ZIP file for your operating system, the next step is to integrate the suite into Archi's scripting environment. Archi uses a dedicated folder to store and execute jArchi scripts. We will extract the files and place them directly into this folder.
+
+**Installation Steps:**
+
+1. **Locate the Scripts Folder:** Open the Archi application. In the top menu, navigate to **Window > Scripts Manager** to open the Scripts panel. In this panel, click the **Show in System Explorer** button (the folder icon). This will open the exact directory on your computer where Archi expects its scripts to be located (usually `Documents/Archi/scripts`).
+2. **Extract the ZIP Archive:** Locate the `ArchiFabric-[version].zip` file you downloaded in the previous step and extract its contents. You should now see a folder named `archifabric-pdf`.
+3. **Move the Folder:** Copy or move this entire `archifabric-pdf` folder directly into the Archi scripts folder you opened in step 1.
+> **Important:** Ensure you move the complete folder, keeping its internal structure intact. The correct path on your system should look something like this: `.../scripts/archifabric-pdf/archifabric-pdf.ajs`.
+
+
+4. **Refresh Archi:** Return to the Archi application and click the **Refresh** button in the Scripts Manager panel.
+
+The `archifabric-pdf` folder will now appear in your Scripts Manager tree, and the suite is officially installed in your Archi environment!</documentation>
         </element>
-        <element xsi:type="archimate:BusinessProcess" name="Copy the Files" id="id-063fe022022f473099ce8e41478cc9d6"/>
-        <element xsi:type="archimate:BusinessProcess" name="Disable CommonJS Support" id="id-8021ef59d01348eeaa8351983d349747"/>
+        <element xsi:type="archimate:BusinessProcess" name="Disable CommonJS Support" id="id-8021ef59d01348eeaa8351983d349747">
+          <documentation>To ensure ArchiFabric runs smoothly, you must adjust a specific setting in the jArchi preferences. ArchiFabric uses modern JavaScript ES modules (`.mjs` files), which conflict with jArchi's legacy CommonJS module system if both are active simultaneously.
+
+**Configuration Steps:**
+
+1. Open the Archi **Preferences** window:
+	* **Windows / Linux:** Navigate to **Edit > Preferences** in the top menu.
+	* **macOS:** Navigate to **Archi > Settings** (or Preferences) in the top menu bar.
+2. In the left-hand menu of the preferences window, select **Scripting**.
+3. Locate the **JavaScript** section at the bottom of the right-hand panel.
+4. Ensure the checkbox next to **Enable CommonJS Support** is **unchecked** (empty).
+5. Click **Apply and Close** to save your changes.
+
+_**Note:** If this option remains checked, the jArchi engine will fail to load ArchiFabric's modules correctly, which will result in immediate execution errors when trying to generate your document._</documentation>
+        </element>
       </folder>
     </folder>
     <folder name="Metamodel" id="id-8b0a0b21e2974bc08ee1939ef75d0533">
@@ -170,9 +211,10 @@ Finally, the Document module enforces ArchiFabric's contextual data inheritance 
     <element xsi:type="archimate:TriggeringRelationship" id="id-915e2e4b3df844f7929f4dffec958e5e" source="id-d1773676f4e04009b7b377b2e9d4acb1" target="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8"/>
     <element xsi:type="archimate:ServingRelationship" id="id-b0a7053e377048e3a0dbbc9e99cfe2c0" source="id-87aaf17143274ad78a414882ed3f9772" target="id-8021ef59d01348eeaa8351983d349747"/>
     <element xsi:type="archimate:TriggeringRelationship" id="id-bb225ae27b7d4562ae8163af90bb23ad" source="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8" target="id-8edc94ba834546d98aa880f90b56615e"/>
-    <element xsi:type="archimate:TriggeringRelationship" id="id-06676f43e40647c9ba979e9de0e2725e" source="id-8edc94ba834546d98aa880f90b56615e" target="id-063fe022022f473099ce8e41478cc9d6"/>
-    <element xsi:type="archimate:TriggeringRelationship" id="id-0912115f00fd403e9b4c8822fef4513b" source="id-063fe022022f473099ce8e41478cc9d6" target="id-8021ef59d01348eeaa8351983d349747"/>
     <element xsi:type="archimate:ServingRelationship" id="id-2b587ddf52c94cd5a7faba03250498eb" source="id-7d53587b753f477e83788a0c0adf7a3a" target="id-5908fbd489124fd4b612c9d19659b482"/>
+    <element xsi:type="archimate:TriggeringRelationship" id="id-685eab192713450fbcde14ca76074cc5" source="id-8edc94ba834546d98aa880f90b56615e" target="id-8021ef59d01348eeaa8351983d349747"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-8a8e0d3755c74f63a9504477447c394f" source="id-250ac27ed6374668830b75e8c2bdf2b9" target="id-d1773676f4e04009b7b377b2e9d4acb1"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-4b97a2b82ff24795a8ad8389ccd9a97b" source="id-1ac744adee614afb97977d115c2e7968" target="id-d1773676f4e04009b7b377b2e9d4acb1"/>
   </folder>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
     <folder name="Design" id="id-2ed8b36ace364ad5bfb238bed1283d14">
@@ -1022,41 +1064,47 @@ h3::before {
     <folder name="Documentation" id="id-5a6f1f0ad96d48c98af1834287b74e3a">
       <folder name="Installing ArchiFabric" id="id-f4cc6fbc57cc4ba79f96b346d1c849f7">
         <element xsi:type="archimate:ArchimateDiagramModel" name="Installing ArchiFabric" id="id-e78f9b3dda82436e92347b22d14e7b6d">
-          <child xsi:type="archimate:DiagramObject" id="id-4594912267b9426abd47ac8523694548" archimateElement="id-458db027d2354da78e90e3e7d4cd5131">
-            <bounds x="192" y="228" width="120" height="55"/>
-            <sourceConnection xsi:type="archimate:Connection" id="id-e10c04f608484772954e7dfa646946ed" source="id-4594912267b9426abd47ac8523694548" target="id-4e77723cc403435fb327691f300170cf" archimateRelationship="id-0b464192d8bc421186d14af292821184"/>
+          <child xsi:type="archimate:DiagramObject" id="id-4594912267b9426abd47ac8523694548" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-458db027d2354da78e90e3e7d4cd5131">
+            <bounds x="144" y="228" width="144" height="43"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-e10c04f608484772954e7dfa646946ed" source="id-4594912267b9426abd47ac8523694548" target="id-4e77723cc403435fb327691f300170cf" archimateRelationship="id-0b464192d8bc421186d14af292821184">
+              <bendpoint startX="96" startY="-9" endX="78" endY="81"/>
+            </sourceConnection>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-a2c7b79d47d1467e9620b9eb87346caa" archimateElement="id-250ac27ed6374668830b75e8c2bdf2b9">
-            <bounds x="192" y="282" width="120" height="55"/>
+          <child xsi:type="archimate:DiagramObject" id="id-a2c7b79d47d1467e9620b9eb87346caa" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-250ac27ed6374668830b75e8c2bdf2b9">
+            <bounds x="144" y="288" width="144" height="43"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-bb8bd6a998264c9c8f631b3628c9208b" source="id-a2c7b79d47d1467e9620b9eb87346caa" target="id-4e77723cc403435fb327691f300170cf" archimateRelationship="id-8a8e0d3755c74f63a9504477447c394f">
+              <bendpoint startX="96" startY="-9" endX="78" endY="141"/>
+            </sourceConnection>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-9bb5f51045784627aa157db9699e90d1" archimateElement="id-1ac744adee614afb97977d115c2e7968">
-            <bounds x="192" y="342" width="120" height="55"/>
+          <child xsi:type="archimate:DiagramObject" id="id-9bb5f51045784627aa157db9699e90d1" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-1ac744adee614afb97977d115c2e7968">
+            <bounds x="144" y="346" width="144" height="43"/>
+            <feature name="labelExpression" value="${name}&#xA;(Linux MacOS only)"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-3fcb62cf457b4a3aa1f08437e64c8277" source="id-9bb5f51045784627aa157db9699e90d1" target="id-4e77723cc403435fb327691f300170cf" archimateRelationship="id-4b97a2b82ff24795a8ad8389ccd9a97b">
+              <bendpoint startX="96" startY="-7" endX="78" endY="201"/>
+            </sourceConnection>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-d16066835bc64522b207f85773f200ac" targetConnections="id-638afb106ae44c6c95113ec661fa32b1" archimateElement="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8">
-            <bounds x="360" y="131" width="133" height="55"/>
+          <child xsi:type="archimate:DiagramObject" id="id-d16066835bc64522b207f85773f200ac" targetConnections="id-638afb106ae44c6c95113ec661fa32b1" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-bc7a6e4ea97e48fb8ab32aea82f9a9c8">
+            <bounds x="360" y="132" width="180" height="55"/>
             <sourceConnection xsi:type="archimate:Connection" id="id-23cc87665b5443d384ca3f1991a766ac" source="id-d16066835bc64522b207f85773f200ac" target="id-e6bed59a99054495b017c26546d5c70f" archimateRelationship="id-bb225ae27b7d4562ae8163af90bb23ad"/>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-4e77723cc403435fb327691f300170cf" targetConnections="id-e10c04f608484772954e7dfa646946ed" archimateElement="id-d1773676f4e04009b7b377b2e9d4acb1">
-            <bounds x="192" y="131" width="133" height="55"/>
+          <child xsi:type="archimate:DiagramObject" id="id-4e77723cc403435fb327691f300170cf" targetConnections="id-e10c04f608484772954e7dfa646946ed id-bb8bd6a998264c9c8f631b3628c9208b id-3fcb62cf457b4a3aa1f08437e64c8277" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-d1773676f4e04009b7b377b2e9d4acb1">
+            <bounds x="144" y="132" width="180" height="55"/>
             <sourceConnection xsi:type="archimate:Connection" id="id-638afb106ae44c6c95113ec661fa32b1" source="id-4e77723cc403435fb327691f300170cf" target="id-d16066835bc64522b207f85773f200ac" archimateRelationship="id-915e2e4b3df844f7929f4dffec958e5e"/>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-e6bed59a99054495b017c26546d5c70f" targetConnections="id-23cc87665b5443d384ca3f1991a766ac" archimateElement="id-8edc94ba834546d98aa880f90b56615e">
-            <bounds x="516" y="131" width="120" height="55"/>
-            <sourceConnection xsi:type="archimate:Connection" id="id-5c9638e497cf4556a225140b559e584e" source="id-e6bed59a99054495b017c26546d5c70f" target="id-074c7db3e59c49b48573410600679534" archimateRelationship="id-06676f43e40647c9ba979e9de0e2725e"/>
+          <child xsi:type="archimate:DiagramObject" id="id-e6bed59a99054495b017c26546d5c70f" targetConnections="id-23cc87665b5443d384ca3f1991a766ac" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-8edc94ba834546d98aa880f90b56615e">
+            <bounds x="576" y="132" width="180" height="55"/>
+            <sourceConnection xsi:type="archimate:Connection" id="id-b1f05abd130f4dd4a30253820c9dd3f2" source="id-e6bed59a99054495b017c26546d5c70f" target="id-ac0b968a99154f139a20a6d81795af89" archimateRelationship="id-685eab192713450fbcde14ca76074cc5"/>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-074c7db3e59c49b48573410600679534" targetConnections="id-5c9638e497cf4556a225140b559e584e" archimateElement="id-063fe022022f473099ce8e41478cc9d6">
-            <bounds x="660" y="131" width="120" height="55"/>
-            <sourceConnection xsi:type="archimate:Connection" id="id-a463961fe41c45bbbf4019170ac490a8" source="id-074c7db3e59c49b48573410600679534" target="id-ac0b968a99154f139a20a6d81795af89" archimateRelationship="id-0912115f00fd403e9b4c8822fef4513b"/>
-          </child>
-          <child xsi:type="archimate:DiagramObject" id="id-ac0b968a99154f139a20a6d81795af89" targetConnections="id-c938189001d34a4fadec91d56f1b5a23 id-a463961fe41c45bbbf4019170ac490a8" archimateElement="id-8021ef59d01348eeaa8351983d349747">
-            <bounds x="828" y="131" width="120" height="55"/>
+          <child xsi:type="archimate:DiagramObject" id="id-ac0b968a99154f139a20a6d81795af89" targetConnections="id-c938189001d34a4fadec91d56f1b5a23 id-b1f05abd130f4dd4a30253820c9dd3f2" font="1|Comfortaa|9.0|0|GTK|1|" textPosition="1" archimateElement="id-8021ef59d01348eeaa8351983d349747">
+            <bounds x="792" y="132" width="180" height="55"/>
           </child>
           <child xsi:type="archimate:DiagramObject" id="id-1b3132e4466f4f24bdab9318e27b0d95" imagePath="images/_uv4EsGvdEfGwfJg_K5oWAw.png" imagePosition="9" archimateElement="id-87aaf17143274ad78a414882ed3f9772">
-            <bounds x="792" y="240" width="180" height="149"/>
+            <bounds x="792" y="228" width="180" height="149"/>
             <feature name="imageSource" value="1"/>
             <feature name="labelExpression" value=" "/>
             <sourceConnection xsi:type="archimate:Connection" id="id-c938189001d34a4fadec91d56f1b5a23" source="id-1b3132e4466f4f24bdab9318e27b0d95" target="id-ac0b968a99154f139a20a6d81795af89" archimateRelationship="id-b0a7053e377048e3a0dbbc9e99cfe2c0"/>
           </child>
+          <documentation>Setting up ArchiFabric is a straightforward process consisting of three main phases: downloading the appropriate release package for your operating system from GitHub, extracting and moving the suite into your local Archi scripts directory, and configuring the jArchi preferences to ensure compatibility with modern JavaScript modules. Follow the detailed steps below to get your environment ready for automated document generation.</documentation>
         </element>
       </folder>
       <folder name="Working with ArchiFabric" id="id-42b5a6a3c3794e0b9f0dd57001cf01ea">
@@ -1950,8 +1998,9 @@ At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather
 
 Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
 
-## User Documentation:
+## Download and Documentaion
 
+- [Download ArchiFabric (GitHub)](https://github.com/Optiprise/archi-fabric/releases)
 - [User Guide ArchiFabric (PDF)](https://optiprise.nl/archi-fabric/pdf/User%20Guide%20ArchiFabric.pdf)
 - [Online Documentation](https://optiprise.nl/archi-fabric/id-53dd07a57c7c4111904e34eaabca33f6/views/id-df59907750814cc2ae56514218afaf99.html)
 
