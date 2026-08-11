@@ -2093,11 +2093,11 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
           <child xsi:type="archimate:Group" id="id-bff9d233d3dd4d859726a6ffb81c1d88" name="Section" textAlignment="1">
             <bounds y="204" width="400" height="61"/>
             <feature name="labelExpression" value="The Basic Concept"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-1c0eb6002afa4a138e13f19e31c8da10" model="id-69590b13cd4f41589dd463d2be0ac76c">
-              <bounds y="24" width="145" height="25"/>
-            </child>
             <child xsi:type="archimate:DiagramModelReference" id="id-8eb24789d5d34e7381e06f7a7584f096" model="id-857e49771f77459d9bbac750d45fbcd8">
               <bounds x="144" y="24" width="253" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-888f4c239b5f42a0a6ea792aed57d13e" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+              <bounds y="24" width="145" height="25"/>
             </child>
           </child>
           <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}
