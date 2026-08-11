@@ -41,8 +41,8 @@ Download the ZIP file that applies to your system to your local computer (e.g., 
 
 1. **Locate the Scripts Folder:** Open the Archi application. In the top menu, navigate to **Window > Scripts Manager** to open the Scripts panel. In this panel, click the **Show in System Explorer** button (the folder icon). This will open the exact directory on your computer where Archi expects its scripts to be located (usually `Documents/Archi/scripts`).
 2. **Extract the ZIP Archive:** Locate the `ArchiFabric-[version].zip` file you downloaded in the previous step and extract its contents. You should now see a folder named `archifabric-pdf`.
-3. **Move the Folder:** Copy or move this entire `archifabric-pdf` folder directly into the Archi scripts folder you opened in step 1.
-> **Important:** Ensure you move the complete folder, keeping its internal structure intact. The correct path on your system should look something like this: `.../scripts/archifabric-pdf/archifabric-pdf.ajs`.
+3. **Move the Folder:** Copy or move this entire `archifabric-pdf` folder directly into the Archi scripts folder you opened in step 1.  
+    _**Important:** Ensure you move the complete folder, keeping its internal structure intact. The correct path on your system should look something like this: `.../scripts/archifabric-pdf/archifabric-pdf.ajs`._
 
 
 4. **Refresh Archi:** Return to the Archi application and click the **Refresh** button in the Scripts Manager panel.
@@ -2085,20 +2085,16 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
             <documentation>> Before you can start weaving your architecture models into cohesive documents, you need to set up ArchiFabric within your Archi environment. ArchiFabric runs on top of the jArchi scripting engine and utilizes external open-source tools to generate high-quality PDFs.</documentation>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-85b910d9646a42c0b6e80cb8c4d73971" model="id-537f4a565eb5462e9ceff10eaac27339">
-            <bounds y="276" width="400" height="25"/>
+            <bounds y="264" width="400" height="25"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
-            <bounds y="324" width="400" height="25"/>
+            <bounds y="312" width="400" height="25"/>
           </child>
-          <child xsi:type="archimate:Group" id="id-bff9d233d3dd4d859726a6ffb81c1d88" name="Section" textAlignment="1">
-            <bounds y="204" width="400" height="61"/>
-            <feature name="labelExpression" value="The Basic Concept"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-8eb24789d5d34e7381e06f7a7584f096" model="id-857e49771f77459d9bbac750d45fbcd8">
-              <bounds x="144" y="24" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-888f4c239b5f42a0a6ea792aed57d13e" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-              <bounds y="24" width="145" height="25"/>
-            </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-888f4c239b5f42a0a6ea792aed57d13e" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+            <bounds y="216" width="145" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-8eb24789d5d34e7381e06f7a7584f096" model="id-857e49771f77459d9bbac750d45fbcd8">
+            <bounds x="144" y="216" width="253" height="25"/>
           </child>
           <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}
 </documentation>
