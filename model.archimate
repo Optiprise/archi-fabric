@@ -2161,6 +2161,9 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
           <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
             <bounds x="144" y="60" width="253" height="25"/>
           </child>
+          <documentation>Now that you are familiar with the basic concepts of ArchiFabric, it is time to put theory into practice. In this chapter, we will guide you step-by-step through the process of creating your very first automated publication.
+
+Starting from a blank canvas, we will build a simple *Model Structure*, connect it to a *Target Structure*, enrich it with some basic text, and finally generate a professional PDF. Think of this as your &quot;Hello World&quot; moment in ArchiFabric. By following these practical steps, you will experience the workflow firsthand. By the end of this tutorial, you will have a solid foundation and the confidence to start building more complex, dynamic enterprise documentation on your own. Let's get started!</documentation>
         </child>
       </element>
     </folder>
