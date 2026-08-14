@@ -1970,7 +1970,22 @@ Within this *Model Structure*, the building blocks of your document are represen
 
 Once your visual outline is set, you bring the document to life by connecting these Artifacts to your actual architectural content. You do this by pointing a *targetObject* inside the Artifact to specific views, folders, or elements in your Archi project, which act as the **Target Structure**. As illustrated in the conceptual diagram, when ArchiFabric runs, it processes your *Model Structure* top-to-bottom, retrieves the linked target content, and seamlessly weaves the diagrams and documentation fields together into a beautifully formatted PDF.
 
-A crucial and reassuring aspect of this method is that building a document structure does not alter your underlying Enterprise Architecture model in any way. Because ArchiFabric relies entirely on graphical items (Groups and Notes) to define the layout, they do not create actual ArchiMate concepts or relationships. Your core architecture repository remains completely clean and untouched, while you gain a smart, automated bridge to share your complex data with stakeholders.</documentation>
+A crucial and reassuring aspect of this method is that building a document structure does not alter your underlying Enterprise Architecture model in any way. Because ArchiFabric relies entirely on graphical items (Groups and Notes) to define the layout, they do not create actual ArchiMate concepts or relationships. Your core architecture repository remains completely clean and untouched, while you gain a smart, automated bridge to share your complex data with stakeholders.
+
+# Enriching the Document
+
+While the *Target Structure* provides your architectural data, a complete document also requires narrative text, dynamic references, and specific settings. ArchiFabric handles this by elegantly reusing Archi’s standard features:
+
+* **Narrative Text &amp; Markdown:** You can write your introductions, explanations, and conclusions directly into the **Documentation** field of your visual Artifacts using standard *Markdown* formatting.
+* **Dynamic Label Expressions:** ArchiFabric embraces and enriches Archi's standard *Label Expressions*. This powerful feature allows you to use variables (like `${name}` or `${documentation}`) inside your text, ensuring your document automatically updates whenever your underlying model data changes.
+* **Configuration:** You can use standard Archi **Properties** on your elements to pass specific configuration settings (such as titles, layout choices, or table structures) to the engine.
+
+**In summary, the ArchiFabric workflow consists of four simple steps:**
+
+1. **Design:** Draw your document outline (*Model Structure*) using visual Artifacts.
+2. **Link:** Connect these Artifacts to your architectural data (*Target Structure*).
+3. **Enrich:** Add narrative text, dynamic expressions, and properties.
+4. **Publish:** Select your outline and run the ArchiFabric script to generate your PDF.</documentation>
         </element>
       </folder>
     </folder>

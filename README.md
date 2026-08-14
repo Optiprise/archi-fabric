@@ -8,6 +8,13 @@ At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather
 
 Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
 
+## Download and Documentaion
+
+- [Download ArchiFabric](https://github.com/Optiprise/archi-fabric/releases)
+- [User Guide ArchiFabric (PDF)](https://optiprise.nl/archi-fabric/pdf/User%20Guide%20ArchiFabric.pdf)
+- [Online Documentation](https://optiprise.nl/archi-fabric/id-53dd07a57c7c4111904e34eaabca33f6/views/id-df59907750814cc2ae56514218afaf99.html)
+
+
 ## Acknowledgments
 
 ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the ambition to contribute a robust, open-source publishing solution to the global enterprise architecture community. We would like to acknowledge the outstanding foundations upon which this suite is built:
