@@ -254,7 +254,7 @@ export class Markup {
             const headerMatch = line.match(/^(#{1,6})\s+(.*)$/);
 
             if (headerMatch && !inCodeBlock) {
-                const depth = headerMatch[1].length;
+                const depth = headerMatch[1].length-1; // Convert Markdown header depth to zero-based index (e.g., # -> 0, ## -> 1)
                 const title = headerMatch[2].trim();
 
                 // We temporarily increase the document level to ensure that the header is rendered at the correct depth in the final HTML. This allows for nested sections and proper TOC generation.

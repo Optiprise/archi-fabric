@@ -1105,6 +1105,7 @@ h3::before {
             <sourceConnection xsi:type="archimate:Connection" id="id-c938189001d34a4fadec91d56f1b5a23" source="id-1b3132e4466f4f24bdab9318e27b0d95" target="id-ac0b968a99154f139a20a6d81795af89" archimateRelationship="id-b0a7053e377048e3a0dbbc9e99cfe2c0"/>
           </child>
           <documentation>Setting up ArchiFabric is a straightforward process consisting of three main phases: downloading the appropriate release package for your operating system from GitHub, extracting and moving the suite into your local Archi scripts directory, and configuring the jArchi preferences to ensure compatibility with modern JavaScript modules. Follow the detailed steps below to get your environment ready for automated document generation.</documentation>
+          <property key="Lead" value="Before you can start weaving your architecture models into cohesive documents, you need to set up ArchiFabric within your Archi environment. ArchiFabric runs on top of the jArchi scripting engine and utilizes external open-source tools to generate high-quality PDFs."/>
         </element>
       </folder>
       <folder name="Working with ArchiFabric" id="id-42b5a6a3c3794e0b9f0dd57001cf01ea">
@@ -1972,19 +1973,18 @@ Once your visual outline is set, you bring the document to life by connecting th
 
 A crucial and reassuring aspect of this method is that building a document structure does not alter your underlying Enterprise Architecture model in any way. Because ArchiFabric relies entirely on graphical items (Groups and Notes) to define the layout, they do not create actual ArchiMate concepts or relationships. Your core architecture repository remains completely clean and untouched, while you gain a smart, automated bridge to share your complex data with stakeholders.
 
-# Enriching the Document
-
 While the *Target Structure* provides your architectural data, a complete document also requires narrative text, dynamic references, and specific settings. ArchiFabric handles this by elegantly reusing Archi’s standard features:
 
 * **Narrative Text &amp; Markdown:** You can write your introductions, explanations, and conclusions directly into the **Documentation** field of your visual Artifacts using standard *Markdown* formatting.
 * **Dynamic Label Expressions:** ArchiFabric embraces and enriches Archi's standard *Label Expressions*. This powerful feature allows you to use variables (like `${name}` or `${documentation}`) inside your text, ensuring your document automatically updates whenever your underlying model data changes.
 * **Configuration:** You can use standard Archi **Properties** on your elements to pass specific configuration settings (such as titles, layout choices, or table structures) to the engine.
+* **Styling &amp; Theming (CSS):** ArchiFabric allows you to fully customize the visual presentation of your final PDF using standard Cascading Style Sheets (CSS). This ensures your generated documents can perfectly match your corporate identity.
 
 **In summary, the ArchiFabric workflow consists of four simple steps:**
 
 1. **Design:** Draw your document outline (*Model Structure*) using visual Artifacts.
 2. **Link:** Connect these Artifacts to your architectural data (*Target Structure*).
-3. **Enrich:** Add narrative text, dynamic expressions, and properties.
+3. **Enrich:** Add narrative text, dynamic expressions, properties, and styling.
 4. **Publish:** Select your outline and run the ArchiFabric script to generate your PDF.</documentation>
         </element>
       </folder>
@@ -2059,7 +2059,7 @@ At the heart of ArchiFabric lies a highly flexible, modular architecture. Rather
 
 Furthermore, ArchiFabric is deeply aligned with enterprise architecture best practices, specifically tailored to support the generation of standard TOGAF® artifacts. Whether you need to publish a complex Application Communication Diagram, an automated Business Function to Process Matrix, or a detailed Application Portfolio Catalog, ArchiFabric enables you to produce these deliverables with precision and consistency. By leveraging the visual structure of your models, it turns abstract architectural data into tangible, high-value business communication.
 
-## Acknowledgments
+# Acknowledgments
 
 ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the ambition to contribute a robust, open-source publishing solution to the global enterprise architecture community. We would like to acknowledge the outstanding foundations upon which this suite is built:
 
@@ -2088,28 +2088,23 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
               <bounds x="144" y="24" width="253" height="25"/>
             </child>
           </child>
-          <child xsi:type="archimate:Group" id="id-2df02f574b0743b78986a63529101442" name="Section" textAlignment="1">
-            <bounds y="132" width="400" height="61"/>
-            <feature name="labelExpression" value="Installing ArchiFabric"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-97cd72f564f4483fb1db674d13f0d1c5" model="id-e78f9b3dda82436e92347b22d14e7b6d">
-              <bounds x="144" y="24" width="253" height="25"/>
-            </child>
-            <child xsi:type="archimate:DiagramModelReference" id="id-457a3d26f9b146d389999c63c54aad86" model="id-fbc07cd872fb4241b237805768659bce">
-              <bounds y="24" width="145" height="25"/>
-            </child>
-            <documentation>> Before you can start weaving your architecture models into cohesive documents, you need to set up ArchiFabric within your Archi environment. ArchiFabric runs on top of the jArchi scripting engine and utilizes external open-source tools to generate high-quality PDFs.</documentation>
-          </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-85b910d9646a42c0b6e80cb8c4d73971" model="id-537f4a565eb5462e9ceff10eaac27339">
-            <bounds y="264" width="400" height="25"/>
+            <bounds y="240" width="400" height="25"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
-            <bounds y="312" width="400" height="25"/>
+            <bounds y="288" width="400" height="25"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-888f4c239b5f42a0a6ea792aed57d13e" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-            <bounds y="216" width="145" height="25"/>
+            <bounds y="192" width="145" height="25"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-8eb24789d5d34e7381e06f7a7584f096" model="id-857e49771f77459d9bbac750d45fbcd8">
-            <bounds x="144" y="216" width="253" height="25"/>
+            <bounds x="144" y="192" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-457a3d26f9b146d389999c63c54aad86" model="id-fbc07cd872fb4241b237805768659bce">
+            <bounds y="144" width="145" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-97cd72f564f4483fb1db674d13f0d1c5" model="id-e78f9b3dda82436e92347b22d14e7b6d">
+            <bounds x="144" y="144" width="253" height="25"/>
           </child>
           <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}
 </documentation>
@@ -2158,12 +2153,12 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
           <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
             <bounds x="144" y="36" width="253" height="25"/>
           </child>
-          <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
-            <bounds x="144" y="60" width="253" height="25"/>
-          </child>
           <documentation>Now that you are familiar with the basic concepts of ArchiFabric, it is time to put theory into practice. In this chapter, we will guide you step-by-step through the process of creating your very first automated publication.
 
 Starting from a blank canvas, we will build a simple *Model Structure*, connect it to a *Target Structure*, enrich it with some basic text, and finally generate a professional PDF. Think of this as your &quot;Hello World&quot; moment in ArchiFabric. By following these practical steps, you will experience the workflow firsthand. By the end of this tutorial, you will have a solid foundation and the confidence to start building more complex, dynamic enterprise documentation on your own. Let's get started!</documentation>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-de866b54597a44f6a1ead6c83131cbee" model="id-bd8e20f792d5491890dcb3c31e8ac4fb">
+          <bounds x="984" y="180" width="253" height="25"/>
         </child>
       </element>
     </folder>
