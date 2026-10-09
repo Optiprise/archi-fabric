@@ -1,0 +1,164 @@
+# Deploy Archi HTML Report and ArchiFabric Documentation
+name: Deploy Archi HTML Report
+
+on:
+  push:
+    branches: ["main"]
+    # Only trigger this workflow if the model, images, or this workflow file itself changes
+    paths:
+      - 'model.archimate'
+      - 'images/**'
+      - '.github/workflows/html-report.yml'
+  workflow_dispatch:
+
+env:
+  ARCHI_VERSION: "5.10.0"
+  ARCHI_URL: "https://github.com/archimatetool/archi.io/releases/download/5.10/Archi-Linux64-5.10.0.tgz"
+  
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Cache Archi based on the OS, Archi version, and a hash of this YAML file.
+      - name: Cache Archi installation
+        id: cache-archi
+        uses: actions/cache@v4
+        with:
+          path: |
+            Archi
+            ~/.archi
+          key: archi-${{ env.ARCHI_VERSION }}-os-${{ runner.os }}-hash-${{ hashFiles('.github/workflows/html-report.yml') }}
+
+      - name: Install System Dependencies (Xvfb & WeasyPrint)
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xvfb dbus-x11 libgtk2.0-0 \
+          libswt-gtk-4-jni at-spi2-core libxext6 libxrender1 libxi6 libxtst6 libglib2.0-0 \
+          libcairo2 libpango-1.0-0 libpangocairo-1.0-0 unzip patch fontconfig \
+          fonts-comfortaa fonts-dejavu fonts-liberation fonts-noto fonts-roboto \
+          libxml2-dev libxslt-dev libffi-dev libcairo2-dev libpango1.0-dev python3 python3-pip
+          
+          sudo pip3 install WeasyPrint
+          
+      # Download Archi AND Decrypt/Install jArchi (Only runs on cache miss)
+      - name: Download Archi and Install jArchi Plugin
+        if: steps.cache-archi.outputs.cache-hit != 'true'
+        run: |
+          echo "Trying primary download location..."
+          if curl -fsSL -o archi.tgz "${ARCHI_URL}"; then
+            echo "Downloaded Archi from GitHub: ${ARCHI_URL}"
+          fi
+
+          # Extract Archi
+          tar zxf archi.tgz -C .
+          chmod +x Archi/Archi
+          rm -f archi.tgz
+          
+          # Create the dropins directory for plugins
+          mkdir -p ${HOME}/.archi/dropins
+          
+          # Decrypt jArchi using the GPG secret
+          gpg --quiet --batch --yes --decrypt --passphrase="${{ secrets.GPG_PASSWD }}" \
+          --output jarchi.archiplugin .github/secrets/jarchi.archiplugin.gpg
+          
+          # Extract the .arciplugin to a temporary folder and move the .jar to dropins
+          unzip -o jarchi.archiplugin -d ${HOME}/.archi/dropins/
+          
+          # Cleanup temporary files
+          rm -rf jarchi.archiplugin
+          
+          echo "Archi ${ARCHI_VERSION} and jArchi installed successfully"
+
+      - name: Configure jArchi Preferences (Disable CommonJS)
+        run: |
+          # Create default jArchi script folder
+          mkdir -p "${HOME}/Documents/Archi/scripts"
+          # Create the configuration script on the fly
+          cat << 'EOF' > ${HOME}/Documents/Archi/scripts/disable-commonjs.ajs
+          const prefs = Java.type('com.archimatetool.script.ArchiScriptPlugin').getInstance().getPreferenceStore();
+          console.log("CommonJS module system is currently enabled: " + prefs.getBoolean('commonJSEnabled'));
+          prefs.setValue('commonJSEnabled', false);
+          console.log("CommonJS module system is currently disabled for ArchiFabric.");
+          EOF
+          
+          # Execute the script headlessly using Archi
+          dbus-run-session -- xvfb-run -a Archi/Archi \
+          -application com.archimatetool.commandline.app \
+          -consoleLog -nosplash \
+          --script.runScript "${HOME}/Documents/Archi/scripts/disable-commonjs.ajs"
+
+      - name: Generate HTML Report
+        run: |
+          rm -rf "${{ github.workspace }}/public/*"
+          dbus-run-session -- xvfb-run -a Archi/Archi \
+          -application com.archimatetool.commandline.app \
+          -consoleLog -nosplash \
+          --loadModel "${{ github.workspace }}/model.archimate" \
+          --html.createReport "${{ github.workspace }}/public"
+
+      - name: Generate ArchiFabric PDF Documentation
+        run: |
+          # Create the export directory in advance
+          mkdir -p "${{ github.workspace }}/public/pdf"
+          
+          # Export the environment variable so ArchiFabric knows where to save the PDF
+          export ARCHIFABRIC_EXPORT_PATH="${{ github.workspace }}/public/pdf"
+          export MODELSTRUCTURE_ID="id-a2affb8beaa748dd84e2a14f3d7ab868"
+          
+          # Execute ArchiFabric via the jArchi command-line parameter
+          dbus-run-session -- xvfb-run -a Archi/Archi \
+          -application com.archimatetool.commandline.app \
+          -consoleLog -nosplash \
+          --loadModel "${{ github.workspace }}/model.archimate" \
+          --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
+
+          # Temporary workaround to ensure document is printed WeasyPrint 
+          weasyprint --version
+          weasyprint -p --optimize-images -e utf8 "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
+          
+          rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
+          ls -l "${{ github.workspace }}/public/pdf"
+
+
+      - name: Patch HTML Report
+        run: |
+          mkdir -p public/img
+          cp "${{ github.workspace }}/images/_Pp6G8GZmEfGQQKn-IWxYHw.svg" "${{ github.workspace }}/public/img/logo.svg"
+          
+          curl -fsSL -o marked.min.js https://cdn.jsdelivr.net/npm/marked/marked.min.js
+          mv marked.min.js "${{ github.workspace }}/public/js/"
+          
+          curl -fsSL -o purify.min.js https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js
+          mv purify.min.js "${{ github.workspace }}/public/js/"
+          
+          patch -p1 "${{ github.workspace }}/public/css/model.css" "${{ github.workspace }}/.github/workflows/ci/patchfiles/model.css.patch"
+          patch -p1 "${{ github.workspace }}/public/index.html" "${{ github.workspace }}/.github/workflows/ci/patchfiles/index.html.patch"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "${{ github.workspace }}/public"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

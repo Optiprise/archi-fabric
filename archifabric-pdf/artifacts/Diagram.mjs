@@ -1,0 +1,172 @@
+/*
+ * ArchiFabric-PDF - [Document Generation Engine for Archi]
+ * Copyright (C) 2026 [Optiprise, Bart Ratgers]
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+/**
+ * @module artifacts/Diagram
+ * @description Artifact that renders an ArchiMate view as a Base64 encoded PNG image.
+ * The scale (width percentage) of the image can be visually determined by placing a child element 
+ * (e.g., a note) inside the Diagram group template. The ratio of their widths dictates the scale.
+ */
+import { Artifact } from '../core/Artifact.mjs';
+import { ModelStructure } from '../core/ModelStructure.mjs';
+
+export default class Diagram extends Artifact {
+    /**
+     * Initializes the Diagram artifact with default image quality and margin settings.
+     * @param {Object} artifactory - The main Artifactory instance.
+     */
+    constructor(artifactory) {
+        super('Diagram', artifactory);
+        this.helpUrl = 'https://optiprise.nl/archi-fabric/?view=id-df0d0ec25ec04bcea69f617758228255';
+
+        // Default settings for jArchi Base64 rendering
+        this.defaultImageQuality = 1;
+        this.defaultImageMargin = 4;
+    }
+
+    /**
+     * Renders the Base64 image and its HTML wrapper (<figure> and <figcaption>).
+     * @param {Object} modelElement - The Archi template element defining the diagram layout and scale.
+     * @param {Object} targetElement - The actual Archi view or element to render.
+     */
+    render(modelElement, targetElement) {
+        this.lb.enter(`${this.name}.render(model: ${modelElement.name}, target: ${targetElement.name})`);
+
+        // 1. Analyze the Template for Scale and View overrides FIRST
+        const modelStructure = new ModelStructure(this.lb, modelElement);
+        const children = modelStructure.sortedElements;
+
+        let { viewToRender, scale, alignmentClass } = this._parseSizingAndAlignment(modelElement, children, targetElement);
+
+        // Safety check: if targetElement was passed as a reference, resolve it to the actual view
+        if ($(viewToRender).is('diagram-model-reference') && viewToRender.refView) {
+            viewToRender = viewToRender.refView;
+        }
+
+        if (!viewToRender || !$(viewToRender).is('archimate-diagram-model')) {
+            this.lb.error(`Diagram artifact requires an 'archimate-diagram-model' (View) as target, but received: ${viewToRender ? viewToRender.type : 'undefined'}`);
+            this.lb.leave();
+            return; // Abort ONLY this image, do not crash the script!
+        }
+
+        // Validate that we actually have a valid view object to render
+        if (!viewToRender?.id) {
+            this.lb.error("No valid view found to render for Diagram artifact.");
+            this.lb.leave();
+            return;
+        }
+
+        // Extract base name and optional custom parameters (e.g., class=page-break)
+        const { baseName, params } = this.parseTemplateName(modelElement.name);
+
+        // Generate the base CSS class, and append any custom class if provided
+        const baseCssClass = this.markup.genHtmlClass(baseName);
+        const customCssClass = params['class'] ? ` ${params['class']}` : '';
+        const cssClass = alignmentClass + ' ' + baseCssClass + customCssClass;
+
+        // The caption should default to the actual View's name.
+        // If the user provided a labelExpression on the template (e.g. "Figure: ${name}"), we evaluate it against the View.
+        let captionText = viewToRender.name;
+        if (modelElement.labelExpression && modelElement.labelExpression.trim() !== '') {
+            captionText = this.parseExpression(modelElement.labelExpression, viewToRender);
+        }
+
+        // 3. Retrieve Global Variables for Quality & Margin (or fallback to defaults)
+        const options = this._getImageOptions();
+
+        // 4. Generate the Image and HTML
+        try {
+            this.lb.log(`Rendering Base64 PNG for view: ${viewToRender.name} | Quality: ${options.scale}`);
+            const base64Image = $.model.renderViewAsBase64(viewToRender, "PNG", options);
+
+            this.markup.appendContent(`\n<figure class="${cssClass}-figure">\n`);
+
+            // Note: Weasyprint supports width="X%" natively on images.
+            this.markup.appendContent(`  <img class="${cssClass}-img" src="data:image/png;base64,${base64Image}" alt="${viewToRender.name}" width="${scale}%" />\n`);
+
+            this.markup.appendContent(`  <figcaption class="${cssClass}-caption" view-name="${viewToRender.name}">${captionText}</figcaption>\n`);
+            this.markup.appendContent(`</figure>\n`);
+
+        } catch (error) {
+            this.lb.error(`Failed to render Base64 image: ${error.message}`);
+        }
+
+        this.lb.leave();
+    }
+
+    /**
+     * Analyzes the template's child element (if any) to determine scale, layout alignment, and potential view overrides.
+     * @param {Object} modelElement - The Archi template element defining the diagram layout and scale.
+     * @param {Array} children - Sorted child elements of the template.
+     * @param {Object} targetElement - The actual Archi view or element to render.
+     * @returns {Object} An object containing the resolved viewToRender, scale, and alignmentClass.
+     * @private
+     */
+    _parseSizingAndAlignment(modelElement, children, targetElement) {
+        let viewToRender = targetElement;
+        let scale = 100; // Default width is 100%
+        let alignmentClass = ' align-center';
+
+        if (children.length > 0) {
+            const sizingElement = children[0];
+
+            // Calculate scale: child width / parent width
+            scale = Math.round((sizingElement.bounds.width / modelElement.bounds.width) * 100);
+            this.lb.log(`Calculated scale: ${scale}% based on child element.`);
+
+            // If the sizing element itself is a diagram-model-reference, override the view being rendered
+            if ($(sizingElement).is('diagram-model-reference') && sizingElement.refView) {
+                viewToRender = sizingElement.refView;
+                this.lb.log(`View overridden by nested reference: ${viewToRender.name}`);
+            }
+
+            if (modelElement.bounds && sizingElement.bounds) {
+                const parentWidth = modelElement.bounds.width;
+                const childX = sizingElement.bounds.x;
+                const childWidth = sizingElement.bounds.width;
+
+                // Determine alignment based on the center of the child element relative to the parent width
+                const childCenter = childX + (childWidth / 2);
+
+                if (childCenter < (parentWidth / 3)) {
+                    alignmentClass = ' align-left';
+                } else if (childCenter > (parentWidth / 3) * 2) {
+                    alignmentClass = 'align-right';
+                }
+                this.lb.log(`Diagram position calculated: ${alignmentClass} (center: ${childCenter}, parent width: ${parentWidth})`);
+            }
+        }
+
+        return { viewToRender, scale, alignmentClass };
+    }
+
+    /**
+     * Retrieves global image quality and margin options or falls back to defaults.
+     * @returns {Object} An options object with scale and margin properties.
+     * @private
+     */
+    _getImageOptions() {
+        const globalQuality = this.globalVars.get('imageQuality');
+        const imageQuality = globalQuality !== undefined ? Number.parseFloat(globalQuality) : this.defaultImageQuality;
+
+        const globalMargin = this.globalVars.get('imageMargin');
+        const imageMargin = globalMargin !== undefined ? Number.parseInt(globalMargin, 10) : this.defaultImageMargin;
+
+        return { scale: imageQuality, margin: imageMargin };
+    }
+}

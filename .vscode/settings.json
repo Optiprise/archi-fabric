@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "optiprise",
+        "projectKey": "Optiprise_archi-fabric"
+    }
+}

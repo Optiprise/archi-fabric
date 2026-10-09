@@ -1,0 +1,50 @@
+--- model.org	2026-06-20 00:08:30.431909635 +0200
++++ model.css	2026-06-20 00:09:50.884300041 +0200
+@@ -243,4 +243,45 @@
+     border: 1px solid #ccc;
+     border-collapse: collapse;
+     padding: 5px 8px;
+-}
+\ Geen regeleindeteken (LF) aan einde van bestand
++}
++
++.navbar {
++    background-color: #FFF;
++}
++
++.navbar .navbar-nav>li>a:hover {
++    background-color: rgb(#000 / 20%);
++}
++
++.navbar .navbar-nav>li>a:focus {
++    background-color: rgb(#000 / 0%);
++}
++
++.navbar .navbar-nav>li>a {
++    color: #000
++}
++
++.navbar-brand::before {
++  content: "";
++  display: inline-block;
++  width: 40px;
++  height: 30px;
++  background-image: url('../img/logo.svg');
++  background-size: contain;
++  background-repeat: no-repeat;
++  margin-right: 10px;
++  vertical-align: middle;
++}
++
++.navbar-inverse .navbar-brand  {
++    color: #000;
++  	font-family: "Comfortaa",Helvetica,Arial,sans-serif;
++  	font-weight: bold;
++  	color: #214478;
++  	
++}
++
++.navbar-inverse .navbar-brand:hover  {
++    color: #000;
++}
++

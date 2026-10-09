@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="ArchiFabric Tutorial" id="id-cd1d15b880674cd6a434d463e639ff52" version="5.0.0">
+  <folder name="Strategy" id="id-be28cd9cd18d46fc912d37a0477d760f" type="strategy">
+    <folder name="Value Streams" id="id-71cd3e433f184db995a9f92e41d1e88a">
+      <element xsi:type="archimate:ValueStream" name="Deliver Customer Value" id="id-a16fb70b0fb64c1bbfdcc6620eecc03b">
+        <documentation>Deliver Customer Value represents the complete journey through which the organization creates and delivers value to its customers. It connects customer needs with the development, delivery and ongoing support of products and services.
+
+The value stream provides an end-to-end perspective across organizational boundaries. It consists of the value streams **Understand Customer Needs**, **Develop Customer Solution**, **Deliver Customer Solution** and **Support Customer**.
+</documentation>
+        <property key="Definition" value="Creates value for customers by understanding their needs, developing suitable solutions, delivering services and providing ongoing support."/>
+      </element>
+      <element xsi:type="archimate:ValueStream" name="Understand Customer Needs" id="id-4ae273cbb2534ee3bedb680a4dc19a86">
+        <documentation>Understand Customer Needs focuses on gaining a clear understanding of what customers need, expect and experience. Information is collected from customer interactions, feedback, market developments and other relevant sources.
+
+These insights provide the foundation for developing products and services that create customer value. They also help the organization identify opportunities to improve existing solutions and the overall customer experience.
+</documentation>
+        <property key="Definition" value="Creates insight into customer needs, expectations and experiences as a basis for developing appropriate solutions."/>
+      </element>
+      <element xsi:type="archimate:ValueStream" name="Develop Customer Solution" id="id-0aa4bf2ad27d400f8ed0fc352e8051e8">
+        <documentation>Develop Customer Solution transforms identified customer needs into solutions that can be delivered by the organization. This includes defining requirements, designing the solution and developing or adapting the necessary products, services and software.
+
+Development is performed iteratively where appropriate, allowing customer feedback and new insights to be incorporated. The resulting solution should be both valuable to the customer and feasible for the organization to deliver and maintain.
+x`</documentation>
+        <property key="Definition" value="Transforms customer needs into products, services and software solutions that can be delivered to customers."/>
+      </element>
+      <element xsi:type="archimate:ValueStream" name="Deliver Customer Solution" id="id-de535385b8a84def8a4c9275ef3f943d">
+        <documentation>Deliver Customer Value represents the complete journey through which the organization creates and delivers value to its customers. It connects customer needs with the development, delivery and ongoing support of products and services.
+
+The value stream provides an end-to-end perspective across organizational boundaries. It consists of the value streams **Understand Customer Needs**, **Develop Customer Solution**, **Deliver Customer Solution** and **Support Customer**.
+</documentation>
+        <property key="Definition" value="Provides the agreed solution to the customer and ensures that it can be successfully used."/>
+      </element>
+      <element xsi:type="archimate:ValueStream" name="Support Customer" id="id-ccf1e195f33f4ab88bac3942ebe518e3">
+        <documentation>Support Customer helps customers use delivered products and services effectively. Support may include answering questions, resolving incidents, providing guidance and handling requests for assistance.
+
+Customer interactions during support also provide valuable feedback about products and services. These insights can be used to improve both the customer experience and future solutions, creating a feedback loop to **Understand Customer Needs**.
+</documentation>
+        <property key="Definition" value="Supports customers in the effective use of delivered products and services and resolves questions or problems."/>
+      </element>
+    </folder>
+    <folder name="Capabilities" id="id-0045e3d7afba4bcfa920459519441f32">
+      <element xsi:type="archimate:Capability" name="Customer Relationship Management" id="id-89672d9defb746a899f5b4993742dbf5">
+        <documentation>Customer Relationship Management enables the organization to manage its relationships and interactions with customers throughout the customer lifecycle. It provides insight into customers, contacts, agreements, interactions and commercial opportunities.
+
+The capability supports consistent and coordinated customer interactions across organizational functions. It helps build sustainable relationships by ensuring that relevant customer information is available when decisions are made or services are delivered.
+</documentation>
+        <property key="Definition" value="Ability to establish, maintain and develop effective relationships with customers."/>
+      </element>
+      <element xsi:type="archimate:Capability" name="Customer experience management (CXM)" id="id-4247a7c8d3a746509f49a623fc194b0c">
+        <documentation>Customer Experience Management (CXM) enables the organization to understand how customers experience its products, services and interactions. It combines customer feedback, behavioral information and other insights to create a coherent view of the customer experience.
+
+The capability supports continuous improvement of customer journeys and interactions. It helps the organization identify customer expectations, recognize areas for improvement and make informed decisions that increase customer value and satisfaction.
+</documentation>
+        <property key="Definition" value="Ability to understand, manage and improve customer experiences across all interactions with the organization."/>
+      </element>
+      <element xsi:type="archimate:Capability" name="Software Development" id="id-30584da1cf50425aa387c3cc7e051b0a">
+        <documentation>Software Development enables the organization to translate requirements into reliable and maintainable software solutions. It includes activities such as software design, development, testing, integration and deployment.
+
+The capability supports both the development of new solutions and the continuous improvement of existing software. Development practices should enable the organization to respond effectively to changing customer needs while maintaining appropriate levels of quality, security and maintainability.
+</documentation>
+        <property key="Definition" value="Ability to design, develop, test and maintain software solutions that support customer and organizational needs."/>
+      </element>
+      <element xsi:type="archimate:Capability" name="Service Delivery" id="id-a7c1d2ab54624442b7a8bbd9818444ba">
+        <documentation>Service Delivery enables the organization to provide products and services to customers in a controlled and predictable manner. It coordinates the people, processes, information and technology required to fulfil customer commitments.
+
+The capability focuses on ensuring that delivered services meet agreed expectations regarding quality, availability and performance. Effective service delivery connects organizational capabilities with the value that customers actually receive.
+</documentation>
+        <property key="Definition" value="Ability to deliver products and services to customers according to agreed requirements and service levels."/>
+      </element>
+      <element xsi:type="archimate:Capability" name="Customer Support" id="id-387f7e58454e4cf6a5edf8ee72c9f938">
+        <documentation>Customer Support enables the organization to assist customers before, during and after the delivery of products and services. It includes handling questions, service requests, incidents and other forms of customer assistance.
+
+The capability contributes directly to the customer experience by providing timely and effective support. Information obtained through customer support can also reveal recurring problems and opportunities for improving products, services and customer interactions.
+</documentation>
+        <property key="Definition" value="Ability to assist customers and resolve questions, requests and problems related to products and services."/>
+      </element>
+    </folder>
+  </folder>
+  <folder name="Business" id="id-369626f55bdd46b89a89ed543df73bf0" type="business"/>
+  <folder name="Application" id="id-caece1dcfcfe4b509b62aa78f4efbf7e" type="application"/>
+  <folder name="Technology &amp; Physical" id="id-8606b0352f1e454e89dccbb23764ada7" type="technology"/>
+  <folder name="Motivation" id="id-2f0b27ace6ff4e2987676896daa700fc" type="motivation"/>
+  <folder name="Implementation &amp; Migration" id="id-1b8c5ef9045e4e1599409e66f558ed2c" type="implementation_migration"/>
+  <folder name="Other" id="id-1cc061d4bf1b44dfa34dca25d2b7837d" type="other"/>
+  <folder name="Relations" id="id-3851414c1c1c4f5990cc5ea0449f64de" type="relations">
+    <element xsi:type="archimate:AggregationRelationship" id="id-c3f2876ab2524829add5c88b49133b5d" source="id-a16fb70b0fb64c1bbfdcc6620eecc03b" target="id-4ae273cbb2534ee3bedb680a4dc19a86"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-c5c56719581542f4812aebd3e5a24fdc" source="id-a16fb70b0fb64c1bbfdcc6620eecc03b" target="id-0aa4bf2ad27d400f8ed0fc352e8051e8"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-23d4806030944ec5bde687893809d0a1" source="id-a16fb70b0fb64c1bbfdcc6620eecc03b" target="id-de535385b8a84def8a4c9275ef3f943d"/>
+    <element xsi:type="archimate:AggregationRelationship" id="id-f7e8d86b36be49ebb61b06bea914b8d7" source="id-a16fb70b0fb64c1bbfdcc6620eecc03b" target="id-ccf1e195f33f4ab88bac3942ebe518e3"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-9055826b2bfe458fa3cd45a71b34ee55" source="id-4247a7c8d3a746509f49a623fc194b0c" target="id-4ae273cbb2534ee3bedb680a4dc19a86"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-337d2263cedb49138d3fe51e377b215b" source="id-30584da1cf50425aa387c3cc7e051b0a" target="id-0aa4bf2ad27d400f8ed0fc352e8051e8"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-f36db0d51fe24211b998a6d2b137ad7d" source="id-89672d9defb746a899f5b4993742dbf5" target="id-4247a7c8d3a746509f49a623fc194b0c"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-f3fa5da95daf4549ae7fe626f7ca5eb5" source="id-89672d9defb746a899f5b4993742dbf5" target="id-30584da1cf50425aa387c3cc7e051b0a"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-826106f5f86c41e1b10c27fe35772c67" source="id-a7c1d2ab54624442b7a8bbd9818444ba" target="id-de535385b8a84def8a4c9275ef3f943d"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-39799fd46d9d48e791987f0d43567f29" source="id-387f7e58454e4cf6a5edf8ee72c9f938" target="id-ccf1e195f33f4ab88bac3942ebe518e3"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-f0118b806361458897ffc51f8c5d1713" source="id-89672d9defb746a899f5b4993742dbf5" target="id-387f7e58454e4cf6a5edf8ee72c9f938"/>
+    <element xsi:type="archimate:ServingRelationship" id="id-da340a6a4d504fc9bb101d49f8332e30" source="id-89672d9defb746a899f5b4993742dbf5" target="id-a7c1d2ab54624442b7a8bbd9818444ba"/>
+  </folder>
+  <folder name="Views" id="id-4826dbd24d39487ab0dee71fd6bfb40f" type="diagrams">
+    <folder name="Artifactory" id="id-dffe504d96ff4434bcf22846d17ca773"/>
+    <folder name="Architecture" id="id-eb7242be82b647f5a8e0c60b5ec1d738">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Deliver Customer Value" id="id-880ac917a3a24c42ae40ceb269ad1882">
+        <child xsi:type="archimate:DiagramObject" id="id-3c7e410ad13747aebbd6eadf2f620736" font="1|Comfortaa|14.0|1|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" archimateElement="id-a16fb70b0fb64c1bbfdcc6620eecc03b" type="1">
+          <bounds x="144" y="48" width="997" height="145"/>
+          <feature name="gradient" value="0"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-1a19fde313c940388ecf0c7d1e38e377" source="id-3c7e410ad13747aebbd6eadf2f620736" target="id-6659d93283da4a43a6529bf35881fe6a" archimateRelationship="id-c3f2876ab2524829add5c88b49133b5d"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-4d838c838aab4b83bf01dfd6b5263556" source="id-3c7e410ad13747aebbd6eadf2f620736" target="id-24651675443b41919b327ca10bfe6fa6" archimateRelationship="id-c5c56719581542f4812aebd3e5a24fdc"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-ba0e411517354173bc0a1d291106da43" source="id-3c7e410ad13747aebbd6eadf2f620736" target="id-f9cd8c8879ae453991ac591c02716e78" archimateRelationship="id-23d4806030944ec5bde687893809d0a1"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-81c8e2dc9b7542faba4211f553f468d6" source="id-3c7e410ad13747aebbd6eadf2f620736" target="id-0562dc60ba7c4e58a7a546d1d5bab7a8" archimateRelationship="id-f7e8d86b36be49ebb61b06bea914b8d7"/>
+          <child xsi:type="archimate:DiagramObject" id="id-6659d93283da4a43a6529bf35881fe6a" targetConnections="id-1a19fde313c940388ecf0c7d1e38e377 id-21ee485e98f04c55970be3ae0970b2fc" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-4ae273cbb2534ee3bedb680a4dc19a86" type="1">
+            <bounds x="48" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Understand&#xA;Customer&#xA;Needs"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-24651675443b41919b327ca10bfe6fa6" targetConnections="id-4d838c838aab4b83bf01dfd6b5263556 id-5359317218af4684bfca470699322e5e" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-0aa4bf2ad27d400f8ed0fc352e8051e8" type="1">
+            <bounds x="276" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Develop&#xA;Customer&#xA;Solution"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-f9cd8c8879ae453991ac591c02716e78" targetConnections="id-ba0e411517354173bc0a1d291106da43 id-35341ea3b9244c2c8776512952cc2e62" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-de535385b8a84def8a4c9275ef3f943d" type="1">
+            <bounds x="504" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Deliver&#xA;Customer&#xA;Solution"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-0562dc60ba7c4e58a7a546d1d5bab7a8" targetConnections="id-81c8e2dc9b7542faba4211f553f468d6 id-dd8976a11b5145d884c085c54f32e0a9" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-ccf1e195f33f4ab88bac3942ebe518e3" type="1">
+            <bounds x="732" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Support&#xA;Customer"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-f41819fe2b6e4ecb911356347cab612d" targetConnections="id-83be870b001c4ffc8bbf6d02c17e5410" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-4247a7c8d3a746509f49a623fc194b0c">
+          <bounds x="192" y="216" width="217" height="73"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <feature name="gradient" value="0"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-21ee485e98f04c55970be3ae0970b2fc" source="id-f41819fe2b6e4ecb911356347cab612d" target="id-6659d93283da4a43a6529bf35881fe6a" archimateRelationship="id-9055826b2bfe458fa3cd45a71b34ee55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-57ba3b83961d4d5084242a79e5b708b5" targetConnections="id-0345b3df8cd1415fb649c0a5062dc1c5" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-30584da1cf50425aa387c3cc7e051b0a">
+          <bounds x="420" y="216" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5359317218af4684bfca470699322e5e" source="id-57ba3b83961d4d5084242a79e5b708b5" target="id-24651675443b41919b327ca10bfe6fa6" archimateRelationship="id-337d2263cedb49138d3fe51e377b215b"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-2b54c91dcb144c008ce487c53db94702" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-89672d9defb746a899f5b4993742dbf5">
+          <bounds x="144" y="324" width="997" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-83be870b001c4ffc8bbf6d02c17e5410" source="id-2b54c91dcb144c008ce487c53db94702" target="id-f41819fe2b6e4ecb911356347cab612d" archimateRelationship="id-f36db0d51fe24211b998a6d2b137ad7d"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-0345b3df8cd1415fb649c0a5062dc1c5" source="id-2b54c91dcb144c008ce487c53db94702" target="id-57ba3b83961d4d5084242a79e5b708b5" archimateRelationship="id-f3fa5da95daf4549ae7fe626f7ca5eb5"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5a3cdb42f57040f3959ac7d2992280c4" source="id-2b54c91dcb144c008ce487c53db94702" target="id-11f78c62c3234d58a8c8b043a07ddd18" archimateRelationship="id-f0118b806361458897ffc51f8c5d1713"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-53d47a93e33e43838fed3aac7f4ca3c6" source="id-2b54c91dcb144c008ce487c53db94702" target="id-7cba474653934f00b1e640ae6de630fc" archimateRelationship="id-da340a6a4d504fc9bb101d49f8332e30"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-7cba474653934f00b1e640ae6de630fc" targetConnections="id-53d47a93e33e43838fed3aac7f4ca3c6" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-a7c1d2ab54624442b7a8bbd9818444ba">
+          <bounds x="648" y="216" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-35341ea3b9244c2c8776512952cc2e62" source="id-7cba474653934f00b1e640ae6de630fc" target="id-f9cd8c8879ae453991ac591c02716e78" archimateRelationship="id-826106f5f86c41e1b10c27fe35772c67"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-11f78c62c3234d58a8c8b043a07ddd18" targetConnections="id-5a3cdb42f57040f3959ac7d2992280c4" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-387f7e58454e4cf6a5edf8ee72c9f938">
+          <bounds x="876" y="216" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-dd8976a11b5145d884c085c54f32e0a9" source="id-11f78c62c3234d58a8c8b043a07ddd18" target="id-0562dc60ba7c4e58a7a546d1d5bab7a8" archimateRelationship="id-39799fd46d9d48e791987f0d43567f29"/>
+        </child>
+        <documentation>Organizations create sustainable value by understanding their customers and translating their needs into products and services that provide meaningful outcomes. The **Deliver Customer Value** value stream represents this end-to-end perspective, from understanding customer needs through developing and delivering a solution to providing ongoing customer support.
+
+The value stream consists of four consecutive stages: **Understand Customer Needs**, **Develop Customer Solution**, **Deliver Customer Solution**, and **Support Customer**. Each stage contributes a specific part of the overall customer value and builds upon the outcome of the preceding stage. Together, they provide a coherent view of how customer needs are transformed into delivered and supported solutions.
+
+Several organizational capabilities enable these stages. **Customer Experience Management (CXM)** provides insight into customer needs and experiences, **Software Development** enables the development of digital solutions, **Service Delivery** ensures that solutions are delivered effectively, and **Customer Support** assists customers in their use of these solutions.
+
+**Customer Relationship Management** provides a common capability across the entire value stream. It enables the organization to maintain a consistent understanding of the customer throughout the customer journey and connects customer interactions across the different stages. In this way, the strategic view shows both **how value is created** and **which capabilities the organization requires to create that value**.
+</documentation>
+      </element>
+    </folder>
+    <folder name="Tutorial" id="id-d1df2e446ef04856af488752de6291d8"/>
+  </folder>
+</archimate:model>
