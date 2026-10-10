@@ -19,8 +19,7 @@ These insights provide the foundation for developing products and services that 
       <element xsi:type="archimate:ValueStream" name="Develop Customer Solution" id="id-0aa4bf2ad27d400f8ed0fc352e8051e8">
         <documentation>Develop Customer Solution transforms identified customer needs into solutions that can be delivered by the organization. This includes defining requirements, designing the solution and developing or adapting the necessary products, services and software.
 
-Development is performed iteratively where appropriate, allowing customer feedback and new insights to be incorporated. The resulting solution should be both valuable to the customer and feasible for the organization to deliver and maintain.
-x`</documentation>
+Development is performed iteratively where appropriate, allowing customer feedback and new insights to be incorporated. The resulting solution should be both valuable to the customer and feasible for the organization to deliver and maintain.</documentation>
         <property key="Definition" value="Transforms customer needs into products, services and software solutions that can be delivered to customers."/>
       </element>
       <element xsi:type="archimate:ValueStream" name="Deliver Customer Solution" id="id-de535385b8a84def8a4c9275ef3f943d">
