@@ -72,7 +72,7 @@ export default class Catalog extends Artifact {
 
         const scope = inlineParams['scope'] || 'view';
         const sort = inlineParams['sort'] || 'name';
-        const pattern = inlineParams['pattern'] || null;
+        const pattern = inlineParams['select'] || null;
 
         // --- CONTEXT PRESERVATION ---
         let currentView = null;
@@ -107,7 +107,7 @@ export default class Catalog extends Artifact {
                 );
 
                 // Initialize QueryBuilder
-                const qb = new QueryBuilder(modelElement, targetElement, this.lb);
+                const qb = new QueryBuilder(modelElement, targetElement, this.lb, this);
                 const rawElements = qb.fetch({
                     scope: scope,
                     currentView: currentView, 

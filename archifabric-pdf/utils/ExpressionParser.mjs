@@ -51,6 +51,19 @@ export class ExpressionParser {
     evaluate(expression, targetElement, contextArtifact) {
         if (!expression) return '';
 
+        // Pre-process ${set:...} commands that are on their own line.
+        // The 'm' flag makes ^ and $ match the start and end of a line.
+        // The (.*) is greedy and will consume everything up to the very last } on that line.
+        expression = expression.replace(/^\s*\$\{set:([^:]+):(.*)\}\s*$/gm, (match, varName, value) => {
+            if (varName) {
+                // Trim whitespace from variable name and value, then store in globalVars
+                this.artifactory.globalVars.set(varName.trim(), value.trim());
+                this.artifactory.lb.log(`ExpressionParser: Set global variable '${varName}' to '${value}' (Multiline/Greedy)`);
+            }
+            // Return empty string to remove the line from the final output, as ${set:...} is meant to be invisible in the rendered document.
+            return ''; 
+        });
+
         return expression.replace(/\${(.*?)}/g, (match, innerContent) => {
             const parts = innerContent.split(':');
             const command = parts[0];
@@ -69,6 +82,7 @@ export class ExpressionParser {
             this.artifactory.lb.log(`Warning: No handler registered for expression \${${command}}`);
             return match; 
         });
+
     }
 
     /**
@@ -98,6 +112,8 @@ export class ExpressionParser {
             const defaultValue = args[1] || '';
             return this.artifactory.globalVars.get(varName) || defaultValue;
         });
+
+
 
         // ${set:varName:value} -> Sets a variable in GlobalVars silently
         this.registerHandler('set', (args) => {
@@ -154,19 +170,19 @@ export class ExpressionParser {
             return '<div style="page-break-before: always;"></div>\n';
         });
 
-        // ${addToList:MijnBijlagen:De naam van de bijlage} -> Voegt items stil toe aan een array
+        // ${addToList:listName:item} -> Adds an item to a named list in GlobalVars
         this.registerHandler('addToList', (args) => {
             const listName = args[0];
-            const item = args.slice(1).join(':'); // Voor het geval er dubbele punten in de titel staan
+            const item = args.slice(1).join(':'); // Allow colons in the item value
             
             let list = this.artifactory.globalVars.get(listName) || [];
             list.push(item);
             this.artifactory.globalVars.set(listName, list);
             
-            return ''; // Print niets op het scherm, gebeurt puur in het geheugen
+            return ''; // Return empty string to remain invisible in the final rendered output
         });
 
-        // ${printList:MijnBijlagen} -> Print de verzamelde array als een nette HTML lijst
+        // ${printList:listName} -> Print the collected array as a neat HTML list
         this.registerHandler('printList', (args) => {
             const listName = args[0];
             const list = this.artifactory.globalVars.get(listName) || [];

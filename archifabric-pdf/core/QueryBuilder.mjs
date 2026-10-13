@@ -26,11 +26,13 @@ export class QueryBuilder {
      * @param {Object} modelElement - The template element representing the artifact.
      * @param {Object} targetElement - The current context being processed (can be view or concept).
      * @param {Object} logger - The logging utility.
+     * @param {Object} artifact - The Artifact instance.
      */
-    constructor(modelElement, targetElement, logger) {
+    constructor(modelElement, targetElement, logger, artifact) {
         this.modelElement = modelElement;
         this.targetElement = targetElement;
         this.lb = logger;
+        this.artifact = artifact;
         this.lb.log(`QueryBuilder: constructor(modelElement=${modelElement}, targetElement=${targetElement})`);
     }
 
@@ -41,6 +43,7 @@ export class QueryBuilder {
      */
 
     fetch({ scope = 'view', currentView = null, select = {}, sort = 'name' }) {
+        this.lb.enter(`QueryBuilder.fetch(scope=${scope}, currentView=${currentView ? currentView.name : 'null'}, select=${JSON.stringify(select)}, sort=${sort})`);
         const effectiveScope = scope || 'view';
         const types = select.types || [];
 
@@ -48,7 +51,7 @@ export class QueryBuilder {
 
         let data = [];
 
-        // 1. IMPLEMENTATIE VAN SCOPE=OBJECT
+        // 1. Implementation of scope=object: If the scope is set to 'object', we bypass any relation-based selection and directly return the target element (or its concept) as a single-item array. This is useful for scenarios where we want to isolate the query to a specific element without considering its relationships or type filters.
         // If the scope is set to 'object', we bypass any relation-based selection and directly return the target element (or its concept) as a single-item array. This is useful for scenarios where we want to isolate the query to a specific element without considering its relationships or type filters.
         if (effectiveScope === 'object') {
             const concept = this.targetElement && (this.targetElement.concept || this.targetElement);
@@ -57,16 +60,18 @@ export class QueryBuilder {
             }
             this.lb.log(`QueryBuilder: Scope is 'object'. Bypassed relations and isolated query to target element '${concept ? concept.name : 'unknown'}'.`);
         } 
-        // 2. LOGICA VOOR SCOPE=VIEW EN SCOPE=MODEL
+        // 2. Implementation of scope=view or scope=model: We perform a selection based on the provided 'select' configuration, which may include source elements, relation types, and direction. This allows for dynamic queries that can traverse the model's relationships to find connected elements, which is particularly useful for generating context-aware documentation or diagrams.
         else {
             data = this._selectElements(select, effectiveScope, currentView);
             data = this._applyScope(data, effectiveScope, currentView);
         }
 
-        // 3. Pas type- en patroonfilters toe (zelfs bij een object, om de sjabloon-integriteit te bewaken)
+        // 3. Implementation of type filtering and pattern matching: After the initial selection, we apply additional filters based on the specified types and optional regex patterns. This ensures that the final result set only includes elements that match the desired criteria, providing a more refined and relevant output for the rendering artifacts.        
         data = this._applyTypeFilter(data, types);
-        data = this._applyPattern(data, select.pattern);
+        data = this._applySelectFilter(data, select.pattern);
+        this.lb.log(`QueryBuilder: Filter [${select.pattern}] applied. Filtered to ${data.length} elements.`);
 
+        this.lb.leave(`data=${data.length}, sort=${sort}, currentView=${currentView ? currentView.name : 'null'}`);
         return this._applySort(data, sort, currentView);
     }
 
@@ -116,7 +121,7 @@ export class QueryBuilder {
             });
         } 
         
-        // SORT: NAME (Default)
+        // sort by name (default)
         else {
             if (sortType !== 'name') {
                 this.lb.log(`QueryBuilder: Warning - unknown sort parameter '${sortType}'. Defaulting to 'name'.`);
@@ -127,21 +132,83 @@ export class QueryBuilder {
         }
     }
 
-    _applyPattern(data, pattern) {
-        if (!pattern) return data;
+    /**
+     * @param {Array} data - The array of elements to filter.
+     * @param {String} selectString - The selection string (e.g., "${property:Cost}<500 &&${status}==Active")
+     * @returns {Array} - The filtered array of elements.
+     * @private
+     */
+    _applySelectFilter(data, selectString) {
+        if (!selectString || selectString.trim() === '') return data;
+        this.lb.log(`QueryBuilder: _applySelectFilter(data, selectString: ${selectString})`);
 
-        try {
-            const regex = new RegExp(pattern, 'i');
+        let processedString = selectString.replace(/\$\{var:([^:}]+)(?::([^}]+))?\}/g, (match, varName, defaultValue) => {
+            //  We attempt to retrieve the variable value from the contextArtifact (the artifact currently being processed). 
+            // This allows for dynamic filtering based on global variables defined in the document structure or template.
+            return this.artifact.artifactory ? this.artifact.artifactory.globalVars.get(varName) || (defaultValue || '') : (defaultValue || '');
+        });
+         this.lb.log(`QueryBuilder: prossessed selection=${processedString}.`);  
+        // 1. Split the selection string into OR groups (||) and trim whitespace
+        const orGroups = processedString.split('||').map(s => s.trim());
 
-            return data.filter(e => {
-                const matchName = e.name && regex.test(e.name);
-                const matchDoc = e.documentation && regex.test(e.documentation);
-                return matchName || matchDoc;
+        return data.filter(element => {
+            // 2. Check if any OR group evaluates to true for the current element (.some)
+            return orGroups.some(orGroup => {
+                
+                // 3. Split the OR group into AND conditions (&&) and trim whitespace
+                const andConditions = orGroup.split('&&').map(s => s.trim());
+                
+                // 4. Check if all AND conditions evaluate to true for the current element (.every)
+                return andConditions.every(condition => {
+                    
+                    // 5. Parse the condition into expression, operator, and value using regex
+                    const match = condition.match(/^(?:\$\{(.*?)\})?\s*(==|!=|~|>|<)?\s*(.*)$/);
+                    if (!match) return true; // If the condition doesn't match the expected pattern, we consider it as true (no filtering).
+                    
+                    // 6. Extract the expression key (default ${name}), operator (default ~ regex)), and filter value from the regex match
+                    const expKey = match[1] ? `\$\{${match[1]}\}` : '${name}';
+                    const operator = match[2] || '~';
+                    let filterValue = match[3];
+                    
+                    // 7. Remove surrounding quotes from the filter value if present (to allow for string comparisons)
+                    if ((filterValue.startsWith('"') && filterValue.endsWith('"')) || 
+                        (filterValue.startsWith("'") && filterValue.endsWith("'"))) {
+                        filterValue = filterValue.substring(1, filterValue.length - 1);
+                    }
+
+                    // 8. Evaluate the expression using the ExpressionParser to get the actual value from the element    
+                    const actualValue = this.artifact.parseExpression(expKey, element, this.artifact);
+                    this.lb.log(`QueryBuilder: expKey(${expKey}), actualValue(${actualValue}), operator(${operator}), filterValue(${filterValue}).`);        
+
+                    // 5. Apply the operator to compare the actual value with the filter value. The supported operators are:
+                    //    - ~ : Regex match (case-insensitive)
+                    //    - == : Exact match
+                    //    - != : Not match
+                    //    - > : Greater than (numerical comparison)
+                    //    - < : Less than (numerical comparison)    
+                    switch (operator) {
+                        case '~': // Regex (case-insensitive)
+                            try {
+                            const regex = new RegExp(filterValue, 'i');
+                            return regex.test(actualValue);
+                            } catch (e) {
+                                // Gooi een duidelijke foutmelding met een referentie naar uitleg
+                                throw new Error(`Invalid Regular Expression in select filter: '${filterValue}'. Please check your syntax. For help, visit: https://regex101.com/`);
+                            }
+                        case '==': // Exact match
+                            return actualValue == filterValue;
+                        case '!=': // Not match
+                            return actualValue != filterValue;
+                        case '>': // Greater than
+                            return parseFloat(actualValue) > parseFloat(filterValue);
+                        case '<': // Less than
+                            return parseFloat(actualValue) < parseFloat(filterValue);
+                        default:
+                            return true;
+                    }
+                });
             });
-        } catch (err) {
-            this.lb.log(`QueryBuilder: Invalid Regex pattern '${pattern}'. Skipping.`);
-            return data;
-        }
+        });
     }
 
     _containsElement(elements, candidate) {
@@ -222,10 +289,7 @@ export class QueryBuilder {
 
         const scoped = data.filter(e => this._isVisibleInView(e, currentView));
 
-        this.lb.log(
-            `QueryBuilder: Scope applied (view). Filtered from ${data.length} down to ${scoped.length} elements.`
-        );
-
+        this.lb.log(`QueryBuilder: Scope applied (view). Filtered from ${data.length} down to ${scoped.length} elements.`);
         return scoped;
     }
 
@@ -234,16 +298,16 @@ export class QueryBuilder {
             return data;
         }
 
-        // 1. Bepaal of het visuele sjabloon in Archi een specialisatie (profiel) heeft
+        // 1. Determine the target specialization based on the modelElement's concept or its children. This is important for scenarios where certain templates require a specific specialization to be present in the elements being processed. We check both the root element and its nested children to find any matching specializations that align with the provided types.
         let targetSpecialization = null;
         
-        // Check het root-element (bijv. voor Section artifacts)
+        // Check the main concept of the modelElement
         const mainConcept = this.modelElement.concept || this.modelElement;
         if (types.includes(mainConcept.type) && mainConcept.specialization) {
             targetSpecialization = mainConcept.specialization;
         }
 
-        // Check de geneste elementen (bijv. de rij-sjablonen binnen een Catalog of Matrix)
+        // Check the children of the modelElement for any matching types and specializations
         $(this.modelElement).children('element').each(child => {
             const concept = child.concept || child;
             if (types.includes(concept.type) && concept.specialization) {
@@ -251,14 +315,14 @@ export class QueryBuilder {
             }
         });
 
-        // 2. Filter de data op basis van Type én Specialisatie
+        // 2. Filter the data based on the determined target specialization. If a target specialization is found, we ensure that only elements matching that specialization are included in the final result set. This helps maintain the integrity of the template and ensures that only relevant elements are processed for rendering.
         return data.filter(e => {
             // Check A: Komt het hoofdtype overeen?
             if (!e || !e.type || types.indexOf(e.type) === -1) {
                 return false;
             }
 
-            // Check B: Als ons sjabloon een specialisatie vereist, moet het element deze exact matchen
+            // If a target specialization was determined, we further filter to ensure that only elements with the matching specialization are included. This is crucial for templates that require specific specializations to be present in the elements being processed.
             if (targetSpecialization) {
                 if (e.specialization !== targetSpecialization) {
                     return false;
