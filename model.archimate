@@ -1188,7 +1188,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             <sourceConnection id="id-57a1add830a142b285c023d0816257ae" lineWidth="2" lineColor="#1a5fb4" source="id-e1e6e75cf6174a05b3b540a96cd8b0c0" target="id-41d892fa70784b1696c09446c3527fd5" type="1"/>
           </child>
           <child xsi:type="archimate:Group" id="id-cebb6695bb83432683b30a750ad5808f" name="[parameters]" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
-            <bounds y="240" width="337" height="241"/>
+            <bounds y="240" width="337" height="277"/>
             <feature name="lineStyle" value="3"/>
             <sourceConnection id="id-b287d055d00540b2af33dfbf46436c1d" lineWidth="2" lineColor="#1a5fb4" source="id-cebb6695bb83432683b30a750ad5808f" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1"/>
             <child xsi:type="archimate:Note" id="id-2cdb0821e8fa43c089a39a5f49599648" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
@@ -1217,7 +1217,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             </child>
             <child xsi:type="archimate:Note" id="id-4a0c44fb26bc43c1bcdb8252e05a0a83" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="144" width="237" height="25"/>
-              <content>&lt;Select></content>
+              <content>&lt;select pattern></content>
             </child>
             <child xsi:type="archimate:Note" id="id-bea6756e603c4f7e8cffe7d737503872" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="144" width="85" height="25"/>
@@ -1225,10 +1225,18 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             </child>
             <child xsi:type="archimate:Note" id="id-f125353fbf7048e4a5bcec8844447fff" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="180" width="237" height="25"/>
-              <content>&lt;number></content>
+              <content>{true|false}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-8498d97fb02949d0837378771d6b2752" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="180" width="85" height="25"/>
+              <content>unique=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-de42bb98b25347a393cf229147f3e118" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="216" width="237" height="25"/>
+              <content>&lt;number></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-16ff07f5d5804b0cb5c2fb2c25ccc557" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="216" width="85" height="25"/>
               <content>gap=</content>
             </child>
           </child>

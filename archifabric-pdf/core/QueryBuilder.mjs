@@ -42,8 +42,8 @@ export class QueryBuilder {
      * @returns {Array} - The resulting list of ArchiMate elements.
      */
 
-    fetch({ scope = 'view', currentView = null, select = {}, sort = 'name' }) {
-        this.lb.enter(`QueryBuilder.fetch(scope=${scope}, currentView=${currentView ? currentView.name : 'null'}, select=${JSON.stringify(select)}, sort=${sort})`);
+    fetch({ scope = 'view', currentView = null, select = {}, sort = 'name', unique = 'true' } ) {
+        this.lb.enter(`QueryBuilder.fetch(scope=${scope}, currentView=${currentView ? currentView.name : 'null'}, select=${JSON.stringify(select)}, sort=${sort}, unique=${unique})`);
         const effectiveScope = scope || 'view';
         const types = select.types || [];
 
@@ -70,9 +70,13 @@ export class QueryBuilder {
         data = this._applyTypeFilter(data, types);
         data = this._applySelectFilter(data, select.pattern);
         this.lb.log(`QueryBuilder: Filter [${select.pattern}] applied. Filtered to ${data.length} elements.`);
+        if (unique === 'true') {
+            data = this._applyUniqueFilter(data);
+        }
 
-        this.lb.leave(`data=${data.length}, sort=${sort}, currentView=${currentView ? currentView.name : 'null'}`);
-        return this._applySort(data, sort, currentView);
+        const sortedData = this._applySort(data, sort, currentView);
+        this.lb.leave(`${sortedData.length} ${unique === 'true' ? 'unique' : ''} elements`);
+        return sortedData;
     }
 
     /**
@@ -130,6 +134,21 @@ export class QueryBuilder {
             }
             return arr.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
         }
+    }
+
+    /**
+     * 
+     * @param {Array} data - The array of elements to filter.
+     * @param {Object} params - The filter parameters.
+     * @returns {Array} - The filtered array of elements.
+     */
+    _applyUniqueFilter(data, params) {
+        const uniqueConcepts = new Set();
+        return data.filter(node => {
+            if (!node.id || uniqueConcepts.has(node.id)) return false;
+            uniqueConcepts.add(node.id);
+            return true;
+        });
     }
 
     /**

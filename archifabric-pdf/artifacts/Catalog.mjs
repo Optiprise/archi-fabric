@@ -73,6 +73,7 @@ export default class Catalog extends Artifact {
         const scope = inlineParams['scope'] || 'view';
         const sort = inlineParams['sort'] || 'name';
         const pattern = inlineParams['select'] || null;
+        const unique = inlineParams['unique'] ?? 'true'; // Default to true unless explicitly set to 'false'
 
         // --- CONTEXT PRESERVATION ---
         let currentView = null;
@@ -84,7 +85,7 @@ export default class Catalog extends Artifact {
         }
 
         // 3. Query Target Data using QueryBuilder
-        let finalElements = [];
+        let resolvedElements = [];
         
         // HOISTED: Declare sourceElement here so the explicit relationship matching below can use it
         let sourceElement = null; 
@@ -108,7 +109,7 @@ export default class Catalog extends Artifact {
 
                 // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb, this);
-                const rawElements = qb.fetch({
+                const resolvedElements = qb.fetch({
                     scope: scope,
                     currentView: currentView, 
                     select: {
@@ -118,21 +119,12 @@ export default class Catalog extends Artifact {
                         sourceElement: sourceElement,
                         pattern: pattern
                     },
-                    sort: sort
+                    sort: sort,
+                    unique: unique // Enforce uniqueness by default
                 });
-                
-                // Ensure uniqueness
-                const uniqueConcepts = new Set();
-                finalElements = rawElements.filter(node => {
-                    if (!node.id || uniqueConcepts.has(node.id)) return false;
-                    uniqueConcepts.add(node.id);
-                    return true;
-                });
-                
-                this.lb.log(`Catalog query resolved ${finalElements.length} unique ArchiMate elements.`);
             } else {
                 this.lb.log("No ArchiMate context in template. Rendering as static grid.");
-                finalElements = [{ obj: targetElement }];
+                resolvedElements = [{ obj: targetElement }];
             }
         } catch (error) {
             this.lb.error(`Failed to process data for Catalog: ${error.message}`, modelElement);
@@ -168,7 +160,7 @@ export default class Catalog extends Artifact {
 
         const totalWidth = xPos[xPos.length - 1]; 
 
-        for (const item of finalElements) {
+        for (const item of resolvedElements) {
             const dataContext = item.concept || item.obj || item;
             
             this.markup.appendContent(`<table class="${baseCssClass}${customCssClass}" style="width: 100%; border-collapse: collapse; table-layout: fixed;">\n<colgroup>\n`);
