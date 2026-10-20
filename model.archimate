@@ -1278,7 +1278,10 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
           </child>
           <documentation>The **Catalog** artifact is a powerful engine for dynamically generating tables, lists, or repeating blocks of architectural elements straight from your model. By combining a visual template with a robust querying system, it transforms raw model data into beautifully formatted, presentation-ready overviews.
 
-To configure a Catalog, you create a Group on your canvas and set its **Name** to `Catalog`. The internal structure of this group dictates the layout of your data (typically using Notes to represent column headers and row templates), while inline parameters allow you to precisely query, filter, and sort the output.
+To configure a Catalog, you create a Group on your canvas and set its **Name** to `Catalog`. The internal structure of this group dictates both the layout and the filtering:
+
+* **Note elements** define the static layout, such as column widths, headers, or bullet points.
+* **ArchiMate elements** define the scope and selection filter. By placing an ArchiMate element (like a Business Capability) inside the catalog, you instruct the engine to extract data for elements of that specific type.
 
 ### Core Properties
 
@@ -1288,28 +1291,39 @@ To configure a Catalog, you create a Group on your canvas and set its **Name** t
 
 ### Query &amp; Styling Parameters
 
-You can fine-tune exactly which elements the Catalog retrieves and how they are presented by adding parameters directly into the Name field. You can now use quotes to pass multiple values to a single parameter, such as multiple CSS classes.
+You can fine-tune exactly which elements the Catalog retrieves and how they are presented by adding parameters directly into the Name field. You can use quotes to pass complex values or multiple classes to a single parameter.
 
-*Format example: `Catalog scope=view sort=name class=&quot;catalog-table custom-margin&quot;*`
+_Format example: `Catalog scope=view sort=position select=&quot;${property:Status}==Active&quot; class=&quot;catalog-table&quot;`_
 
-* **`scope={model | view | object}`**
+* **`scope={model | view | element}`**
 Determines the search boundary for the catalog's query.
-	* `model`: Scans the entire Archi repository.
-	* `view`: *(Highly Optimized)* Scans only the visual elements present on the current canvas. This is the recommended scope for large repositories as it significantly improves rendering performance.
-	* `object`: Scans for elements that have a specific relationship with a targeted source element.
+  * `model`: Scans the entire Archi repository.
+  * `view`: *(Highly Optimized)* Scans only the visual elements present on the target view. This is the recommended scope for most document generation.
+  * `element`: Scans for elements that have a specific relationship with a targeted source element.
+
+
+* **`select=&lt;query expression>`**
+Filters the retrieved elements using ArchiFabric's powerful Expression Engine. If you provide a simple string (e.g., `select=&quot;^SAP.*&quot;`), it defaults to performing a Regular Expression (`~`) match on the element's name.
+For advanced filtering, you can construct detailed queries:
+  * **Targets:** Filter on `${name}`, `${documentation}`, or `${property:&lt;Name>}`.
+  * **Operators:** Use `==` (exact), `!=` (not equal), `~` (Regex), `>` (greater than), or `&lt;` (less than).
+  * **Logic:** Combine conditions using `&amp;&amp;` (AND) and `||` (OR).
+  * **Variables:** Inject global variables using `${var:&lt;Name>}`.  
+*(Note: A comprehensive guide and examples on advanced `select` queries are provided in the next chapter).*
 
 
 * **`sort={name | position}`**
 Controls the order of the generated items. Use `name` for standard alphabetical sorting, or `position` to intuitively order elements based on their visual X/Y coordinates on your Archi diagram.
-* **`pattern=&lt;Regular Expression>`**
-Filters the retrieved elements by their name using standard Regex. For example, `pattern=&quot;^SAP.*&quot;` will only include elements whose name starts with &quot;SAP&quot;.
+* **`unique={true | false}`**
+*(Default: true)*. Ensures that each architectural element is only listed once in the catalog, even if it appears multiple times on the target view. Set this to `false` if you want to extract every single visual occurrence (for example, to count how often an application is used in a process flow).
 * **`class=&quot;&lt;CSS class name>&quot;`**
 Injects one or multiple custom CSS classes into the root HTML container of the catalog. This gives you absolute control over the styling, such as applying specific border colors or avoiding page breaks.
 * **`gap=&lt;number>`**
 Defines the vertical spacing between repeating blocks. This is especially useful when you are rendering a list of standalone blocks (like User Stories or Requirements) instead of a standard grid table.
 
 > **Visual Template Pro-Tip:**
-> To build your layout, simply place visual Notes inside the Catalog group. The ArchiFabric engine interprets the top notes as your table headers, and the notes below them as your repeating row template. Use expression tags like `${name}` or `${property:Lifecycle}` inside the row notes to dynamically inject the data of your queried elements!</documentation>
+> To build your layout, simply place visual Notes and ArchiMate elements side-by-side inside the Catalog group. ArchiFabric interprets the width of these elements on your canvas as relative column widths in the final document. Use expression tags like `${name}` or `${property:Lifecycle}` inside the Label Expressions of these elements to dynamically inject the data!
+</documentation>
         </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="CSS" id="id-85d75f6e7fda42e790e3e6829ef508ff">
           <child xsi:type="archimate:Group" id="id-4016b73ac38c44e1b849fd933158eca4" name="CSS" targetConnections="id-265c641fcf8040aeb472a41832eb0e00 id-ada415bcfe5c4294bb78b7fa7dd2f414" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
