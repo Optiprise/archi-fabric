@@ -109,7 +109,7 @@ export default class Catalog extends Artifact {
 
                 // Initialize QueryBuilder
                 const qb = new QueryBuilder(modelElement, targetElement, this.lb, this);
-                const resolvedElements = qb.fetch({
+                resolvedElements = qb.fetch({
                     scope: scope,
                     currentView: currentView, 
                     select: {
@@ -122,15 +122,18 @@ export default class Catalog extends Artifact {
                     sort: sort,
                     unique: unique // Enforce uniqueness by default
                 });
+                this.lb.log(`Resolved ${resolvedElements.length} elements for Catalog rendering.`);
             } else {
                 this.lb.log("No ArchiMate context in template. Rendering as static grid.");
                 resolvedElements = [{ obj: targetElement }];
             }
+
         } catch (error) {
             this.lb.error(`Failed to process data for Catalog: ${error.message}`, modelElement);
             this.lb.leave();
             return; 
         }
+
 
         // 4. Render Grid Layout
         this.markup.appendCss(`

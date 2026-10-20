@@ -1201,7 +1201,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             </child>
             <child xsi:type="archimate:Note" id="id-69be4bf0dbd74d398a6ecee4d99259d9" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="72" width="237" height="25"/>
-              <content>{model|view|object}</content>
+              <content>{model|view|element}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-330d7b872e644569b859b577777cf291" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="72" width="85" height="25"/>

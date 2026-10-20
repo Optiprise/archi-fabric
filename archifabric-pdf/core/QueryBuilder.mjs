@@ -51,14 +51,14 @@ export class QueryBuilder {
 
         let data = [];
 
-        // 1. Implementation of scope=object: If the scope is set to 'object', we bypass any relation-based selection and directly return the target element (or its concept) as a single-item array. This is useful for scenarios where we want to isolate the query to a specific element without considering its relationships or type filters.
+        // 1. Implementation of scope=element: If the scope is set to 'element', we bypass any relation-based selection and directly return the target element (or its concept) as a single-item array. This is useful for scenarios where we want to isolate the query to a specific element without considering its relationships or type filters.
         // If the scope is set to 'object', we bypass any relation-based selection and directly return the target element (or its concept) as a single-item array. This is useful for scenarios where we want to isolate the query to a specific element without considering its relationships or type filters.
-        if (effectiveScope === 'object') {
+        if (effectiveScope === 'element') {
             const concept = this.targetElement && (this.targetElement.concept || this.targetElement);
             if (concept && concept.id) {
                 data = [concept];
             }
-            this.lb.log(`QueryBuilder: Scope is 'object'. Bypassed relations and isolated query to target element '${concept ? concept.name : 'unknown'}'.`);
+            this.lb.log(`QueryBuilder: Scope is 'element'. Bypassed relations and isolated query to target element '${concept ? concept.name : 'unknown'}'.`);
         } 
         // 2. Implementation of scope=view or scope=model: We perform a selection based on the provided 'select' configuration, which may include source elements, relation types, and direction. This allows for dynamic queries that can traverse the model's relationships to find connected elements, which is particularly useful for generating context-aware documentation or diagrams.
         else {
