@@ -2615,10 +2615,10 @@ ${set:imageQuality:2}
       </element>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-537f4a565eb5462e9ceff10eaac27339">
         <child xsi:type="archimate:Group" id="id-7d8882387c624fa4b3887ba5477ba034" name="Section" textAlignment="1">
-          <bounds x="36" y="24" width="400" height="301"/>
+          <bounds x="36" y="24" width="400" height="397"/>
           <feature name="labelExpression" value="Working with ArchiFabric"/>
           <child xsi:type="archimate:DiagramModelReference" id="id-874cbbf92df54a379bd0fdbb0ca0566a" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-            <bounds y="36" width="145" height="253"/>
+            <bounds y="36" width="145" height="349"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
             <bounds x="144" y="36" width="253" height="25"/>
@@ -2636,16 +2636,19 @@ ${set:imageQuality:2}
             <bounds x="144" y="132" width="253" height="25"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-63eb6d4814e64e19a5fb424ac3d6c3cb" model="id-1acc7ae30dac42faa09dc5bc0f0443c6">
-            <bounds x="144" y="156" width="253" height="25"/>
-          </child>
-          <child xsi:type="archimate:DiagramModelReference" id="id-9f33a55db6a84b0ea1691c9fa6b6fa0b" model="id-8746a4633a2d4bdeb04e1df8d9f0c826">
             <bounds x="144" y="180" width="253" height="25"/>
           </child>
-          <child xsi:type="archimate:DiagramModelReference" id="id-499280e988b245d49517aadee799f522" model="id-9b9e0572e326469a990d4b86f1b7a8a3">
+          <child xsi:type="archimate:DiagramModelReference" id="id-9f33a55db6a84b0ea1691c9fa6b6fa0b" model="id-8746a4633a2d4bdeb04e1df8d9f0c826">
             <bounds x="144" y="204" width="253" height="25"/>
           </child>
-          <child xsi:type="archimate:DiagramModelReference" id="id-e2e02c6e2f2344f0b77e60f088492129" model="id-bec5d1a629594f94b25904ec58faad7f">
+          <child xsi:type="archimate:DiagramModelReference" id="id-499280e988b245d49517aadee799f522" model="id-9b9e0572e326469a990d4b86f1b7a8a3">
             <bounds x="144" y="228" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-e2e02c6e2f2344f0b77e60f088492129" model="id-bec5d1a629594f94b25904ec58faad7f">
+            <bounds x="144" y="252" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-6bd78d4cb37040639a3023199e2088da" model="id-e22fbcca8a7c45318e8366d3d13641eb">
+            <bounds x="144" y="156" width="253" height="25"/>
           </child>
           <documentation>Now that you are familiar with the basic concepts, it is time to put theory into practice. To make this learning process as smooth as possible, we have prepared a dedicated sample project.
 
@@ -2801,7 +2804,7 @@ h2::before {
 }
 
 h3 {
-	font-family: 'Segoe UI';
+	font-family: 'Comfortaa-Bold';
     font-size: 11pt;
 	font-weight: normal;
 	counter-increment: h3-counter;
@@ -2868,6 +2871,13 @@ figure.diagram-figure .diagram-caption {
   content: &quot;Diagram &quot; counter(view-counter)  &quot;:&quot;;
   margin-right: 0.1em;
 }
+
+em, i {
+  font-family: 'Comfortaa', sans-serif;
+  display: inline-block; 
+  transform: skewX(-12deg);
+}
+
 </documentation>
           </child>
         </element>
@@ -3897,7 +3907,7 @@ For this tutorial, we will focus on extracting **Value Streams**. We will build 
 3. **Add the Filter Element (Header):** Drag a **Value Stream** element from your standard library or model tree into the `Catalog` group. In its Properties panel, set the **Label Expression** to `${header}`. This expression tells ArchiFabric to generate a formatted sub-paragraph header using the name of each found Value Stream.
 4. **Add the Filter Element (Documentation):** Drag the *exact same* Value Stream element from the model tree into the `Catalog` group again, placing it below the first one. Set its **Label Expression** to `${documentation}`. This will output the description of the found element.
 
-*Important Tip:* You must use the exact same ArchiMate element from your model tree multiple times within the catalog view to extract different properties of the matched elements.
+*Important Tip:* You must use the exact same ArchiMate element from your model two times within the catalog view to extract different properties of the matched elements.
 
 If you apply this template to a target view, the Catalog artifact will now loop through and display every Value Stream present in that view.
 
@@ -4063,7 +4073,7 @@ When you open the new PDF, you will see that the generated list of Value Streams
         </child>
         <child xsi:type="archimate:Note" id="id-c4e91b20282a4a4da5f07bc90b1bc6ab" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
           <bounds x="148" y="264" width="156" height="25"/>
-          <content>${header}</content>
+          <content>${name}</content>
         </child>
         <child xsi:type="archimate:Note" id="id-a3babef17bfb435ab1ec7aa49ebc9b97" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
           <bounds x="28" y="264" width="120" height="25"/>
@@ -4099,6 +4109,83 @@ We will also use this opportunity to format our nested catalog as a dynamic tabl
 7. **Define Column Proportions:** Resize these three elements horizontally to fit your needs. The physical width of each element on your canvas dictates the relative column width in the generated document! *(Note: The actual styling of the table, such as lines and padding, can be customized later using CSS).*
 8. **Generate the Output:** Save the template, go back to your `My First Document` view, and run the ArchiFabric script.</documentation>
         <property key="Lead" value="The true power of ArchiFabric lies in its ability to traverse your architecture model. Instead of just listing elements, you can extract specific elements based on their *relationships* to others. In this section, we will enhance our template to show which Business Capabilities serve each Value Stream."/>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="The Architecture: Deliver Customer Value" id="id-e22fbcca8a7c45318e8366d3d13641eb">
+        <child xsi:type="archimate:DiagramObject" id="id-4da120287fde463088f8c959043d5054" font="1|Comfortaa|14.0|1|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" archimateElement="id-a16fb70b0fb64c1bbfdcc6620eecc03b" type="1">
+          <bounds x="12" y="24" width="997" height="145"/>
+          <feature name="gradient" value="0"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-9cc095a6b19e48bd8534daa08856e74a" source="id-4da120287fde463088f8c959043d5054" target="id-3224d95be8864ab0b3e3a9349152096c" archimateRelationship="id-23d4806030944ec5bde687893809d0a1"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-c6181118f8164f27934a1c5e945a0046" source="id-4da120287fde463088f8c959043d5054" target="id-e2cd44566eab4bac861f902107786345" archimateRelationship="id-c3f2876ab2524829add5c88b49133b5d"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-2bb8c7149dac4a84857fe0c6f4e560a0" source="id-4da120287fde463088f8c959043d5054" target="id-96117b1dd263406684c4cd60903943bc" archimateRelationship="id-f7e8d86b36be49ebb61b06bea914b8d7"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-98b3d8e56f34417eb4c83cf5fc291bbe" source="id-4da120287fde463088f8c959043d5054" target="id-d9b6b676027747dfbb7b14c6868bccad" archimateRelationship="id-c5c56719581542f4812aebd3e5a24fdc"/>
+          <child xsi:type="archimate:DiagramObject" id="id-e2cd44566eab4bac861f902107786345" targetConnections="id-89b09f40e1c64b4f8c2caa1c7d010d65 id-c6181118f8164f27934a1c5e945a0046" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-4ae273cbb2534ee3bedb680a4dc19a86" type="1">
+            <bounds x="48" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Understand&#xA;Customer&#xA;Needs"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-d9b6b676027747dfbb7b14c6868bccad" targetConnections="id-beb61240d75a49f6b79e283afc681f4a id-98b3d8e56f34417eb4c83cf5fc291bbe" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-0aa4bf2ad27d400f8ed0fc352e8051e8" type="1">
+            <bounds x="276" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Develop&#xA;Customer&#xA;Solution"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-3224d95be8864ab0b3e3a9349152096c" targetConnections="id-9cc095a6b19e48bd8534daa08856e74a id-bdbfb61dff73447bac22c4e6fc81099a" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-de535385b8a84def8a4c9275ef3f943d" type="1">
+            <bounds x="504" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Deliver&#xA;Customer&#xA;Solution"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-96117b1dd263406684c4cd60903943bc" targetConnections="id-14c14be3af0441499c88209269f93a1b id-2bb8c7149dac4a84857fe0c6f4e560a0" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#ffffff" alpha="96" textPosition="1" archimateElement="id-ccf1e195f33f4ab88bac3942ebe518e3" type="1">
+            <bounds x="732" y="24" width="241" height="104"/>
+            <feature name="labelExpression" value="Support&#xA;Customer"/>
+            <feature name="deriveElementLineColor" value="false"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-39c28f70f3934b6e8e4fcf8ba7ead23f" targetConnections="id-1b71bc300aff49d0bb7331b0bf47ff4f" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-4247a7c8d3a746509f49a623fc194b0c">
+          <bounds x="60" y="192" width="217" height="73"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <feature name="gradient" value="0"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-89b09f40e1c64b4f8c2caa1c7d010d65" source="id-39c28f70f3934b6e8e4fcf8ba7ead23f" target="id-e2cd44566eab4bac861f902107786345" archimateRelationship="id-9055826b2bfe458fa3cd45a71b34ee55"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-634032efa95047ddb75a6e86cb7d33e5" targetConnections="id-0fc4247a995c4e71af64db526cb21420" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-30584da1cf50425aa387c3cc7e051b0a">
+          <bounds x="288" y="192" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-beb61240d75a49f6b79e283afc681f4a" source="id-634032efa95047ddb75a6e86cb7d33e5" target="id-d9b6b676027747dfbb7b14c6868bccad" archimateRelationship="id-337d2263cedb49138d3fe51e377b215b"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-bb553d86a9684485be587d27d933c4d4" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-89672d9defb746a899f5b4993742dbf5">
+          <bounds x="12" y="300" width="997" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-0fc4247a995c4e71af64db526cb21420" source="id-bb553d86a9684485be587d27d933c4d4" target="id-634032efa95047ddb75a6e86cb7d33e5" archimateRelationship="id-f3fa5da95daf4549ae7fe626f7ca5eb5"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-867289ba0be64af887ec95abab434c93" source="id-bb553d86a9684485be587d27d933c4d4" target="id-cfb076907a2748429928ca8826dd9616" archimateRelationship="id-f0118b806361458897ffc51f8c5d1713"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-c527a7894de24ae0b01e9a4794e924ba" source="id-bb553d86a9684485be587d27d933c4d4" target="id-5dbfd25651ad49f6aceae619928f6976" archimateRelationship="id-da340a6a4d504fc9bb101d49f8332e30"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-1b71bc300aff49d0bb7331b0bf47ff4f" source="id-bb553d86a9684485be587d27d933c4d4" target="id-39c28f70f3934b6e8e4fcf8ba7ead23f" archimateRelationship="id-f36db0d51fe24211b998a6d2b137ad7d"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-5dbfd25651ad49f6aceae619928f6976" targetConnections="id-c527a7894de24ae0b01e9a4794e924ba" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-a7c1d2ab54624442b7a8bbd9818444ba">
+          <bounds x="516" y="192" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-bdbfb61dff73447bac22c4e6fc81099a" source="id-5dbfd25651ad49f6aceae619928f6976" target="id-3224d95be8864ab0b3e3a9349152096c" archimateRelationship="id-826106f5f86c41e1b10c27fe35772c67"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-cfb076907a2748429928ca8826dd9616" targetConnections="id-867289ba0be64af887ec95abab434c93" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-387f7e58454e4cf6a5edf8ee72c9f938">
+          <bounds x="744" y="192" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-14c14be3af0441499c88209269f93a1b" source="id-cfb076907a2748429928ca8826dd9616" target="id-96117b1dd263406684c4cd60903943bc" archimateRelationship="id-39799fd46d9d48e791987f0d43567f29"/>
+        </child>
+        <documentation>In our `tutorial.archimate` model, within the **Views > Architecture** folder, you will find the `Deliver Customer Value` view. This view models a core value stream and maps it to the underlying business capabilities that make it possible.
+
+_**Note**: Please keep in mind that this architecture is a fictitious example. It is not necessarily substantively correct and serves purely to demonstrate the mechanics and functionality of ArchiFabric._
+
+**View Breakdown:**
+
+* **Value Stream:** The top layer represents the sequential stages required to deliver value to a customer: *Understand Customer Needs*, *Develop Customer Solution*, *Deliver Customer Solution*, and *Support Customer*.
+* **Business Capabilities:** The bottom layer shows the capabilities that serve (or support) these value stream stages, such as *Customer experience management (CXM)*, *Software Development*, *Service Delivery*, *Customer Support*, and the overarching *Customer Relationship Management*.
+* **Relationships:** Serving relationships are explicitly drawn from the capabilities to the value stream stages they enable.
+
+This specific structure is perfect for demonstrating ArchiFabric's capabilities. In the upcoming sections, we will use this view not just to render an image, but to actively query and extract its underlying data—such as listing all the value stream stages or dynamically mapping which capabilities belong to which stage.
+
+Understanding this layout will make the logic behind the **Catalog** and **Relational Queries** much clearer!</documentation>
+        <property key="Lead" value="Before we proceed with more advanced ArchiFabric features like Catalogs and Relational Queries, it is helpful to understand the architectural data we are working with."/>
       </element>
     </folder>
   </folder>
