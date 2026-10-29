@@ -40,27 +40,54 @@ export class Engine {
      */
     constructor() {
         const System = Java.type('java.lang.System');
-        this.exportPath = System.getenv('ARCHIFABRIC_EXPORT_PATH');
-        this.envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
-        this.structureView = null;
+        const args = this._parseArguments();
+        args || console.log('├ Parsed command-line arguments:', args);
 
-        // Find the selected Archi diagram view or use the environment variable MODELSTRUCTURE_ID
-        if (this.envModelStructureId) {
-            console.log(`Environment variable MODELSTRUCTURE_ID found: ${this.envModelStructureId}`);
-            // Select the view by ID and ensure it is an archimate-diagram-model
-            this.structureView = $('#' + this.envModelStructureId).filter('archimate-diagram-model').first();
+        // Determine the export path from command-line arguments or environment variable
+        this.exportPath = args.exportPath || System.getenv('ARCHIFABRIC_EXPORT_PATH');
+
+        // Determine execution mode: 'cli' for command-line, 'interactive' for GUI
+        this.executionMode = args.executionMode || 'interactive';
+        if (!['cli', 'interactive'].includes(this.executionMode)) {
+            throw new Error(
+                `Invalid executionMode: ${this.executionMode}`
+            );
+        }
+
+        // Determine the model structure ID from command-line arguments or selection in the GUI
+        this.modelStructureId = args.modelStructureId || System.getenv('MODELSTRUCTURE_ID');
+        if (this.modelStructureId) {
+            this.structureView = $('#' + this.modelStructureId)
+                .filter('archimate-diagram-model')
+                .first();
         } else {
-            this.structureView = selection.filter('archimate-diagram-model').first();
+            this.structureView = selection
+                .filter('archimate-diagram-model')
+                .first();
         }
 
         if (!this.structureView) {
-            throw new Error('Please select a valid ArchiMate diagram view representing the document structure, or provide a valid MODELSTRUCTURE_ID environment variable.');
+            throw new Error(
+                'No valid ArchiMate view found for the document structure.'
+            );
         }
 
-        // Determine the log level from the selected view or environment variable, defaulting to ERROR if not specified
-        // Set up the LogBook, Markup, and Artifactory components
-        const logLevel = this.structureView.prop('logLevel') || System.getenv('LOG_LEVEL') || LogBook.LEVELS.ERROR;
-        this.lb = new LogBook(logLevel);
+        // Determine log level from command-line arguments, environment variable, or default to ERROR
+        const logLevelName = String(
+            args.logLevel || this.structureView.prop('logLevel') || 'ERROR').trim().toUpperCase();
+
+        // Validate log level
+        if (!Object.prototype.hasOwnProperty.call(LogBook.LEVELS, logLevelName)) {
+            throw new Error(
+                `Invalid logLevel '${logLevelName}'. ` +
+                `Valid values: ${Object.keys(LogBook.LEVELS).join(', ')}`
+            );
+        }
+
+        // Convert log level name to numeric value
+        this.lb = new LogBook(LogBook.LEVELS[logLevelName]);
+
+        // Set up the Markup and Artifactory components
         this.markup = new Markup(this.lb, 'Markdown');
         this.artifactory = new Artifactory(this.lb, this.markup);
                 
@@ -71,6 +98,30 @@ export class Engine {
             
         this._setupGlobals();
     }
+
+    /**
+     * Parses command-line arguments in --key=value format.
+     *
+     * @returns {Object<string, string>} Parsed arguments.
+     * @private
+     */
+    _parseArguments() {
+        const args = {};
+
+        for (const arg of $.process.argv) {
+            if (!arg.startsWith('--')) continue;
+
+            const separator = arg.indexOf('=');
+            if (separator === -1) continue;
+
+            const key = arg.substring(2, separator);
+            const value = arg.substring(separator + 1);
+
+            args[key] = value;
+        }
+
+        return args;
+    }    
 
     /**
      * Sets up initial global variables like the current date.
@@ -112,6 +163,7 @@ export class Engine {
 
         } catch (error) {
             this.lb.error(error);
+            throw error;
         } finally {
             this.lb.leave();
 
@@ -142,48 +194,124 @@ export class Engine {
         this.lb.leave();
     }
 
-
     /**
-     * Generates HTML from the accumulated markup and executes Weasyprint to create a PDF.
+     * Generates HTML and synchronously executes WeasyPrint.
+     * Waits until PDF generation is completed.
      * @private
      */
     _exportToPDF() {
         this.lb.enter('Engine._exportToPDF');
-        
-        const docName = this.artifactory.globalVars.get('documentTitle') || `${model.name} - Document`;
-        const defaultFileName = `${docName}.pdf`;
 
-        // Determine destination file path
-        const pdfFile = this.exportPath 
-            ? `${this.exportPath}/${defaultFileName}`
-            : window.promptSaveFile({
-                title: `Save ArchiFabric Document: ${docName}`,
-                filterExtensions: ['*.pdf'],
-                fileName: defaultFileName,
-            });
+        try {
+            const docName = this.artifactory.globalVars.get('documentTitle')
+                || `${model.name} - Document`;
 
-        if (pdfFile) {
-            try {
-                const htmlFile = pdfFile.replace(/\.pdf$/, '.html');
-                
-                // Write generated HTML string to disk
-                $.fs.writeFile(htmlFile, this.markup.html); 
-                
-                // Execute Weasyprint
-                this.lb.log(`Executing Weasyprint for file: ${pdfFile}`);
-                $.child_process.exec(this.weasyprintExe, '-p', '--optimize-images', '-e', 'utf8', htmlFile, pdfFile);
-                
-                this.lb.log(`Successfully generated: ${pdfFile}`);
-                if (!this.envModelStructureId) {
-                    window.alert(`ArchiFabric-PDF:\n${pdfFile} successfully generated.`);
-                }
-            } catch (error) {
-                throw new Error(`PDF Generation failed. Please check if Weasyprint is installed correctly.\nDetails: ${error.message}`);
+            const defaultFileName = `${docName}.pdf`;
+
+            const pdfFile = this.exportPath
+                ? `${this.exportPath}/${defaultFileName}`
+                : window.promptSaveFile({
+                    title: `Save ArchiFabric Document: ${docName}`,
+                    filterExtensions: ['*.pdf'],
+                    fileName: defaultFileName,
+                });
+
+            if (!pdfFile) {
+                this.lb.log('User cancelled PDF save dialog.');
+                return;
             }
-        } else {
-            this.lb.log('User cancelled PDF save dialog.');
+
+            const htmlFile = pdfFile.replace(/\.pdf$/, '.html');
+
+            // Write HTML to disk
+            $.fs.writeFile(htmlFile, this.markup.html);
+
+
+            const ProcessBuilder = Java.type('java.lang.ProcessBuilder');
+            const weasyprint = new ProcessBuilder(
+                this.weasyprintExe,
+                '-p',
+                '--optimize-images',
+                '-e',
+                'utf8',
+                htmlFile,
+                pdfFile
+            );
+
+            
+            if (this.executionMode === 'cli') {
+                // CLI: synchronous execution
+                this._executeWeasyPrintSync(weasyprint, pdfFile);
+            } else {
+                // Interactive: asynchronous execution
+                this._executeWeasyPrintAsync(weasyprint, pdfFile);
+            }
+        } finally {
+            this.lb.leave();
         }
-        
+    }
+
+    /**
+     * Executes WeasyPrint synchronously.
+     * Intended for CLI execution.
+     *
+     * @param {weasy} weasyprint - The WeasyPrint process builder.
+     * @param {string} pdfFile - Destination PDF file.
+     * @private
+     */
+    _executeWeasyPrintSync(weasyprint, pdfFile) {
+        this.lb.enter('Engine._executeWeasyPrintSync');
+        const TimeUnit = Java.type('java.util.concurrent.TimeUnit');
+
+        weasyprint.inheritIO();
+
+        const process = weasyprint.start();
+
+        const completed = process.waitFor(30, TimeUnit.SECONDS);
+
+        if (!completed) {
+            process.destroyForcibly();
+            throw new Error('WeasyPrint timeout after 30 seconds.');
+        }
+
+        if (process.exitValue() !== 0) {
+            throw new Error(
+                `WeasyPrint failed with exit code ${process.exitValue()}`
+            );
+        }
+
+        const File = Java.type('java.io.File');
+        const output = new File(pdfFile);
+
+        if (!output.isFile() || output.length() === 0) {
+            throw new Error(`PDF missing or empty: ${pdfFile}`);
+        }
+
+        this.lb.log(`Successfully generated: ${pdfFile}`);
+        this.lb.leave();
+    }
+
+    /**
+     * Executes WeasyPrint asynchronously.
+     * Intended for interactive Archi usage.
+     *
+     * @param {weasy} weasyprint - The WeasyPrint process builder.
+     * @param {string} pdfFile - Destination PDF file.
+     * @private
+     */
+    _executeWeasyPrintAsync(weasyprint, pdfFile) {
+        this.lb.enter('Engine._executeWeasyPrintAsync');
+
+        // Redirect process output to a log file
+        const File = Java.type('java.io.File');
+        const logFile = new File(`${pdfFile}.log`);
+
+        weasyprint.redirectErrorStream(true);
+        weasyprint.redirectOutput(logFile);
+        weasyprint.start();
+
+        this.lb.log(`WeasyPrint started asynchronously: ${pdfFile}`);
+        window.alert(`ArchiFabric-PDF started asynchronously to generate: ${pdfFile}`);
         this.lb.leave();
     }
 }

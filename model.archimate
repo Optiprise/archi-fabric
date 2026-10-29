@@ -2466,10 +2466,35 @@ This final paragraph combines **bold**, *italic*, ***bold italic***, ~~strikethr
 </documentation>
         </element>
       </folder>
+      <folder name="Technical Guide" id="id-6daead3f326e4688a1efc5745cb63ada">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Archi Command Line Interface" id="id-ae9e3ba9cb8740cbb2f70ad007104408">
+          <child xsi:type="archimate:Note" id="id-21ec0f73961e4b83bf0f1efae76b5360" font="1|Comfortaa|11.0|1|GTK|1|" textAlignment="1" textPosition="1" borderType="2">
+            <bounds x="24" y="24" width="697" height="37"/>
+            <content>Archi -application com.archimatetool.commandline.app -consoleLog -nosplash [options...]</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-a1ac5b1820d24f7a8e866544a91641b1" font="1|Comfortaa|9.0|0|GTK|1|" textAlignment="1" textPosition="1" borderType="2">
+            <bounds x="60" y="60" width="661" height="37"/>
+            <content>--logLevel = ERROR | INFO | DEBUG</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-3d17a1ef2d4a49128412754907661a57" font="1|Comfortaa|9.0|0|GTK|1|" textAlignment="1" textPosition="1" borderType="2">
+            <bounds x="60" y="96" width="661" height="37"/>
+            <content>--modelStructureId = &lt;UUID to Object></content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-6578ed1bd2db45bfb077bedd62f0cf5a" font="1|Comfortaa|9.0|0|GTK|1|" textAlignment="1" textPosition="1" borderType="2">
+            <bounds x="60" y="132" width="661" height="37"/>
+            <content>--executionMode = cli | interactive (default)</content>
+          </child>
+          <child xsi:type="archimate:Note" id="id-9e184456c76d4bc29be0ff73247ec418" font="1|Comfortaa|9.0|0|GTK|1|" textAlignment="1" textPosition="1" borderType="2">
+            <bounds x="60" y="168" width="661" height="37"/>
+            <content>--exportPath = &lt;Path name></content>
+          </child>
+        </element>
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Error handling" id="id-2ae43b9e73cb48a3961416ea46bf68f1"/>
+      </folder>
     </folder>
     <folder name="Online User Guide" id="id-7cf22bf430d54fe9827934e2e5a783df">
       <element xsi:type="archimate:ArchimateDiagramModel" name="Online User Guide" id="id-df59907750814cc2ae56514218afaf99">
-        <child xsi:type="archimate:Note" id="id-e839a7be0b0349b6b8a19c557c25a9e2" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="220" textPosition="1">
+        <child xsi:type="archimate:Note" id="id-e839a7be0b0349b6b8a19c557c25a9e2" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="200" textPosition="1">
           <bounds x="456" y="384" width="97" height="49"/>
         </child>
         <child xsi:type="archimate:Note" id="id-8f37b1280f664476bc976cbe6023fea0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1784f8" alpha="200" textPosition="1">
@@ -2502,7 +2527,7 @@ This final paragraph combines **bold**, *italic*, ***bold italic***, ~~strikethr
         <child xsi:type="archimate:Note" id="id-c0af53d00ec749c387f860a6ba970b2e" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1784f8" alpha="230" textPosition="1">
           <bounds x="456" y="180" width="97" height="49"/>
         </child>
-        <child xsi:type="archimate:Note" id="id-5f4c00ddc8f14278b44ef4eac08b9fd0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="200" textPosition="1">
+        <child xsi:type="archimate:Note" id="id-5f4c00ddc8f14278b44ef4eac08b9fd0" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="180" textPosition="1">
           <bounds x="456" y="336" width="97" height="49"/>
         </child>
         <child xsi:type="archimate:Note" id="id-36cf4ac6aae34678b5c5af5c5c9ee34b" fontColor="#ffffff" fillColor="#214378" textPosition="1">
@@ -2534,11 +2559,6 @@ This final paragraph combines **bold**, *italic*, ***bold italic***, ~~strikethr
         <child xsi:type="archimate:Note" id="id-8d3954395f5345ff8c255c4e3e01f5c6" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="220" textPosition="1">
           <bounds x="456" y="432" width="97" height="49"/>
         </child>
-        <child xsi:type="archimate:DiagramModelReference" id="id-329a74ef03d7458890e1197913195cb9" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-a9dfa348bd6f47fba1c3f4cbae9907d2">
-          <bounds x="456" y="432" width="97" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="iconVisible" value="2"/>
-        </child>
         <child xsi:type="archimate:Note" id="id-49ba95a789c74a75846cff0f5771afd4" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1784f8" alpha="230" textPosition="1">
           <bounds x="456" y="228" width="97" height="49"/>
         </child>
@@ -2546,6 +2566,15 @@ This final paragraph combines **bold**, *italic*, ***bold italic***, ~~strikethr
           <bounds x="456" y="228" width="97" height="49"/>
           <feature name="lineStyle" value="3"/>
           <feature name="iconVisible" value="2"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-a5be7e0e0b9d43fa8a1dd29967c8f338" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#214378" alpha="240" textPosition="1">
+          <bounds x="456" y="480" width="97" height="49"/>
+        </child>
+        <child xsi:type="archimate:DiagramModelReference" id="id-d48e471fb85c41019b23819d712ffa9d" font="1|Segoe UI Emoji|10.0|0|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" alpha="0" textPosition="1" model="id-ae9e3ba9cb8740cbb2f70ad007104408">
+          <bounds x="456" y="432" width="97" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <feature name="iconVisible" value="2"/>
+          <feature name="labelExpression" value="Archi CLI"/>
         </child>
         <documentation>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
 
@@ -2563,7 +2592,6 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
       <element xsi:type="archimate:ArchimateDiagramModel" name="Artifacts" id="id-a9dfa348bd6f47fba1c3f4cbae9907d2"/>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Design" id="id-1c67f362803a49a1b0831ad13e9fd921"/>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-3f34458a00854c65a0b78cc41cb3ff33"/>
-      <element xsi:type="archimate:ArchimateDiagramModel" name="Error handling" id="id-2ae43b9e73cb48a3961416ea46bf68f1"/>
     </folder>
     <folder name="PDF User Guide" id="id-cc65cd18bdd5406fb6291673200d4dfa">
       <element xsi:type="archimate:ArchimateDiagramModel" name="PDF User Guide" id="id-a2affb8beaa748dd84e2a14f3d7ab868">

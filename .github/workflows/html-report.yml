@@ -118,36 +118,18 @@ jobs:
         run: |
           # Create the export directory in advance
           mkdir -p "${{ github.workspace }}/public/pdf"
-          
-          # Export the environment variable so ArchiFabric knows where to save the PDF
-          export ARCHIFABRIC_EXPORT_PATH="${{ github.workspace }}/public/pdf"
-          export MODELSTRUCTURE_ID="id-a2affb8beaa748dd84e2a14f3d7ab868"
-          
+                    
           # Execute ArchiFabric via the jArchi command-line parameter
           dbus-run-session -- xvfb-run -a Archi/Archi \
           -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
           --loadModel "${{ github.workspace }}/model.archimate" \
-          --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
+          --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs" \
+          --executionMode=cli \
+          --modelStructureId=id-a2affb8beaa748dd84e2a14f3d7ab868 \
+          --logLevel=DEBUG \
+          --exportPath="${{ github.workspace }}/public/pdf"
 
-      - name: Wait for WeasyPrint to finish PDF Documentation
-        run: |
-          TIMEOUT=30
-          INTERVAL=2
-          ELAPSED=0
-
-          while pgrep -f '(^|[[:space:]])/usr/bin/weasyprint([[:space:]]|$)' > /dev/null; do
-            if (( ELAPSED >= TIMEOUT )); then
-              echo "::error::WeasyPrint timeout"
-              exit 1
-            fi
-
-            sleep "$INTERVAL"
-            ELAPSED=$((ELAPSED + INTERVAL))
-          done
-
-          echo "WeasyPrint completed."
-          
           rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
           ls -l "${{ github.workspace }}/public/pdf"
 

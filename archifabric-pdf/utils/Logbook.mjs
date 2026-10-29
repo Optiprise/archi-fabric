@@ -23,7 +23,14 @@
  * Automatically handles critical error display, visual markers, and documentation links.
  */
 
+
 export class LogBook {
+
+    /**
+     * Supported logging levels.
+     * Configuration uses symbolic names (ERROR, INFO, DEBUG).
+     * Numeric values are used internally.
+     */
     static LEVELS = {
         ERROR: 0,
         INFO: 1,  
