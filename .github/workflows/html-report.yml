@@ -132,11 +132,10 @@ jobs:
 
       - name: Wait for WeasyPrint to finish PDF Documentation
         run: |
-          ps -ef|grep '[w]easyprint' || echo "WeasyPrint process not found. It may have already completed."
           TIMEOUT=30
           INTERVAL=2
           ELAPSED=0
-          
+
           while pgrep -f '(^|[[:space:]])/usr/bin/weasyprint([[:space:]]|$)' > /dev/null; do
             if (( ELAPSED >= TIMEOUT )); then
               echo "::error::WeasyPrint timeout"
@@ -148,7 +147,7 @@ jobs:
           done
 
           echo "WeasyPrint completed."
-          # mv "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.pdf" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
+          
           rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
           ls -l "${{ github.workspace }}/public/pdf"
 
