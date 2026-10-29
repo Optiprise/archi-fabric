@@ -4246,9 +4246,6 @@ Understanding this layout will make the logic behind the **Catalog** and **Relat
             <documentation>${set:Leads:Customer}</documentation>
           </child>
         </child>
-        <child xsi:type="archimate:DiagramModelReference" id="id-4ee91e6b89284a97a6db144551beb6e0" model="id-bec5d1a629594f94b25904ec58faad7f">
-          <bounds x="972" y="360" width="110" height="35"/>
-        </child>
         <documentation>By placing our target view (`Deliver Customer Value`) right next to our Catalog template, ArchiFabric will automatically scan the target view, filter out all the Value Streams, and apply the layout we defined in the template to each of them.
 
 **Follow these steps to apply the Catalog template:**
