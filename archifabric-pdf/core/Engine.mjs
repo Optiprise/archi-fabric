@@ -39,16 +39,15 @@ export class Engine {
      * and configures system paths for PDF generation.
      */
     constructor() {
-        this.lb = new LogBook(LogBook.LEVELS.DEBUG); // Adjust verbosity level here
+        const System = Java.type('java.lang.System');
+        const logLevel = selection.filter('archimate-diagram-model').first().prop('logLevel') || System.getenv('LOG_LEVEL') || LogBook.LEVELS.ERROR;
+        this.exportPath = System.getenv('ARCHIFABRIC_EXPORT_PATH');
+        this.envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
+
+        this.lb = new LogBook(logLevel);
         this.markup = new Markup(this.lb, 'Markdown');
         this.artifactory = new Artifactory(this.lb, this.markup);
-        
-        // Setup paths
-        // Checks for ARCHIFABRIC_EXPORT_PATH but falls back to DOCGEN_EXPORT_PATH for backwards compatibility
-        const System = Java.type('java.lang.System');
-        this.exportPath = System.getenv('ARCHIFABRIC_EXPORT_PATH') || System.getenv('DOCGEN_EXPORT_PATH');
-        this.envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
-        
+                
         // Determine Weasyprint executable path based on OS platform
         this.weasyprintExe = $.process.platform === 'win32' 
             ? __DIR__ + '../weasyprint/dist/weasyprint.exe' 
@@ -116,6 +115,11 @@ export class Engine {
             this.lb.error(error);
         } finally {
             this.lb.leave();
+
+            if (this.artifactory.globalVars.get('dumpCSS')) {
+                this.markup.extractCssClassesAndTags();
+                console.show(); 
+            }
             console.log('Ending ArchiFabric-PDF...');
         }
     }

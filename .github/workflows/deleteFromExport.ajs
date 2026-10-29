@@ -1,0 +1,37 @@
+/*
+ * deleteFromExport - [Cleaning Archi file before export]
+ * Copyright (C) 2026 [Optiprise, Bart Ratgers]
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+// Delete all folders, elements and views with property _delete_from_export_ = true
+console.log("Delete all folders, elements and views with property _delete_from_export_ = true");
+$("folder").each(function(folder) {
+    if (folder.prop("_delete_from_export_") == "true") {
+        folder.delete(); 
+    }
+    else {
+        $(folder).children("element").each(function(element) {
+            if (element.prop("_delete_from_export_") == "true") {
+                element.delete(); 
+            }
+        }); 
+        $(folder).children("view").each(function(view) {
+            if (view.prop("_delete_from_export_") == "true") {
+                view.delete();
+            }
+        }); 
+    }
+});

@@ -232,8 +232,8 @@ export default class Catalog extends Artifact {
                         }
                     }
 
-                    // CONSISTENT LABEL PARSING: Prioritize labelExpression > content > name
-                    const rawLabel = childNode.labelExpression || childNode.content || childNode.name || '';
+                    // CONSISTENT LABEL PARSING: Prioritize labelExpression > content
+                    const rawLabel = childNode.labelExpression || childNode.content || '';
                     let cellValue = '';
 
                     if (templateRel) {

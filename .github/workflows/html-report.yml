@@ -111,6 +111,7 @@ jobs:
           -application com.archimatetool.commandline.app \
           -consoleLog -nosplash \
           --loadModel "${{ github.workspace }}/model.archimate" \
+          --script.runScript "${{ github.workspace }}/.github/workflows/deleteFromExport.ajs" \
           --html.createReport "${{ github.workspace }}/public"
 
       - name: Generate ArchiFabric PDF Documentation

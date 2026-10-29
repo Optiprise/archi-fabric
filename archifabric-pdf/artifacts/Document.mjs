@@ -39,6 +39,7 @@ export default class Document extends Artifact {
             const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
             const baseCssClass = this.markup.genHtmlClass(baseName);
             const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
+            const dump = inlineParams['dump'] ? ` ${inlineParams['dump']}` : '';
             const elementId = (targetElement?.id) || modelElement.id;
 
             // 1. Generate Root HTML Container
@@ -54,11 +55,18 @@ export default class Document extends Artifact {
 
             // 6. Close Root HTML Container
             this.markup.appendContent(`</div>\n`);
-
+            this.lb.log(`Document rendering completed successfully.`);
+            this.lb.log(`dump parameter value: ${dump}`);
+            if (dump.trim().toLowerCase() === 'css') {
+                this.lb.log(`Dump of CSS classes and HTML elements used in the document:`);
+                this.globalVars.set('dumpCSS', true);
+            }
+            // Optional: Log CSS and HTML elements used if 'log-css' parameter is set
         } catch (err) {
             this.lb.error(`Error during rendering of Document: ${err.message}`, modelElement);
         } finally {
             this.lb.leave();
+
         }
     }
 
