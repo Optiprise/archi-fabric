@@ -136,10 +136,8 @@ jobs:
           TIMEOUT=30
           INTERVAL=2
           ELAPSED=0
-
-          PROCESS='^/usr/bin/python3 -sP /usr/bin/weasyprint([[:space:]]|$)'
-
-          while pgrep -f "$PROCESS" > /dev/null; do
+          
+          while pgrep -f '(^|[[:space:]])/usr/bin/weasyprint([[:space:]]|$)' > /dev/null; do
             if (( ELAPSED >= TIMEOUT )); then
               echo "::error::WeasyPrint timeout"
               exit 1
@@ -150,7 +148,7 @@ jobs:
           done
 
           echo "WeasyPrint completed."
-          mv "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.pdf" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
+          # mv "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.pdf" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
           rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
           ls -l "${{ github.workspace }}/public/pdf"
 
