@@ -114,7 +114,7 @@ jobs:
           --script.runScript "${{ github.workspace }}/.github/workflows/deleteFromExport.ajs" \
           --html.createReport "${{ github.workspace }}/public"
 
-      - name: Generate ArchiFabric PDF Documentation
+      - name: Generate ArchiFabric HTML document structure 
         run: |
           # Create the export directory in advance
           mkdir -p "${{ github.workspace }}/public/pdf"
@@ -130,6 +130,28 @@ jobs:
           --loadModel "${{ github.workspace }}/model.archimate" \
           --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
 
+          - name: Wait for WeasyPrint
+
+      - name: Wait for WeasyPrint to finish PDF Documentation
+        run: |
+          ps -ef|grep '[w]easyprint' || echo "WeasyPrint process not found. It may have already completed."
+          TIMEOUT=30
+          INTERVAL=2
+          ELAPSED=0
+
+          PROCESS='^/usr/bin/python3 -sP /usr/bin/weasyprint([[:space:]]|$)'
+
+          while pgrep -f "$PROCESS" > /dev/null; do
+            if (( ELAPSED >= TIMEOUT )); then
+              echo "::error::WeasyPrint timeout"
+              exit 1
+            fi
+
+            sleep "$INTERVAL"
+            ELAPSED=$((ELAPSED + INTERVAL))
+          done
+
+          echo "WeasyPrint completed."
           mv "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.pdf" "${{ github.workspace }}/public/pdf/user-guide-archifabric.pdf"
           rm -rf "${{ github.workspace }}/public/pdf/User Guide ArchiFabric.html"
           ls -l "${{ github.workspace }}/public/pdf"

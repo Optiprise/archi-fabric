@@ -4228,13 +4228,13 @@ Understanding this layout will make the logic behind the **Catalog** and **Relat
             <documentation>**Welcome** to our first ArchiFabric document. This section demonstrates how a _Label Expression_ creates a header, while this text is placed directly beneath it.</documentation>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-281fc8eefb8c4b9dbc5dd7efffa6e46d" fontColor="#77767b" model="id-60b077d687d74c32ab234026fe5d1347">
-            <bounds y="144" width="110" height="35"/>
+            <bounds y="120" width="110" height="35"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-593a06c9e06a49a3b349bb788f8f98be" fontColor="#77767b" model="id-880ac917a3a24c42ae40ceb269ad1882">
-            <bounds x="109" y="144" width="291" height="35"/>
+            <bounds x="109" y="120" width="291" height="35"/>
           </child>
           <child xsi:type="archimate:Group" id="id-44705f15552b4e829c28cba4581a9a39" name="Section" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
-            <bounds y="192" width="400" height="85"/>
+            <bounds y="168" width="400" height="85"/>
             <feature name="labelExpression" value="Value Streams"/>
             <feature name="lineAlpha" value="64"/>
             <child xsi:type="archimate:DiagramModelReference" id="id-e6ae6fc87b17423995d64b1b98cc4cf8" model="id-880ac917a3a24c42ae40ceb269ad1882">
