@@ -130,8 +130,6 @@ jobs:
           --loadModel "${{ github.workspace }}/model.archimate" \
           --script.runScript "${{ github.workspace }}/archifabric-pdf/archifabric-pdf.ajs"
 
-          - name: Wait for WeasyPrint
-
       - name: Wait for WeasyPrint to finish PDF Documentation
         run: |
           ps -ef|grep '[w]easyprint' || echo "WeasyPrint process not found. It may have already completed."
