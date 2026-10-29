@@ -40,10 +40,26 @@ export class Engine {
      */
     constructor() {
         const System = Java.type('java.lang.System');
-        const logLevel = selection.filter('archimate-diagram-model').first().prop('logLevel') || System.getenv('LOG_LEVEL') || LogBook.LEVELS.ERROR;
         this.exportPath = System.getenv('ARCHIFABRIC_EXPORT_PATH');
         this.envModelStructureId = System.getenv('MODELSTRUCTURE_ID');
+        this.structureView = null;
 
+        // Find the selected Archi diagram view or use the environment variable MODELSTRUCTURE_ID
+        if (this.envModelStructureId) {
+            console.log(`Environment variable MODELSTRUCTURE_ID found: ${this.envModelStructureId}`);
+            // Select the view by ID and ensure it is an archimate-diagram-model
+            this.structureView = $('#' + this.envModelStructureId).filter('archimate-diagram-model').first();
+        } else {
+            this.structureView = selection.filter('archimate-diagram-model').first();
+        }
+
+        if (!this.structureView) {
+            throw new Error('Please select a valid ArchiMate diagram view representing the document structure, or provide a valid MODELSTRUCTURE_ID environment variable.');
+        }
+
+        // Determine the log level from the selected view or environment variable, defaulting to ERROR if not specified
+        // Set up the LogBook, Markup, and Artifactory components
+        const logLevel = this.structureView.prop('logLevel') || System.getenv('LOG_LEVEL') || LogBook.LEVELS.ERROR;
         this.lb = new LogBook(logLevel);
         this.markup = new Markup(this.lb, 'Markdown');
         this.artifactory = new Artifactory(this.lb, this.markup);
@@ -82,26 +98,9 @@ export class Engine {
             // 1. Initialize the Artifactory (dynamically load all artifact modules)
             await this.artifactory.loadAndInit();
 
-            // 2. Determine the structure view (Environment Variable OR UI Selection)
-
-            
-            let structureView;
-
-            if (this.envModelStructureId) {
-                this.lb.log(`Environment variable MODELSTRUCTURE_ID found: ${this.envModelStructureId}`);
-                // Select the view by ID and ensure it is an archimate-diagram-model
-                structureView = $('#' + this.envModelStructureId).filter('archimate-diagram-model').first();
-            } else {
-                this.lb.log('No MODELSTRUCTURE_ID environment variable found. Falling back to UI selection.');
-                structureView = selection.filter('archimate-diagram-model').first();
-            }
-
-            if (!structureView) {
-                throw new Error('Please select a valid ArchiMate diagram view representing the document structure, or provide a valid MODELSTRUCTURE_ID environment variable.');
-            }
 
             // 3. Find the main container and delegate processing
-            this._findAndProcessMainStructure(structureView);
+            this._findAndProcessMainStructure();
 
             // 4. Validate output before saving
             if (this.markup.content === '') {
@@ -130,7 +129,7 @@ export class Engine {
      * @param {Object} collection - The selected Archi diagram view.
      * @private
      */
-    _findAndProcessMainStructure(collection) {
+    _findAndProcessMainStructure(collection = this.structureView) {
         this.lb.enter(`Engine._findAndProcessMainStructure(${collection.name}) with id: ${collection.id}`);
 
         $(collection).children('diagram-model-group').each(groupElement => {
