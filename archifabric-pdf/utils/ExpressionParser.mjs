@@ -106,6 +106,12 @@ export class ExpressionParser {
             return val ? val : '';
         });
 
+        this.registerHandler('strength', (args, target) => {
+            return (target && target.type === 'influence-relationship') 
+                ? (target.influenceStrength || '') 
+                : '';
+        });
+
         // ${var:varName:defaultValue} -> Get from GlobalVars, fallback to default
         this.registerHandler('var', (args) => {
             const varName = args[0];

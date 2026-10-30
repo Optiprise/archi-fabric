@@ -1,0 +1,38 @@
+﻿/*
+ * deleteFromExport - [Cleaning Archi file before export]
+ * Copyright (C) 2026 [Optiprise, Bart Ratgers]
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+// Places string on clipboard
+function SetClipboardString(string) {
+	
+    var Toolkit = Java.type("java.awt.Toolkit");
+    var Transferable = Java.type("java.awt.datatransfer.StringSelection");
+
+    try {
+        var clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        transferable =  new Transferable(string);
+        
+        clipboard.setContents(transferable, transferable);
+    } 
+    catch (e) {
+        console.log("Failed copy string " + string + " to the clipboard due to exception: " + e);
+    }
+}
+
+element = selection.first().concept ? selection.first().concept : selection.first();
+console.log(element.id + " -> " + element.name);
+SetClipboardString(`[${element.name}](#${element.id})`);
