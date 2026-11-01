@@ -238,28 +238,31 @@ export class Engine {
                 pdfFile
             );
 
-            
+            const keepHtml = this.artifactory.globalVars.get('dumpHTML') === true;         
+            console.log(`dumpHTML parameter: ${keepHtml}`);
             if (this.executionMode === 'cli') {
                 // CLI: synchronous execution
-                this._executeWeasyPrintSync(weasyprint, pdfFile);
+                this._executeWeasyPrintSync(weasyprint, pdfFile, htmlFile, keepHtml);
             } else {
                 // Interactive: asynchronous execution
-                this._executeWeasyPrintAsync(weasyprint, pdfFile);
+                this._executeWeasyPrintAsync(weasyprint, pdfFile, htmlFile, keepHtml);
             }
         } finally {
             this.lb.leave();
         }
     }
 
+
     /**
      * Executes WeasyPrint synchronously.
      * Intended for CLI execution.
      *
-     * @param {weasy} weasyprint - The WeasyPrint process builder.
+     * @param {ProcessBuilder} weasyprint - The WeasyPrint process builder.
      * @param {string} pdfFile - Destination PDF file.
+     * @param {string} htmlFile - Temporary HTML file.  
      * @private
      */
-    _executeWeasyPrintSync(weasyprint, pdfFile) {
+    _executeWeasyPrintSync(weasyprint, pdfFile, htmlFile, keepHtml) {
         this.lb.enter('Engine._executeWeasyPrintSync');
         const TimeUnit = Java.type('java.util.concurrent.TimeUnit');
 
@@ -288,6 +291,18 @@ export class Engine {
         }
 
         this.lb.log(`Successfully generated: ${pdfFile}`);
+        
+        // Trigger cleanup synchronously
+        if (!keepHtml) {
+            const pdf = new File(pdfFile);
+            if (pdf.exists() && pdf.length() > 0) {
+                const html = new File(htmlFile);
+                if (html.exists()) {
+                    html.delete();
+                }
+            }
+        }
+        
         this.lb.leave();
     }
 
@@ -295,11 +310,12 @@ export class Engine {
      * Executes WeasyPrint asynchronously.
      * Intended for interactive Archi usage.
      *
-     * @param {weasy} weasyprint - The WeasyPrint process builder.
+     * @param {ProcessBuilder} weasyprint - The WeasyPrint process builder.
      * @param {string} pdfFile - Destination PDF file.
+     * @param {string} htmlFile - Temporary HTML file.
      * @private
      */
-    _executeWeasyPrintAsync(weasyprint, pdfFile) {
+    _executeWeasyPrintAsync(weasyprint, pdfFile, htmlFile, keepHtml) {
         this.lb.enter('Engine._executeWeasyPrintAsync');
 
         // Redirect process output to a log file
@@ -308,10 +324,30 @@ export class Engine {
 
         weasyprint.redirectErrorStream(true);
         weasyprint.redirectOutput(logFile);
-        weasyprint.start();
-
+        
+        const process = weasyprint.start();
+        
         this.lb.log(`WeasyPrint started asynchronously: ${pdfFile}`);
         window.alert(`ArchiFabric-PDF started asynchronously to generate: ${pdfFile}`);
+        
+        // Asynchronous cleanup using Java's onExit() CompletableFuture (Java 9+)
+        // This ensures the JS thread does not block, but the file is deleted when Java finishes the process.
+        process.onExit().thenAccept(new java.util.function.Consumer({
+            accept: (completedProcess) => {
+                // Controleer of weasyprint succesvol was afgerond (exit code 0)
+                if ((completedProcess.exitValue() === 0) && (!keepHtml)) {
+                     // We run the JS logic in an isolated context since the main jArchi thread might have ended
+                    const pdf = new File(pdfFile);
+                    if (pdf.exists() && pdf.length() > 0) {
+                        const html = new File(htmlFile);
+                        if (html.exists()) {
+                            html.delete();
+                        }
+                    }
+                }
+            }
+        }));
+
         this.lb.leave();
     }
 }

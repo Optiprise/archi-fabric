@@ -48,6 +48,7 @@ export class ExpressionParser {
      * @param {Object} contextArtifact - The artifact triggering the evaluation (for context like markup levels).
      * @returns {string} The fully evaluated string.
      */
+JavaScript
     evaluate(expression, targetElement, contextArtifact) {
         if (!expression) return '';
 
@@ -64,25 +65,37 @@ export class ExpressionParser {
             return ''; 
         });
 
-        return expression.replace(/\${(.*?)}/g, (match, innerContent) => {
-            const parts = innerContent.split(':');
-            const command = parts[0];
-            const args = parts.slice(1);
+        // The regex \$\{([^{}]+)\} looks for ${...} but accepts NO { or } inside.
+        // This guarantees that it always captures the deepest nested expression first!
+        const innermostRegex = /\$\{([^{}]+)\}/g;
 
-            if (this.handlers.has(command)) {
-                try {
-                    return this.handlers.get(command)(args, targetElement, contextArtifact);
-                } catch (error) {
-                    this.artifactory.lb.error(`Error evaluating \${${command}}: ${error.message}`);
-                    return match;
-                }
-            }
+        let previousExpression = "";
+        
+        // Keep evaluating as long as the text changes (peeling off layer by layer)
+        while (expression !== previousExpression) {
+            previousExpression = expression;
             
-            // Return unparsed match if no handler is found
-            this.artifactory.lb.log(`Warning: No handler registered for expression \${${command}}`);
-            return match; 
-        });
+            expression = expression.replace(innermostRegex, (match, innerContent) => {
+                const parts = innerContent.split(':');
+                const command = parts[0];
+                const args = parts.slice(1); // Safe to use, no nested brackets here anymore
 
+                if (this.handlers.has(command)) {
+                    try {
+                        return this.handlers.get(command)(args, targetElement, contextArtifact);
+                    } catch (error) {
+                        this.artifactory.lb.error(`Error evaluating \${${command}}: ${error.message}`);
+                        return match;
+                    }
+                }
+                
+                // Return unparsed match if no handler is found
+                this.artifactory.lb.log(`Warning: No handler registered for expression \${${command}}`);
+                return match; 
+            });
+        }
+
+        return expression;
     }
 
     /**
@@ -195,6 +208,29 @@ export class ExpressionParser {
             
             if (list.length === 0) return '';
             return '<ul class="custom-list">\n' + list.map(i => `  <li>${i}</li>\n`).join('') + '</ul>\n';
+        });
+
+        this.registerHandler('caption', (args, target, contextArtifact) => {
+            let cssClass = 'caption'; // Standaard CSS class
+            let captionText = '';
+
+            this.artifactory.lb.log(`ExpressionParser: Evaluating caption with args: ${args.join(', ')}`);    
+            // Determine caption text based on the number of arguments provided
+            if (args.length === 0) {
+                // Situation 1: ${caption} -> Use the target element's name as caption
+                captionText = target ? target.name : '';
+            } else if (args.length === 1) {
+                // Situation 2: ${caption:Mijn Tabel} or ${caption:${name}}
+                captionText = args[0];
+            } else {
+                // Situation 3: ${caption:custom-class:Text with ${name}} -> First argument is CSS class, rest is caption text
+                // Use the first argument as the CSS class, join the rest (in case the text contains ':')
+                cssClass = args[0].trim();
+                captionText = args.slice(1).join(':').trim();
+            }
+
+            if (!captionText) return '';
+            return `<div class="${cssClass}">${captionText}</div>`;
         });
     }
 }   

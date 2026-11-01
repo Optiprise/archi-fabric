@@ -58,9 +58,13 @@ export default class Document extends Artifact {
             this.lb.log(`Document rendering completed successfully.`);
             this.lb.log(`dump parameter value: ${dump}`);
             if (dump.trim().toLowerCase() === 'css') {
-                this.lb.log(`Dump of CSS classes and HTML elements used in the document:`);
+                this.lb.log(`Dump of CSS classes and HTML elements used in the document.`);
                 this.globalVars.set('dumpCSS', true);
+            } else if (dump.trim().toLowerCase() === 'html') {
+                this.lb.log(`Dump of HTML elements used in the document.`);
+                this.globalVars.set('dumpHTML', true);
             }
+
             // Optional: Log CSS and HTML elements used if 'log-css' parameter is set
         } catch (err) {
             this.lb.error(`Error during rendering of Document: ${err.message}`, modelElement);

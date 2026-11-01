@@ -1298,13 +1298,13 @@ To configure a Catalog, you create a Group on your canvas and set its **Name** t
 * **Note elements** define the static layout, such as column widths, headers, or bullet points.
 * **ArchiMate elements** define the scope and selection filter. By placing an ArchiMate element (like a Business Capability) inside the catalog, you instruct the engine to extract data for elements of that specific type.
 
-### Core Properties
+# Core Properties
 
 * **Name:** Must begin with `Catalog`. This is also where you define your query and styling parameters (see below).
 * **Label Expression:** Sets the heading of the catalog (e.g., printed as an `&lt;h2>` or `&lt;h3>` depending on its nested level in the document).
 * **Documentation:** Renders as introductory text directly beneath the heading, right before the actual table or list begins.
 
-### Query &amp; Styling Parameters
+# Query &amp; Styling Parameters
 
 You can fine-tune exactly which elements the Catalog retrieves and how they are presented by adding parameters directly into the Name field. You can use quotes to pass complex values or multiple classes to a single parameter.
 
@@ -2601,7 +2601,7 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
     </folder>
     <folder name="PDF User Guide" id="id-cc65cd18bdd5406fb6291673200d4dfa">
       <element xsi:type="archimate:ArchimateDiagramModel" name="PDF User Guide" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
-        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
+        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document dump=html" textAlignment="1">
           <bounds x="36" y="24" width="400" height="433"/>
           <feature name="labelExpression" value="User Guide ArchiFabric"/>
           <child xsi:type="archimate:DiagramModelReference" id="id-ae4f7f6e362b4134b941b1c03c45677a" model="id-ef4b538cebd145ea8568b51b7f63342c">
@@ -2620,9 +2620,6 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
           <child xsi:type="archimate:DiagramModelReference" id="id-85b910d9646a42c0b6e80cb8c4d73971" model="id-537f4a565eb5462e9ceff10eaac27339">
             <bounds y="240" width="400" height="25"/>
           </child>
-          <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
-            <bounds y="288" width="400" height="25"/>
-          </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-888f4c239b5f42a0a6ea792aed57d13e" model="id-5fe401ed6e28457fa0c2234c1a085fda">
             <bounds y="192" width="145" height="25"/>
           </child>
@@ -2634,6 +2631,19 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-97cd72f564f4483fb1db674d13f0d1c5" model="id-e78f9b3dda82436e92347b22d14e7b6d">
             <bounds x="144" y="144" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-b7ff73fe2a614b2982389c19cccd2c6d" name="Section" textAlignment="1">
+            <bounds y="288" width="400" height="97"/>
+            <feature name="labelExpression" value="Reference Guide"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-136e47e7e7ed468983ee1627549786df" model="id-589357f49592435784f007f66f47de4e">
+              <bounds y="24" width="400" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-49faf49505524ed0b194eb56d8fc5ae4" model="id-5fe401ed6e28457fa0c2234c1a085fda">
+              <bounds y="60" width="145" height="25"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-1eb48f65a06c444eaea762bdaed0b07e" model="id-f49c2a4227194db48387c24ccd9530d4">
+              <bounds x="144" y="60" width="253" height="25"/>
+            </child>
           </child>
           <documentation>${set:Reference:https://github.com/Optiprise/archi-fabric}
 ${set:imageQuality:2}
@@ -2675,10 +2685,10 @@ ${set:imageQuality:2}
       </element>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Working with ArchiFabric" id="id-537f4a565eb5462e9ceff10eaac27339">
         <child xsi:type="archimate:Group" id="id-7d8882387c624fa4b3887ba5477ba034" name="Section" textAlignment="1">
-          <bounds x="36" y="24" width="400" height="469"/>
+          <bounds x="36" y="24" width="400" height="529"/>
           <feature name="labelExpression" value="Working with ArchiFabric"/>
           <child xsi:type="archimate:DiagramModelReference" id="id-874cbbf92df54a379bd0fdbb0ca0566a" model="id-5fe401ed6e28457fa0c2234c1a085fda">
-            <bounds y="36" width="145" height="421"/>
+            <bounds y="36" width="145" height="481"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-fc9ded92a60b4dc2ad2de770b53412f6" model="id-5d9eb981e9fa4950b39ebb7829c381fb">
             <bounds x="144" y="36" width="253" height="25"/>
@@ -2725,6 +2735,12 @@ ${set:imageQuality:2}
           <child xsi:type="archimate:DiagramModelReference" id="id-2417a9273a1e4f0da16f2d9f8a6f3ead" model="id-6ca47ba93ff2434d8340907551c4eff9">
             <bounds x="144" y="348" width="253" height="25"/>
           </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-2f223cae485a40ff9d927db8a6282483" model="id-e78fd4cc315e4563bf39a9e23589cb2e">
+            <bounds x="144" y="396" width="253" height="25"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-82262d49f23849c1b14e81ac31ddab96" model="id-a184b8b8f7a74d6aaf3ee5e12e168dfe">
+            <bounds x="144" y="420" width="253" height="25"/>
+          </child>
           <documentation>Now that you are familiar with the basic concepts, it is time to put theory into practice. To make this learning process as smooth as possible, we have prepared a dedicated sample project.
 
 Download the **`tutorial.archimate`** file from the ArchiFabric [GitHub Releases page](https://github.com/Optiprise/archi-fabric/releases) and open it in Archi. In the Models tree on the left, expand the **Views** folder. You will see it is divided into three specific subfolders:
@@ -2751,7 +2767,7 @@ By following these practical steps, you will experience the workflow firsthand a
             <child xsi:type="archimate:Group" id="id-a07f4ad1d887437f85cd0c9ebd790b51" name="Diagram" textAlignment="1">
               <bounds y="132" width="400" height="61"/>
               <child xsi:type="archimate:Note" id="id-e7054bf23b864fd881e9321be6b811fc" textAlignment="1" borderType="1">
-                <bounds x="72" y="24" width="229" height="37"/>
+                <bounds x="48" y="24" width="289" height="37"/>
               </child>
             </child>
             <child xsi:type="archimate:Group" id="id-9fb7e5451b8841e0b08305ba4e51e04b" name="Documentation class=lead" textAlignment="1">
@@ -4214,11 +4230,11 @@ Understanding this layout will make the logic behind the **Catalog** and **Relat
             <bounds y="168" width="400" height="85"/>
             <feature name="labelExpression" value="Value Streams"/>
             <feature name="lineAlpha" value="64"/>
-            <child xsi:type="archimate:DiagramModelReference" id="id-77786db8bcfb4c188f609bd57b927b9e" model="id-52b98cde381e4852a826666152ec7cbb">
-              <bounds y="36" width="110" height="35"/>
-            </child>
             <child xsi:type="archimate:DiagramModelReference" id="id-be51b2b1290f4990b73bb59ffffe7074" model="id-f7fb35a47e194a739480d42a82e2568d">
               <bounds x="109" y="36" width="291" height="35"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-6dc5a2eccc634848b4dc5422235c0a33" model="id-38d534278df34b0fb85d21d01bb3095e">
+              <bounds y="36" width="110" height="35"/>
             </child>
             <documentation>${set:Leads:Customer}</documentation>
           </child>
@@ -4235,6 +4251,7 @@ Understanding this layout will make the logic behind the **Catalog** and **Relat
 
 When you open the generated PDF, you will see a brand new chapter titled **Value Streams**. Below it, ArchiFabric has done the heavy lifting for you: it iterated through the `Deliver Customer Value` view, found the specific value streams (such as *Deliver Customer Solution* and *Support Customer*), and automatically generated a formatted sub-header and documentation paragraph for each of them!</documentation>
         <property key="_delete_from_export_" value="true"/>
+        <property key="logLevel" value="DEBUG"/>
       </element>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Invisible Elements for Structural Filtering" id="id-6dea381ef8e04eb6848eb3f913c37796">
         <child xsi:type="archimate:Note" id="id-53da49be9cc0499584813a4d1a2a4073" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
@@ -4553,11 +4570,13 @@ ${hline}</content>
         <documentation>
 **Setting Up the Main Catalog and Table Headers**
 
-1. Place an **Assessment** element across the full width inside a new `Catalog` group. Set its Label Expression to `${header}` and, on a new line, `${documentation}` to dynamically generate the assessment's title and description.
-2. Create the table headers directly below this using three **Note** elements:
-* Place an empty Note on the far left to create visual indentation.
-* Place a second Note next to it with the text `Capability` and the expression `${hline}` on the next line. This expression generates a standard HTML horizontal rule (`&lt;hr>`).
-* Place a third Note on the right with the text `Impact` and the `${hline}` expression to form the final column header.
+1. **Create the Template View**: In your Tutorial folder, create a new ArchiMate View and name it Business Impact Analysis Artifact.
+2. **Add the Catalog Artifact**: Drag a Group onto the canvas and set its Name to Catalog.
+3. **Add the Filter Element (Header)**: Place an **Assessment** element across the full width inside a new `Catalog` group. Set its Label Expression to `${header}` and, on a new line, `${documentation}` to dynamically generate the assessment's title and description.
+4. **Create the table headers**: Place directly below this element three **Note** elements:
+	* Place an empty Note on the far left to create visual indentation.
+	* Place a second Note next to it with the text `Capability` and the expression `${hline}` on the next line. This expression generates a standard HTML horizontal rule (`&lt;hr>`).
+	* Place a third Note on the right with the text `Impact` and the `${hline}` expression to form the final column header.
 
 
 
@@ -4662,187 +4681,6 @@ By including this artifact, we instruct ArchiFabric to embed this stylesheet int
 
 *Note: ArchiFabric automatically injects standard class names for different types of artifacts and elements. However, users can also exert fine-grained control over these classes by appending the `class=&quot;&lt;class name>&quot;` parameter to the Name field of any artifact!*</documentation>
         <property key="Lead" value="The resulting document now includes a detailed table. However, you might notice that the horizontal spacing between the cells is too large for a compact table presentation. This is the perfect moment to introduce the next artifact: the CSS Artifact. With CSS, you can precisely control the presentation of the document, enforcing typography, colors, padding, and the layout of elements."/>
-      </element>
-      <element xsi:type="archimate:ArchimateDiagramModel" name="Showing a relation (CSS)" id="id-80498e6afb1145f7af212c38231ad2cc">
-        <child xsi:type="archimate:Note" id="id-500fb0ef46c14152a2ed4b17b2faf277" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="24" y="72" width="284" height="73"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;&#x9;"/>
-          <sourceConnection id="id-6952cc2774b5404caf7cf7e193c5c2d7" lineWidth="2" lineColor="#1a5fb4" source="id-500fb0ef46c14152a2ed4b17b2faf277" target="id-454b386714244bbca5f0107368a16bff" type="1"/>
-        </child>
-        <child xsi:type="archimate:Note" id="id-62c9314ba7c94283b7cff4978d829a99" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="28" y="84" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-2a67140be25540458607bc177f8c8206" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="148" y="84" width="156" height="49"/>
-          <content>${header} ${documentation}</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-1d335ddb70b049a7aca7fff807ed1ebf" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="24" y="12" width="284" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;"/>
-          <sourceConnection id="id-77904235f7674a71979f91faba8d8016" lineWidth="2" lineColor="#1a5fb4" source="id-1d335ddb70b049a7aca7fff807ed1ebf" target="id-1c81a52383e2496480ea572785e258c4" type="1"/>
-        </child>
-        <child xsi:type="archimate:Note" id="id-1a7d4cd4c1274e2e8d5de14e2f0b3158" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="148" y="24" width="156" height="25"/>
-          <content>Catalog</content>
-        </child>
-        <child xsi:type="archimate:Group" id="id-1c81a52383e2496480ea572785e258c4" name="Catalog" targetConnections="id-77904235f7674a71979f91faba8d8016" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="64">
-          <bounds x="420" y="36" width="400" height="517"/>
-          <child xsi:type="archimate:Group" id="id-0cf60d6d4d4541b697b14daa3fa265d3" name="Catalog sort=position" targetConnections="id-c319124fa7ff432d97a1f1cca4f9dbda" textAlignment="1" alpha="64">
-            <bounds y="336" width="400" height="61"/>
-            <child xsi:type="archimate:Note" id="id-2b67f7560b60485c92e35968bf2bd35d" textAlignment="1" borderType="1">
-              <bounds y="24" width="25" height="30"/>
-            </child>
-            <child xsi:type="archimate:DiagramObject" id="id-6f0a55d1308749848de3f98ba77e3373" targetConnections="id-da0cfa31630947ac966d5497dbca6719" textAlignment="1" archimateElement="id-cacf1134ff204690b265ded6e0340d6b">
-              <bounds x="24" y="24" width="277" height="30"/>
-              <feature name="labelExpression" value="**${name}**"/>
-              <sourceConnection xsi:type="archimate:Connection" id="id-327539fcc603424f8f6eb4910dec285f" targetConnections="id-ff3c2d4e63864a46b8d96bd3b1e5b4d2" source="id-6f0a55d1308749848de3f98ba77e3373" target="id-454b386714244bbca5f0107368a16bff" archimateRelationship="id-7717a54a3dd749b7a6e1b5fc7a436c8e"/>
-            </child>
-            <child xsi:type="archimate:Note" id="id-797823dad1854921ab68c8ba61c22f07" targetConnections="id-2b0a3f69cf1646599f9ae10953f0fa5b" textAlignment="1" borderType="1">
-              <bounds x="300" y="24" width="97" height="30"/>
-              <feature name="labelExpression" value="${strength}"/>
-              <sourceConnection id="id-ff3c2d4e63864a46b8d96bd3b1e5b4d2" source="id-797823dad1854921ab68c8ba61c22f07" target="id-327539fcc603424f8f6eb4910dec285f" type="1">
-                <bendpoint startY="-159" endX="186"/>
-              </sourceConnection>
-            </child>
-          </child>
-          <child xsi:type="archimate:DiagramObject" id="id-454b386714244bbca5f0107368a16bff" targetConnections="id-327539fcc603424f8f6eb4910dec285f id-6952cc2774b5404caf7cf7e193c5c2d7" textAlignment="1" archimateElement="id-be5f13cac4294d639470758a36132595">
-            <bounds y="36" width="400" height="37"/>
-            <feature name="labelExpression" value="${header}&#xA;${documentation}"/>
-          </child>
-          <child xsi:type="archimate:Note" id="id-9000b01bab7749eca13fa37518b2f648" textAlignment="1" borderType="1">
-            <bounds y="108" width="25" height="30"/>
-          </child>
-          <child xsi:type="archimate:Note" id="id-64e57c45393a443eb1a1dfcddca2f151" targetConnections="id-bf38c6d32b7544a99d7771f0d49bfdc9" textAlignment="1" borderType="1">
-            <bounds x="24" y="108" width="277" height="30"/>
-            <feature name="labelExpression" value="Capability&#xA;${hline}"/>
-          </child>
-          <child xsi:type="archimate:Note" id="id-1411f6b6f2db499ea4284b644f1d1625" targetConnections="id-9b4720e8cd6548608b5b929c9cecd43b" textAlignment="1" borderType="1">
-            <bounds x="300" y="108" width="97" height="30"/>
-            <feature name="labelExpression" value="Impact&#xA;${hline}"/>
-          </child>
-          <child xsi:type="archimate:Group" id="id-96ee37dd82f845f79e26acc13af6a8e2" name="CSS" textAlignment="1">
-            <bounds y="432" width="400" height="49"/>
-            <documentation>.catalog-cell p {
-    margin-top: 0;
-    margin-bottom: 0;
-}</documentation>
-          </child>
-        </child>
-        <child xsi:type="archimate:Note" id="id-cae78dd4b062470f800fc62b1064b02b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="204" width="284" height="73"/>
-          <feature name="lineStyle" value="3"/>
-          <sourceConnection id="id-bf38c6d32b7544a99d7771f0d49bfdc9" lineWidth="2" lineColor="#1a5fb4" source="id-cae78dd4b062470f800fc62b1064b02b" target="id-64e57c45393a443eb1a1dfcddca2f151" type="1">
-            <bendpoint startX="302" endX="-114" endY="62"/>
-          </sourceConnection>
-        </child>
-        <child xsi:type="archimate:Note" id="id-bd13fb0e7a6c44468687492d65854f97" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="216" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-d5996d7137914780821e912dc336edaf" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="216" width="156" height="49"/>
-          <content>Capability
-${hline}</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-499f235055ce46349f91734e1d59688d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="144" width="284" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;"/>
-        </child>
-        <child xsi:type="archimate:Note" id="id-f3d6d76e13944392ba4ba4fc3f857346" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="156" width="156" height="25"/>
-          <content>&lt;Empty></content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-560d8832bf9b4379905805507ab037b3" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="28" y="24" width="120" height="25"/>
-          <content>Name:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-797a92e07f1c47fe99c03789abb240a4" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="156" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-fcc4cf5c56d14025bef79d11ef9cfc89" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="288" width="284" height="73"/>
-          <feature name="lineStyle" value="3"/>
-          <sourceConnection id="id-9b4720e8cd6548608b5b929c9cecd43b" lineWidth="2" lineColor="#1a5fb4" source="id-fcc4cf5c56d14025bef79d11ef9cfc89" target="id-1411f6b6f2db499ea4284b644f1d1625" type="1">
-            <bendpoint startX="570" endX="-36" endY="165"/>
-          </sourceConnection>
-        </child>
-        <child xsi:type="archimate:Note" id="id-421c0d5325e44aa8b0eeb6aaf7e750c1" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="300" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-6c00b2aa444f4582a3e637c7c8d6f032" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="300" width="156" height="49"/>
-          <content>Impact
-${hline}</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-4bd6cd0e85ae4ffabb45df2b37f4084c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="360" width="284" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;"/>
-          <sourceConnection id="id-c319124fa7ff432d97a1f1cca4f9dbda" lineWidth="2" lineColor="#1a5fb4" source="id-4bd6cd0e85ae4ffabb45df2b37f4084c" target="id-0cf60d6d4d4541b697b14daa3fa265d3" type="1">
-            <bendpoint startX="198" endX="-260" endY="-18"/>
-          </sourceConnection>
-        </child>
-        <child xsi:type="archimate:Note" id="id-4bcee58394c341b19dbaee663e70afd2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="372" width="156" height="25"/>
-          <content>Catalog sort-position</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-ecc107e036654d44a149359107f799cc" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="372" width="120" height="25"/>
-          <content>Name:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-63937a746c4d4f0a88f47d3635281829" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="420" width="284" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;"/>
-          <sourceConnection id="id-da0cfa31630947ac966d5497dbca6719" lineWidth="2" lineColor="#1a5fb4" source="id-63937a746c4d4f0a88f47d3635281829" target="id-6f0a55d1308749848de3f98ba77e3373" type="1">
-            <bendpoint startX="402" endX="-18" endY="33"/>
-          </sourceConnection>
-        </child>
-        <child xsi:type="archimate:Note" id="id-9b665a6d61be4341837c0bcc56ffd405" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="432" width="156" height="25"/>
-          <content>**${name}**</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-16f2042a4e66443b818db00c97f0fe86" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="432" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-d5b80f62c872468e9b38b499f6d80b77" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="20" y="480" width="284" height="49"/>
-          <feature name="lineStyle" value="3"/>
-          <feature name="labelExpression" value="&#x9;&#x9;&#x9;"/>
-          <sourceConnection id="id-2b0a3f69cf1646599f9ae10953f0fa5b" lineWidth="2" lineColor="#1a5fb4" source="id-d5b80f62c872468e9b38b499f6d80b77" target="id-797823dad1854921ab68c8ba61c22f07" type="1">
-            <bendpoint startX="606" endY="93"/>
-          </sourceConnection>
-        </child>
-        <child xsi:type="archimate:Note" id="id-da52b04ca8df49a8a5150492746eebbb" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="144" y="492" width="156" height="25"/>
-          <content>**${strength}**</content>
-        </child>
-        <child xsi:type="archimate:Note" id="id-e731cadda3cb433283773ecc154da8aa" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="24" y="492" width="120" height="25"/>
-          <content>Label Expression:</content>
-        </child>
-        <documentation>In ArchiFabric, you can include elements in your ModelStructure that act as selection filters for relationships, but remain entirely **invisible** in the final document. You achieve this simply by leaving the `Label Expression` blank.
-
-In this example, we will adjust our template to show only the Value Streams that are part of a parent Value Stream via an *Aggregation relationship*, while hiding the parent Value Stream itself.
-
-**Follow these steps to apply an invisible filter element:**
-
-1. **Create a Parent Catalog:** Open your `Value Stream Artifact` view. Draw a new, large **Group** around your existing `Catalog sort=position` group. Set the **Name** of this outer group to `Catalog`.
-2. **Add the Invisible Anchor:** Drag a new **Value Stream** element inside this new, outer `Catalog` group (place it above the nested catalog).
-3. **Make the Element Invisible:** In the Properties panel of this new Value Stream element, completely clear the **Label Expression** field (so it is `&lt;Empty>`). This tells ArchiFabric that this element should not be printed.
-4. **Model the Filter Relationship:** Draw an **Aggregation relationship** from this new, invisible Value Stream element to the Value Stream element with the `${header}` expression in the nested catalog below it.
-5. **Generate the Output:** Save the template, go back to your main document view, and run the ArchiFabric script again.
-
-**What happens under the hood?**
-ArchiFabric reads the outer catalog and finds the parent Value Stream in your target view. Because the Label Expression is empty, no text or header is generated. Next, the engine follows the explicitly modeled aggregation relationship to the nested catalog. As a result, only the sub-Value Streams (such as *Understand Customer Needs* and *Develop Customer Solution*) are printed, complete with their related Business Capabilities!</documentation>
-        <property key="Lead" value="When reviewing the generated document from the previous steps, you might notice that the overarching parent Value Stream (&quot;Deliver Customer Value&quot;) is also printed in the list, alongside its underlying stages. Often, you only want to display the nested sub-elements in a report, but you still need the parent element to determine *which* sub-elements to select."/>
       </element>
       <element xsi:type="archimate:ArchimateDiagramModel" name="Introducing the Business Impact Analysis View" id="id-e6e5bd385f804fbe93dc1967f1c918e9">
         <child xsi:type="archimate:DiagramObject" id="id-615caae8cbef4bd3995e3aece614263d" font="1|Comfortaa|14.0|1|GTK|1|" fontColor="#ffffff" fillColor="#1a5fb4" archimateElement="id-a16fb70b0fb64c1bbfdcc6620eecc03b" type="1">
@@ -4972,6 +4810,7 @@ This assessment helps prioritize AI initiatives, ensuring the organization focus
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-9b3557710b404b09bd17c2bd4f91dab9" targetConnections="id-d7cfbaa08b2341d8854c45702700d9fe" model="id-52b98cde381e4852a826666152ec7cbb">
             <bounds y="288" width="110" height="35"/>
+            <feature name="labelExpression" value="Business Impact Analysis Artifact"/>
           </child>
           <child xsi:type="archimate:DiagramModelReference" id="id-47fe7308f89d4f4da3422b07c64f830d" targetConnections="id-8853caec562b4dbd8d455efe59983803" model="id-e6e5bd385f804fbe93dc1967f1c918e9">
             <bounds x="109" y="288" width="291" height="35"/>
@@ -5002,6 +4841,74 @@ This assessment helps prioritize AI initiatives, ensuring the organization focus
         <documentation>**Follow these steps to generate the assessment chapter:**
 
 1. Open the view of your main document (`My First Document`).
+2. **Link the Model Structure:** Drag the view of your newly created `Business Impact Analysis Artifact` from the model tree into the empty space at the bottom of your document structure.
+3. **Link the Target Structure:** Drag the `Introducing the Business Impact Analysis View` from the model tree and place it directly next to the recently placed artifact. This combination instructs the engine to push the data from the impact analysis through the table layout.
+4. **Generate the Output:** Save the view and run the ArchiFabric script again.
+
+The resulting PDF document is now enriched with a new chapter. ArchiFabric reads the linked assessment and automatically generates the title and its corresponding documentation, immediately followed by the dynamically built table that neatly and structurally displays the expected impact (strength) per capability.</documentation>
+        <property key="Lead" value="Now that the `Business Impact Analysis Artifact` (Model Structure) and the Business Impact Analysis view (Target Structure) are ready, we can combine them in the main document. This process follows the same intuitive drag-and-drop principle as in the previous chapters."/>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Dump CSS" id="id-e78fd4cc315e4563bf39a9e23589cb2e">
+        <child xsi:type="archimate:Group" id="id-74d0d55784384eaebef19c0c9da0f8c7" name="Document dump=css" targetConnections="id-f7e0255448e2452b862f05cf666153d0" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+          <bounds x="420" y="36" width="400" height="385"/>
+          <feature name="labelExpression" value="My First Document"/>
+          <child xsi:type="archimate:Group" id="id-4b3dff2cffa24ac5837bebb192e16f2f" name="Section" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" textAlignment="1" alpha="64">
+            <bounds y="60" width="400" height="49"/>
+            <feature name="labelExpression" value="Hello World!"/>
+            <feature name="lineAlpha" value="64"/>
+            <documentation>**Welcome** to our first ArchiFabric document. This section demonstrates how a _Label Expression_ creates a header, while this text is placed directly beneath it.</documentation>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-9e451764bae444e9bbe0f0f8a48c491a" fontColor="#77767b" alpha="64" model="id-60b077d687d74c32ab234026fe5d1347">
+            <bounds y="144" width="110" height="35"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-74fa5bed6b8e4737814b9b2421006cf4" fontColor="#77767b" alpha="64" model="id-880ac917a3a24c42ae40ceb269ad1882">
+            <bounds x="109" y="144" width="291" height="35"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-5daeb4116575434a899c4ca38bea22cb" name="Section" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" textAlignment="1" alpha="64">
+            <bounds y="192" width="400" height="85"/>
+            <feature name="labelExpression" value="Value Streams"/>
+            <feature name="lineAlpha" value="64"/>
+            <child xsi:type="archimate:DiagramModelReference" id="id-822da9b10cf54eea8ab3a09196428bd6" alpha="64" model="id-880ac917a3a24c42ae40ceb269ad1882">
+              <bounds x="109" y="36" width="291" height="35"/>
+            </child>
+            <child xsi:type="archimate:DiagramModelReference" id="id-5418075e06c64903905746260bc91490" alpha="64" model="id-1acc7ae30dac42faa09dc5bc0f0443c6">
+              <bounds y="36" width="110" height="35"/>
+            </child>
+            <documentation>${set:Leads:Customer}</documentation>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-0384aa9f08124b35abd0c2f5f91bb791" alpha="64" model="id-52b98cde381e4852a826666152ec7cbb">
+            <bounds y="288" width="110" height="35"/>
+          </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-24bac16857bb42fe9385a9cca0e44a73" alpha="64" model="id-e6e5bd385f804fbe93dc1967f1c918e9">
+            <bounds x="109" y="288" width="291" height="35"/>
+          </child>
+        </child>
+        <child xsi:type="archimate:Note" id="id-21cf1f9326f246e89ca58f9c3d2591ae" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
+          <bounds x="30" y="24" width="284" height="77"/>
+          <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-f7e0255448e2452b862f05cf666153d0" lineWidth="2" lineColor="#1a5fb4" source="id-21cf1f9326f246e89ca58f9c3d2591ae" target="id-74d0d55784384eaebef19c0c9da0f8c7" type="1">
+            <bendpoint startX="188" startY="-14" endX="-260" endY="-180"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:Note" id="id-704d218f22944052ba903f92baa2993a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="34" y="36" width="120" height="25"/>
+          <content>Name:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-15365b6ec59a44438ad2931da5e51c6f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="34" y="72" width="120" height="25"/>
+          <content>Label Expression:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-2fa7731578c74fb6b76979bb8cf37997" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="154" y="36" width="156" height="25"/>
+          <content>Document dump=css</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-7dcfef5c266841a4b48d06d4eaaaf394" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="154" y="72" width="156" height="25"/>
+          <content>My First Document</content>
+        </child>
+        <documentation>**Follow these steps to generate the assessment chapter:**
+
+1. Open the view of your main document (`My First Document`).
 2. **Link the Model Structure:** Drag the view of your newly created `Relationship Properties` artifact from the model tree into the empty space at the bottom of your document structure.
 3. **Link the Target Structure:** Drag the `Introducing the Business Impact Analysis View` from the model tree and place it directly next to the recently placed artifact. This combination instructs the engine to push the data from the impact analysis through the table layout.
 4. **Generate the Output:** Save the view and run the ArchiFabric script again.
@@ -5009,6 +4916,105 @@ This assessment helps prioritize AI initiatives, ensuring the organization focus
 The resulting PDF document is now enriched with a new chapter. ArchiFabric reads the linked assessment and automatically generates the title and its corresponding documentation, immediately followed by the dynamically built table that neatly and structurally displays the expected impact (strength) per capability.</documentation>
         <property key="Lead" value="Now that the `Relationship Properties` artifact (Model Structure) and the Business Impact Analysis view (Target Structure) are ready, we can combine them in the main document. This process follows the same intuitive drag-and-drop principle as in the previous chapters."/>
       </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Use caption for a table" id="id-a184b8b8f7a74d6aaf3ee5e12e168dfe">
+        <child xsi:type="archimate:Note" id="id-3d21f5fd18d94c768a0c6c71d6f7f494" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
+          <bounds x="36" y="336" width="284" height="109"/>
+          <feature name="lineStyle" value="3"/>
+        </child>
+        <child xsi:type="archimate:Note" id="id-0ff319cc1efb499fba2c43511e5c5a7f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="40" y="348" width="120" height="25"/>
+          <content>Documentation:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-f4e2042cdc2e444dbc766885aae07388" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="160" y="348" width="156" height="85"/>
+          <sourceConnection id="id-f8ee2ca5b86b4701b51b75297e21ab7b" lineWidth="2" lineColor="#1a5fb4" source="id-f4e2042cdc2e444dbc766885aae07388" target="id-9f2781e6941a49ba980465fe22a0d2f5" type="1"/>
+          <content>.catalog-cell p {
+    margin-top: 0;
+    margin-bottom: 0;
+}</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-c5e89de3980c497e89374473592ac75d" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
+          <bounds x="36" y="276" width="284" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-92617d95b7034a31aa19530b075e0470" lineWidth="2" lineColor="#1a5fb4" source="id-c5e89de3980c497e89374473592ac75d" target="id-9f2781e6941a49ba980465fe22a0d2f5" type="1">
+            <bendpoint startX="194" endX="-248" endY="-30"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:Note" id="id-04e88ea6002540a8abc019c297e489b8" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="40" y="288" width="120" height="25"/>
+          <content>Name:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-b5667b3c520f4e6e96accc5ed1cc3567" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="160" y="288" width="156" height="25"/>
+          <content>CSS</content>
+        </child>
+        <child xsi:type="archimate:Group" id="id-057002c552c04fc18bb42a8cff1222ee" name="Catalog" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="64">
+          <bounds x="420" y="36" width="400" height="397"/>
+          <child xsi:type="archimate:Group" id="id-c9dd2d8c4d724af1af3d09b175486dc3" name="Catalog sort=position" textAlignment="1" alpha="64">
+            <bounds y="156" width="400" height="61"/>
+            <child xsi:type="archimate:Note" id="id-7ad0144ee0954b60b44a01c0b9270dd2" textAlignment="1" borderType="1">
+              <bounds y="24" width="25" height="30"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-20d872e714904ee48c0322f1503e5af0" textAlignment="1" alpha="64" archimateElement="id-cacf1134ff204690b265ded6e0340d6b">
+              <bounds x="24" y="24" width="277" height="30"/>
+              <feature name="labelExpression" value="**${name}**"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-983554dad5214c89aa8947ea85b94f8a" targetConnections="id-0f7c15210a81406a9b82480dd56323e8" source="id-20d872e714904ee48c0322f1503e5af0" target="id-591375aca5544c6c86965b757eb61b8b" archimateRelationship="id-7717a54a3dd749b7a6e1b5fc7a436c8e"/>
+            </child>
+            <child xsi:type="archimate:Note" id="id-f7435306249447efb8ed072de31a12aa" textAlignment="1" borderType="1">
+              <bounds x="300" y="24" width="97" height="30"/>
+              <feature name="labelExpression" value="${strength}"/>
+              <sourceConnection id="id-0f7c15210a81406a9b82480dd56323e8" source="id-f7435306249447efb8ed072de31a12aa" target="id-983554dad5214c89aa8947ea85b94f8a" type="1">
+                <bendpoint startX="-12" startY="-63" endX="174" endY="-6"/>
+              </sourceConnection>
+            </child>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-591375aca5544c6c86965b757eb61b8b" targetConnections="id-983554dad5214c89aa8947ea85b94f8a" textAlignment="1" archimateElement="id-be5f13cac4294d639470758a36132595">
+            <bounds y="36" width="400" height="37"/>
+            <feature name="labelExpression" value="# ${name}&#xA;&#xA;${documentation}"/>
+          </child>
+          <child xsi:type="archimate:Note" id="id-a825828abf5f4069b6f9fff24ac7d02d" textAlignment="1" borderType="1">
+            <bounds y="79" width="25" height="30"/>
+          </child>
+          <child xsi:type="archimate:Note" id="id-59f194c9828c43aa96c2168105301ea2" textAlignment="1" borderType="1">
+            <bounds x="24" y="79" width="277" height="30"/>
+            <feature name="labelExpression" value="Capability&#xA;${hline}"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-9f2781e6941a49ba980465fe22a0d2f5" name="CSS" targetConnections="id-92617d95b7034a31aa19530b075e0470 id-f8ee2ca5b86b4701b51b75297e21ab7b" textAlignment="1">
+            <bounds y="252" width="400" height="85"/>
+            <documentation>.catalog-cell p {
+    margin-top: 0;
+    margin-bottom: 0;
+}</documentation>
+          </child>
+          <child xsi:type="archimate:Note" id="id-8e8c57ab1dce49438f9ab7c5b7d44343" textAlignment="1" borderType="1">
+            <bounds x="300" y="79" width="97" height="30"/>
+            <feature name="labelExpression" value="Impact&#xA;${hline}"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-9db34ace28a64ae88b01eae93ced42f0" textAlignment="4" textPosition="1" archimateElement="id-be5f13cac4294d639470758a36132595">
+            <bounds x="24" y="228" width="376" height="25"/>
+            <feature name="labelExpression" value="${caption:table-caption:Table: ${name}}"/>
+          </child>
+        </child>
+        <documentation>In this first step, we will reduce the horizontal space between the cells.
+
+We do this by adding a Group element named `CSS` directly to the Business Impact Artifact view. Inside the Documentation field of this group, we include the following CSS code:
+
+```css
+.catalog-cell p {
+    margin-top: 0;
+    margin-bottom: 0;
+}     
+
+```
+
+By including this artifact, we instruct ArchiFabric to embed this stylesheet into the final document. This specific rule targets the HTML `&lt;p>` tags inside any cell with the class name `.catalog-cell` (which ArchiFabric generates by default for catalog tables) and reduces their top and bottom margins to zero.
+
+*Note: ArchiFabric automatically injects standard class names for different types of artifacts and elements. However, users can also exert fine-grained control over these classes by appending the `class=&quot;&lt;class name>&quot;` parameter to the Name field of any artifact!*</documentation>
+        <property key="Lead" value="The resulting document now includes a detailed table. However, you might notice that the horizontal spacing between the cells is too large for a compact table presentation. This is the perfect moment to introduce the next artifact: the CSS Artifact. With CSS, you can precisely control the presentation of the document, enforcing typography, colors, padding, and the layout of elements."/>
+      </element>
+    </folder>
+    <folder name="Dynamic Label Expressions" id="id-b84260a05dc64bd490c7812b5317608a">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Dynamic Label Expressions" id="id-f49c2a4227194db48387c24ccd9530d4"/>
     </folder>
   </folder>
   <purpose>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.
