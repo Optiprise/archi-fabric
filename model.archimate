@@ -1152,11 +1152,19 @@ This PDF is your deliverable—e.g., a **TOGAF-compliant report** containing the
             </child>
             <child xsi:type="archimate:Note" id="id-43de0a93f5654a5e89354ee8d5bd6fb2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
               <bounds x="96" y="72" width="237" height="25"/>
-              <content>{css}</content>
+              <content>{css|html}</content>
             </child>
             <child xsi:type="archimate:Note" id="id-bd27e3ca5a8d418990e01d7aab741ac2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="72" width="85" height="25"/>
               <content>dump=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-c294b823fd1d4a62986f33ac27181518" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="108" width="237" height="25"/>
+              <content>&lt;locale format></content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-69548147dacb4ef59b6fb6ccc94054fe" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds x="12" y="108" width="85" height="25"/>
+              <content>locale=</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-9a7175fbfce9426bb9729c545c4d3ca5" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
@@ -2601,7 +2609,7 @@ ArchiFabric is proudly developed and maintained by **Optiprise**, driven by the 
     </folder>
     <folder name="PDF User Guide" id="id-cc65cd18bdd5406fb6291673200d4dfa">
       <element xsi:type="archimate:ArchimateDiagramModel" name="PDF User Guide" id="id-a2affb8beaa748dd84e2a14f3d7ab868">
-        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document dump=html" textAlignment="1">
+        <child xsi:type="archimate:Group" id="id-328cb7fb958c4fcab60b59035be79721" name="Document" textAlignment="1">
           <bounds x="36" y="24" width="400" height="433"/>
           <feature name="labelExpression" value="User Guide ArchiFabric"/>
           <child xsi:type="archimate:DiagramModelReference" id="id-ae4f7f6e362b4134b941b1c03c45677a" model="id-ef4b538cebd145ea8568b51b7f63342c">
@@ -3071,7 +3079,7 @@ section.second_page .disclaimer {
               <bounds y="72" width="565" height="241"/>
               <child xsi:type="archimate:Note" id="id-73a024a428624e63a5ed816d9beb0f8a" textAlignment="1" borderType="1">
                 <bounds x="108" y="108" width="457" height="37"/>
-                <feature name="labelExpression" value="${ask:Date}"/>
+                <feature name="labelExpression" value="${ask:ISODate}"/>
               </child>
               <child xsi:type="archimate:Note" id="id-90dab357a10a4c6aa62a9d62067c743d" textAlignment="1" borderType="1">
                 <bounds y="72" width="109" height="37"/>
@@ -3099,7 +3107,7 @@ section.second_page .disclaimer {
               </child>
               <child xsi:type="archimate:Note" id="id-c250662f956e4010938b077dbe7d0a92" textAlignment="1" borderType="1">
                 <bounds x="108" y="72" width="457" height="37"/>
-                <feature name="labelExpression" value="${ask:documentTitle}"/>
+                <feature name="labelExpression" value="${ask:DocumentTitle}"/>
               </child>
             </child>
           </child>
@@ -3117,7 +3125,7 @@ section.second_page .disclaimer {
               <bounds y="288" width="565" height="97"/>
               <child xsi:type="archimate:Note" id="id-2c7c97a774384289a7d2d9a637b5a03f" borderType="1">
                 <bounds y="24" width="565" height="37"/>
-                <feature name="labelExpression" value="${ask:documentTitle}&#xA;"/>
+                <feature name="labelExpression" value="${ask:DocumentTitle}&#xA;"/>
               </child>
             </child>
             <child xsi:type="archimate:Group" id="id-6648efea453a4c93a1d20fa030989e35" name="CSS" textAlignment="1">
@@ -5014,7 +5022,44 @@ By including this artifact, we instruct ArchiFabric to embed this stylesheet int
       </element>
     </folder>
     <folder name="Dynamic Label Expressions" id="id-b84260a05dc64bd490c7812b5317608a">
-      <element xsi:type="archimate:ArchimateDiagramModel" name="Dynamic Label Expressions" id="id-f49c2a4227194db48387c24ccd9530d4"/>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Dynamic Label Expressions" id="id-f49c2a4227194db48387c24ccd9530d4">
+        <child xsi:type="archimate:Note" id="id-955303e022e6445f902d5f5c3e40df3c" textAlignment="1">
+          <bounds x="194" y="79" width="419" height="258"/>
+          <content>
+${currentDate}
+
+${name}
+${label}
+${documentation}
+${property}
+${strength}
+
+${var}
+${set}
+${ask}
+${addToList}
+${printList}
+
+${hline}
+${vspace}
+${hspace}
+${pagebreak}
+${caption}</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-22a34c648fed41ffa05461603e437cd4" textAlignment="1">
+          <bounds x="660" y="79" width="185" height="126"/>
+          <content>Default ${var}
+	Date
+	FullDate
+	MediumDate
+	ShortDate
+	ISODate
+	TimeStamp
+	DocumentTitle
+	imageQuality
+	</content>
+        </child>
+      </element>
     </folder>
   </folder>
   <purpose>**ArchiFabric** is an integrated publishing and documentation suite for Archi, designed to seamlessly weave architecture models, documentation, and publication together into a single cohesive fabric. Traditionally, enterprise architects face a significant disconnect between designing complex models and effectively communicating those insights to business stakeholders. ArchiFabric bridges this gap by transforming the Archi modeling environment into a powerful, automated document generation engine, allowing you to create comprehensive, presentation-ready reports without ever leaving your primary workspace.

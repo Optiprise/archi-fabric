@@ -40,13 +40,17 @@ export default class Document extends Artifact {
             const baseCssClass = this.markup.genHtmlClass(baseName);
             const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
             const dump = inlineParams['dump'] ? ` ${inlineParams['dump']}` : '';
+            const locale = inlineParams['locale'] ? `${inlineParams['locale']}` : 'en-US';
             const elementId = (targetElement?.id) || modelElement.id;
 
             // 1. Generate Root HTML Container
             this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}${customCssClass}">\n`);
 
-            // 2, 3, 4. Setup Metadata
+            // Setup Metadata
             this._setupMetadata(modelElement, targetElement);
+
+            // 2. Setup Global Variables
+            this._setupGlobals(locale);
 
             // 5. Process Nested Children via ModelStructure
             const modelStructure = new ModelStructure(this.lb, modelElement);
@@ -59,19 +63,79 @@ export default class Document extends Artifact {
             this.lb.log(`dump parameter value: ${dump}`);
             if (dump.trim().toLowerCase() === 'css') {
                 this.lb.log(`Dump of CSS classes and HTML elements used in the document.`);
-                this.globalVars.set('dumpCSS', true);
+                this.globalVars.set('DumpCSS', true);
             } else if (dump.trim().toLowerCase() === 'html') {
                 this.lb.log(`Dump of HTML elements used in the document.`);
-                this.globalVars.set('dumpHTML', true);
+                this.globalVars.set('DumpHTML', true);
             }
-
-            // Optional: Log CSS and HTML elements used if 'log-css' parameter is set
         } catch (err) {
             this.lb.error(`Error during rendering of Document: ${err.message}`, modelElement);
         } finally {
             this.lb.leave();
 
         }
+    }
+
+        /**
+     * Sets up initial global variables like the current date.
+     * @param {string} localeTag - The locale tag to use for date formatting (e.g., 'en-US').
+     * @private
+     * 
+     */
+
+    _setupGlobals(localeTag = 'en-US') {
+        this.lb.enter(`Engine._setupGlobals(locale: '${localeTag}')`);
+        
+        const LocalDateTime = Java.type("java.time.LocalDateTime");
+        const DateTimeFormatter = Java.type("java.time.format.DateTimeFormatter");
+        const FormatStyle = Java.type("java.time.format.FormatStyle");
+        const Locale = Java.type("java.util.Locale");
+
+        // 1. Convert the localeTag to a Locale object, replacing underscores with hyphens
+        const targetLocale = Locale.forLanguageTag(localeTag.replace('_', '-'));
+
+        const dateFormatter = DateTimeFormatter
+            .ofLocalizedDate(FormatStyle.LONG)
+            .withLocale(targetLocale);
+
+        const dateFullFormatter = DateTimeFormatter
+            .ofLocalizedDate(FormatStyle.FULL)
+            .withLocale(targetLocale);
+
+        const dateMediumFormatter = DateTimeFormatter
+            .ofLocalizedDate(FormatStyle.MEDIUM)
+            .withLocale(targetLocale);
+
+        const dateShortFormatter = DateTimeFormatter
+            .ofLocalizedDate(FormatStyle.SHORT)
+            .withLocale(targetLocale);
+
+        const isoFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        const timeStampFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+
+        // 3. Check if this locale is actually installed on the system
+        const resolvedLocale = dateFormatter.getLocale();
+        if (!resolvedLocale || !resolvedLocale.getLanguage()) {
+            const errorMsg = `The required locale '${localeTag}' is not installed on this system. Cannot meet the document requirements.`;
+            throw new Error(errorMsg);
+        }
+
+        // 4. Get the current date and time
+        const now = LocalDateTime.now();
+
+        //  5. Set the global variables with the formatted values
+        this.artifactory.globalVars.set('Locale', targetLocale);
+        this.artifactory.globalVars.set("Date", now.format(dateFormatter));
+        this.artifactory.globalVars.set("FullDate", now.format(dateFullFormatter));
+        this.artifactory.globalVars.set("MediumDate", now.format(dateMediumFormatter));
+        this.artifactory.globalVars.set("ShortDate", now.format(dateShortFormatter));
+        this.artifactory.globalVars.set("ISODate", now.format(isoFormatter));
+        this.artifactory.globalVars.set("TimeStamp", now.format(timeStampFormatter));
+
+        // 6. Log the set global variables for verification
+        this.lb.log(`Globals - Locale: ${targetLocale}, Date: ${now.format(dateFormatter)}, FullDate: ${now.format(dateFullFormatter)}, MediumDate: ${now.format(dateMediumFormatter)}, ShortDate: ${now.format(dateShortFormatter)}, ISODate: ${now.format(isoFormatter)}, TimeStamp: ${now.format(timeStampFormatter)}`);
+        this.lb.leave();
     }
 
     /**
@@ -91,7 +155,7 @@ export default class Document extends Artifact {
         if (modelElement.labelExpression) {
             const parsedTitle = this.parseExpression(modelElement.labelExpression, targetElement);
             if (parsedTitle && parsedTitle.trim() !== '') {
-                this.globalVars.set('documentTitle', parsedTitle);
+                this.globalVars.set('DocumentTitle', parsedTitle);
                 this.lb.log(`Document title set to: ${parsedTitle}`);
             }
         }

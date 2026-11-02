@@ -28,10 +28,6 @@ import { Markup } from '../utils/Markup.mjs';
 import { LogBook } from '../utils/Logbook.mjs';
 import { Artifactory } from './Artifactory.mjs';
 
-// Java interoperability for Date parsing
-const LocalDate = Java.type("java.time.LocalDate");
-const DateTimeFormatter = Java.type("java.time.format.DateTimeFormatter");
-const Locale = Java.type("java.util.Locale");
 
 export class Engine {
     /**
@@ -95,8 +91,6 @@ export class Engine {
         this.weasyprintExe = $.process.platform === 'win32' 
             ? __DIR__ + '../weasyprint/dist/weasyprint.exe' 
             : 'weasyprint';
-            
-        this._setupGlobals();
     }
 
     /**
@@ -123,19 +117,7 @@ export class Engine {
         return args;
     }    
 
-    /**
-     * Sets up initial global variables like the current date.
-     * @private
-     */
-    _setupGlobals() {
-        this.lb.enter('Engine._setupGlobals');
-        const today = LocalDate.now();
-        const formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", new Locale("en", "US"));
-        
-        this.artifactory.globalVars.set('Date', today.format(formatter));
-        this.artifactory.globalVars.set('documentName', 'ArchiFabric Document');
-        this.lb.leave();
-    }
+
 
     /**
      * Main execution lifecycle. Validates selection, delegates rendering to the root Artifact,
@@ -167,7 +149,7 @@ export class Engine {
         } finally {
             this.lb.leave();
 
-            if (this.artifactory.globalVars.get('dumpCSS')) {
+            if (this.artifactory.globalVars.get('DumpCSS')) {
                 this.markup.extractCssClassesAndTags();
                 console.show(); 
             }
@@ -203,7 +185,7 @@ export class Engine {
         this.lb.enter('Engine._exportToPDF');
 
         try {
-            const docName = this.artifactory.globalVars.get('documentTitle')
+            const docName = this.artifactory.globalVars.get('DocumentTitle')
                 || `${model.name} - Document`;
 
             const defaultFileName = `${docName}.pdf`;
@@ -238,8 +220,11 @@ export class Engine {
                 pdfFile
             );
 
-            const keepHtml = this.artifactory.globalVars.get('dumpHTML') === true;         
-            console.log(`dumpHTML parameter: ${keepHtml}`);
+            const keepHtml = this.artifactory.globalVars.get('DumpHTML') === true;         
+            if (keepHtml) {
+                console.log(`Keeping HTML file: ${htmlFile}`);
+                console.show();
+            }
             if (this.executionMode === 'cli') {
                 // CLI: synchronous execution
                 this._executeWeasyPrintSync(weasyprint, pdfFile, htmlFile, keepHtml);
@@ -334,7 +319,7 @@ export class Engine {
         // This ensures the JS thread does not block, but the file is deleted when Java finishes the process.
         process.onExit().thenAccept(new java.util.function.Consumer({
             accept: (completedProcess) => {
-                // Controleer of weasyprint succesvol was afgerond (exit code 0)
+                // Check if the process completed successfully and cleanup HTML if needed
                 if ((completedProcess.exitValue() === 0) && (!keepHtml)) {
                      // We run the JS logic in an isolated context since the main jArchi thread might have ended
                     const pdf = new File(pdfFile);
@@ -344,6 +329,10 @@ export class Engine {
                             html.delete();
                         }
                     }
+                }
+                // Cleanup the log file if it's empty (no warnings or errors from WeasyPrint)
+                if (!logFile.isFile() || logFile.length() === 0) {
+                    logFile.delete();
                 }
             }
         }));
