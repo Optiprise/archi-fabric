@@ -49,7 +49,7 @@ export default class Matrix extends Artifact {
             const strictMode = inlineParams['select'] === 'strict';
             const rowSelect = inlineParams['rowSelect'] || null;
             const colSelect = inlineParams['colSelect'] || null;
-            const scope = inlineParams['scope'] || 'model';
+            const scope = inlineParams['scope'] || 'view';
             const rowScope = inlineParams['rowScope'] || scope;
             const colScope = inlineParams['colScope'] || scope;
             const sort = inlineParams['sort'] || 'name';

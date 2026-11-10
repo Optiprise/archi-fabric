@@ -2797,6 +2797,9 @@ ${set:imageQuality:2}
           <child xsi:type="archimate:DiagramModelReference" id="id-82262d49f23849c1b14e81ac31ddab96" model="id-a184b8b8f7a74d6aaf3ee5e12e168dfe">
             <bounds x="144" y="420" width="253" height="25"/>
           </child>
+          <child xsi:type="archimate:DiagramModelReference" id="id-a6baa9a616db42469e28c93b98bb4c35" model="id-d0e5a6fe28374b7ab23841f6d3511e2d">
+            <bounds x="144" y="444" width="253" height="25"/>
+          </child>
           <documentation>Now that you are familiar with the basic concepts, it is time to put theory into practice. To make this learning process as smooth as possible, we have prepared a dedicated sample project.
 
 Download the **`tutorial.archimate`** file from the ArchiFabric [GitHub Releases page](https://github.com/Optiprise/archi-fabric/releases) and open it in Archi. In the Models tree on the left, expand the **Views** folder. You will see it is divided into three specific subfolders:
@@ -5071,31 +5074,35 @@ As the Label Expression for this element, we use:
 When the document is generated, the table will now receive a neatly structured caption that is fully prepared for further styling or numbering via your CSS rules.</documentation>
         <property key="Lead" value="To format reports professionally, it is often desirable to provide tables or figures with a caption. For this purpose, ArchiFabric introduces a specific label expression: `${caption:&lt;&lt;name>>}` or the extended variant `${caption:&lt;&lt;class-name>>:&lt;&lt;name>>}`."/>
       </element>
-      <element xsi:type="archimate:ArchimateDiagramModel" name="Matrix Artifact" id="id-d0e5a6fe28374b7ab23841f6d3511e2d">
+      <element xsi:type="archimate:ArchimateDiagramModel" name="The Matrix Artifact" id="id-d0e5a6fe28374b7ab23841f6d3511e2d">
         <child xsi:type="archimate:Note" id="id-0b22c0936ea54f6ea8faf54dabe5f4c5" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="36" y="156" width="284" height="49"/>
+          <bounds x="36" y="132" width="284" height="49"/>
           <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-17c2ad2556b440288f4f5d334c1ee8d8" lineWidth="2" lineColor="#1a5fb4" source="id-0b22c0936ea54f6ea8faf54dabe5f4c5" target="id-8812873b42604a39a98928f3a086670b" type="1">
+            <bendpoint startX="218" endX="-294" endY="42"/>
+            <bendpoint startX="218" startY="-48" endX="-294" endY="-6"/>
+          </sourceConnection>
         </child>
         <child xsi:type="archimate:Note" id="id-9381910190584fbba54fe316fd7e5955" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
-          <bounds x="40" y="168" width="120" height="25"/>
+          <bounds x="40" y="144" width="120" height="25"/>
           <content>Label:</content>
         </child>
         <child xsi:type="archimate:Note" id="id-1d75b99e6bbf498caca23bb5504be36a" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="84" y="168" width="232" height="25"/>
-          <content>${caption:table-caption:${name}}</content>
+          <bounds x="84" y="144" width="232" height="25"/>
+          <content>${name}</content>
         </child>
-        <child xsi:type="archimate:Group" id="id-87eab3ad933047c1b3b7857ac7e2656b" name="Matrix rowScope=view colScope=view rowSort=position specialization=loosely" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="64">
-          <bounds x="420" y="36" width="400" height="181"/>
-          <child xsi:type="archimate:DiagramObject" id="id-8812873b42604a39a98928f3a086670b" targetConnections="id-92e4dd80e46549ecbeb7d5139fa3966d" textAlignment="1" archimateElement="id-be5f13cac4294d639470758a36132595">
+        <child xsi:type="archimate:Group" id="id-87eab3ad933047c1b3b7857ac7e2656b" name="Matrix sort=position" targetConnections="id-96af5854edea42c2b6229698fdaa07e2" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="64">
+          <bounds x="420" y="36" width="421" height="205"/>
+          <child xsi:type="archimate:DiagramObject" id="id-8812873b42604a39a98928f3a086670b" targetConnections="id-92e4dd80e46549ecbeb7d5139fa3966d id-17c2ad2556b440288f4f5d334c1ee8d8" textAlignment="1" archimateElement="id-be5f13cac4294d639470758a36132595">
             <bounds x="204" y="60" width="133" height="37"/>
             <feature name="labelExpression" value="${name}"/>
           </child>
-          <child xsi:type="archimate:Note" id="id-0e5cd655e65741f58e19fe08b6093477" textAlignment="1" borderType="1">
+          <child xsi:type="archimate:Note" id="id-0e5cd655e65741f58e19fe08b6093477" targetConnections="id-a2287a3aa25a4c98b6dff9a4ffc13157" textAlignment="1" borderType="1">
             <bounds x="204" y="120" width="133" height="37"/>
             <feature name="labelExpression" value="${strength}"/>
             <sourceConnection id="id-b4bee36ba8ce4fedaa9a28e1d94fee18" source="id-0e5cd655e65741f58e19fe08b6093477" target="id-92e4dd80e46549ecbeb7d5139fa3966d" type="1"/>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-163871a61cd64bc1a01a1c9096f42b50" textAlignment="1" alpha="64" archimateElement="id-cacf1134ff204690b265ded6e0340d6b">
+          <child xsi:type="archimate:DiagramObject" id="id-163871a61cd64bc1a01a1c9096f42b50" targetConnections="id-2afd19f0368d4b51897fdbfbf0ee2c9b" textAlignment="1" alpha="64" archimateElement="id-cacf1134ff204690b265ded6e0340d6b">
             <bounds x="36" y="120" width="133" height="37"/>
             <feature name="labelExpression" value="${name}"/>
             <sourceConnection xsi:type="archimate:Connection" id="id-92e4dd80e46549ecbeb7d5139fa3966d" targetConnections="id-b4bee36ba8ce4fedaa9a28e1d94fee18" source="id-163871a61cd64bc1a01a1c9096f42b50" target="id-8812873b42604a39a98928f3a086670b" archimateRelationship="id-7717a54a3dd749b7a6e1b5fc7a436c8e">
@@ -5104,32 +5111,66 @@ When the document is generated, the table will now receive a neatly structured c
           </child>
         </child>
         <child xsi:type="archimate:Note" id="id-4e17d6b6c2c34808b87783d0afe7ad8b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
-          <bounds x="36" y="24" width="284" height="49"/>
+          <bounds x="36" y="24" width="284" height="97"/>
           <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-96af5854edea42c2b6229698fdaa07e2" lineWidth="2" lineColor="#1a5fb4" source="id-4e17d6b6c2c34808b87783d0afe7ad8b" target="id-87eab3ad933047c1b3b7857ac7e2656b" type="1">
+            <bendpoint startX="194" startY="-24" endX="-258" endY="-108"/>
+          </sourceConnection>
         </child>
         <child xsi:type="archimate:Note" id="id-a38450cd6e0e454da6308ff69c47357f" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
           <bounds x="40" y="36" width="120" height="25"/>
-          <content>Label:</content>
+          <content>Name:</content>
         </child>
         <child xsi:type="archimate:Note" id="id-33a8702ee3bd4f2f838f841fde79a99c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
-          <bounds x="84" y="36" width="232" height="25"/>
-          <content>${caption:table-caption:${name}}</content>
+          <bounds x="84" y="36" width="232" height="73"/>
+          <content>Matrix sort=position</content>
         </child>
-        <documentation>This expression ensures that a specific HTML tag is generated with an assigned class. This is particularly powerful because you can then use this class for automatic numbering (via CSS) of elements like your tables.
+        <child xsi:type="archimate:Note" id="id-304532cd89874b2db730dfd8bc15189e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
+          <bounds x="32" y="192" width="284" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-2afd19f0368d4b51897fdbfbf0ee2c9b" lineWidth="2" lineColor="#1a5fb4" source="id-304532cd89874b2db730dfd8bc15189e" target="id-163871a61cd64bc1a01a1c9096f42b50" type="1">
+            <bendpoint startX="234" endX="-114" endY="42"/>
+            <bendpoint startX="234" startY="-48" endX="-114" endY="-6"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:Note" id="id-f5851a1b5bc44f31b1b1cf1d9a6fe2d0" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="36" y="204" width="120" height="25"/>
+          <content>Label:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-4ac1b45604bc4a3aab4c2094ce5787a0" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="80" y="204" width="232" height="25"/>
+          <content>${name}</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-8df50cdb853d41af86ffe46fd2b8c93c" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64" borderType="1">
+          <bounds x="32" y="252" width="284" height="49"/>
+          <feature name="lineStyle" value="3"/>
+          <sourceConnection id="id-a2287a3aa25a4c98b6dff9a4ffc13157" lineWidth="2" lineColor="#1a5fb4" source="id-8df50cdb853d41af86ffe46fd2b8c93c" target="id-0e5cd655e65741f58e19fe08b6093477" type="1">
+            <bendpoint startX="498" endX="-18" endY="102"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:Note" id="id-ecb94426923a4cfaa9149f3e8540bae3" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" alpha="0" borderType="2">
+          <bounds x="36" y="264" width="120" height="25"/>
+          <content>Label:</content>
+        </child>
+        <child xsi:type="archimate:Note" id="id-fccdce7f5af54cfcbefd7dda6760f86e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+          <bounds x="80" y="264" width="232" height="25"/>
+          <content>${strength}</content>
+        </child>
+        <documentation>For this example, we will continue using the *Business Impact Analysis: Adopting AI* view. We will build a template that maps Business Capabilities against the Assessment.
 
-**Adding the Caption to the Artifact:**
-In our Business Impact Analysis example, we extend the artifact at the bottom with an additional element from which we extract the title for the caption. To do this, we place an **Assessment** element directly below the nested catalog.
+**Creating the Matrix Template:**
 
-As the Label Expression for this element, we use:
-`${caption:table-caption:${name}}`
+1. **Create the Template View:** In your *Tutorial* folder, create a new ArchiMate View and name it `Impact Matrix Artifact`.
+2. **Add the Matrix Artifact:** Drag a Group element onto the canvas. In the Properties panel, set its Name to `Matrix`. If you want the rows and columns to reflect the visual ordering of the source elements on the target canvas, you can append the sorting parameter by naming it `Matrix sort=position`.
+3. **Define Rows and Columns:** Place two ArchiMate elements inside the Matrix group. The spatial arrangement is important here, although less strict than in a Catalog:
+	* The element placed on the **left** defines the **rows**. In our example, place a **Capability** element here and set its Label Expression to `${name}`.
+	* The element placed on the **right** (or above) defines the **columns**. Place an **Assessment** element here and set its Label Expression to `${name}`.
 
-**How does this expression work?**
+4. **Model the Relationship:** Draw the specific relationship that you want the matrix to evaluate between the two elements. In this case, draw an **Influence relationship** from the Capability to the Assessment. ArchiFabric will scan the target view for this specific relationship type between these element types.
+5. **Define Cell Content:** To determine what is displayed inside the intersecting cells of the matrix, we use a standard Note element. Place a Note element near the relationship and use a visual connection (not an ArchiMate relationship) to link the Note to the Influence relationship line. Set the Note's Label Expression to `${strength}`.
 
-* **`table-caption`**: This defines the specific CSS class assigned to the HTML caption.
-* **`${name}`**: Within the caption expression, you can reuse standard ArchiFabric label expressions. Here, we extract dynamic text by retrieving the element's name. Naturally, you can also nest other tags here, such as `${property}`.
-
-When the document is generated, the table will now receive a neatly structured caption that is fully prepared for further styling or numbering via your CSS rules.</documentation>
-        <property key="Lead" value="To format reports professionally, it is often desirable to provide tables or figures with a caption. For this purpose, ArchiFabric introduces a specific label expression: `${caption:&lt;&lt;name>>}` or the extended variant `${caption:&lt;&lt;class-name>>:&lt;&lt;name>>}`."/>
+This configuration instructs ArchiFabric to generate a cross-reference table. The rows will list the extracted Capabilities, the columns will list the Assessments, and the cells where they intersect will display the value of the `${strength}` property from the Influence relationship connecting them.</documentation>
+        <property key="Lead" value="Following the catalog structures, we will now introduce the **Matrix Artifact**. While catalogs are excellent for linear lists or simple tables, the Matrix artifact is designed to cross-reference two different types of ArchiMate elements against each other in a grid layout."/>
       </element>
     </folder>
     <folder name="Dynamic Label Expressions" id="id-b84260a05dc64bd490c7812b5317608a">
