@@ -21,7 +21,7 @@
  * @description Generates a 2D cross-reference matrix.
  * Infers Rows and Columns visually from the template (Leftmost = Row, Rightmost = Column).
  * Integrates QueryBuilder for deduplicated data retrieval.
- * Parameters: rows, cols, rel, scope, rowScope, colScope, sort, select (strict), rowPattern, colPattern
+ * Parameters: rows, cols, rel, scope, rowScope, colScope, sort, select (strict), rowSelect, colSelect
  */
 import { Artifact } from '../core/Artifact.mjs';
 import { QueryBuilder } from '../core/QueryBuilder.mjs';
@@ -38,60 +38,55 @@ export default class Matrix extends Artifact {
         try {
             // 1. Parse configuration parameters
             const { baseName, params: inlineParams } = this.parseTemplateName(modelElement.name);
-            let rowType = inlineParams['rows'];
-            let colType = inlineParams['cols'];
-            let relType = inlineParams['rel'];
             
-            // Strict Mode
-            const strictMode = inlineParams['select'] === 'strict';
-            
-            // RegEx patronen specifiek voor rijen en kolommen
-            const rowPattern = inlineParams['rowPattern'] || inlineParams['pattern'] || null;
-            const colPattern = inlineParams['colPattern'] || inlineParams['pattern'] || null;
-
-            // Scope specifiek voor rijen en kolommen
-            const genericScope = inlineParams['scope'] || 'model';
-            const rowScope = inlineParams['rowScope'] || genericScope;
-            const colScope = inlineParams['colScope'] || genericScope;
-
-            // --- VISUAL TEMPLATE INFERENCE ---
-            const archimateChildren = [];
-            $(modelElement).children().each(child => {
-                if (child.concept) archimateChildren.push(child);
-            });
-
-            if (archimateChildren.length === 2) {
-                archimateChildren.sort((a, b) => a.bounds.x - b.bounds.x);
-                const rowTemplate = archimateChildren[0];
-                const colTemplate = archimateChildren[1];
-
-                rowType = rowTemplate.concept.type;
-                colType = colTemplate.concept.type;
-
-                let foundRel = null;
-                $(rowTemplate).outRels().each(r => { if (r.target.id === colTemplate.id) foundRel = r; });
-                if (!foundRel) {
-                    $(rowTemplate).inRels().each(r => { if (r.source.id === colTemplate.id) foundRel = r; });
-                }
-                
-                if (foundRel && foundRel.concept) {
-                    relType = foundRel.concept.type;
-                }
-            } else if (archimateChildren.length > 0) {
-                this.lb.log(`Warning: Found ${archimateChildren.length} ArchiMate concepts in Matrix. Expected exactly 2 for visual inference.`);
-            } else {
-                this.lb.log(`Warning: Matrix group is empty! Place 2 concepts and a diagram-model-note INSIDE the group to define the template.`);
-            }
-
-            rowType = rowType || 'business-process';
-            colType = colType || 'business-function';
-            relType = relType || 'aggregation-relationship';
-
-            const sort = inlineParams['sort'] || 'name';
 
             const baseCssClass = this.markup.genHtmlClass(baseName);
             const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
+
+            // Strict Mode
+            const specializationMode = inlineParams['specialization'] || 'strict';
+            // Patterns for filtering rows and columns
+            const strictMode = inlineParams['select'] === 'strict';
+            const rowSelect = inlineParams['rowSelect'] || null;
+            const colSelect = inlineParams['colSelect'] || null;
+            const scope = inlineParams['scope'] || 'model';
+            const rowScope = inlineParams['rowScope'] || scope;
+            const colScope = inlineParams['colScope'] || scope;
+            const sort = inlineParams['sort'] || 'name';
+            const rowSort = inlineParams['rowSort'] || sort;
+            const colSort = inlineParams['colSort'] || sort;
+
+
+            const archimateChildren = [];
+            $(modelElement).children("element").each(child => {
+                if (child.concept) archimateChildren.push(child);
+            });
+
+            if (archimateChildren.length !== 2) {
+                this.lb.error(`Found ${archimateChildren.length} ArchiMate concepts in Matrix. Expected exactly 2 for visual inference.`);
+            }
+
+            archimateChildren.sort((a, b) => a.bounds.x - b.bounds.x);
+            const rowTemplate = archimateChildren[0];
+            const colTemplate = archimateChildren[1];
+            const rowType = rowTemplate.concept.type;
+            const colType = colTemplate.concept.type;
             const elementId = (targetElement && targetElement.id) || modelElement.id;
+
+            let foundRel = null;
+            $(rowTemplate).outRels().each(r => { if (r.target.id === colTemplate.id) foundRel = r; });
+            if (!foundRel) {
+                $(rowTemplate).inRels().each(r => { if (r.source.id === colTemplate.id) foundRel = r; });
+            }
+            
+            if (!foundRel.concept) {
+                this.lb.error(`No relationship found between row (${rowType}) and column (${colType}) templates. Please ensure a valid ArchiMate relationship exists.`);
+            }
+            const relType = foundRel.concept.type;
+
+            this.lb.log(`Matrix: Rendering '${rowType}' rows and '${colType}' columns with relationship type '${relType}' from template.`);
+
+
 
             // --- CONTEXT PRESERVATION ---
             let currentView = null;
@@ -105,27 +100,36 @@ export default class Matrix extends Artifact {
             const qb = new QueryBuilder(modelElement, targetElement, this.lb);
 
             // --- DATA FETCHING & DEDUPLICATION ---
-            const uniqueRows = new Map();
-            qb.fetch({ 
-                scope: rowScope, currentView, sort,
-                select: { types: [rowType], pattern: rowPattern } 
-            }).forEach(r => uniqueRows.set(r.id, r));
-            let rows = Array.from(uniqueRows.values());
+            let uniqueRows = qb.fetch({ 
+                scope: rowScope,
+                currentView: currentView, 
+                select: {
+                    types: [rowType],
+                    pattern: rowSelect
+                },
+                sort: rowSort,
+                unique: 'true', // Enforce uniqueness by default
+                specialization: specializationMode
+            });
 
-            const uniqueCols = new Map();
-            qb.fetch({ 
-                scope: colScope, currentView, sort,
-                select: { types: [colType], pattern: colPattern } 
-            }).forEach(c => uniqueCols.set(c.id, c));
-            let cols = Array.from(uniqueCols.values());
-
+            let uniqueCols = qb.fetch({ 
+                scope: colScope,
+                currentView: currentView, 
+                select: {
+                    types: [colType],
+                    pattern: colSelect
+                },
+                sort: colSort,
+                unique: 'true' // Enforce uniqueness by default
+            });
+ 
             // Filter Logic for strict mode
             if (strictMode) {
                 const validRows = new Set();
                 const validCols = new Set();
                 
-                rows.forEach(row => {
-                    cols.forEach(col => {
+                uniqueRows.forEach(row => {
+                    uniqueCols.forEach(col => {
                         const rel = $(row).rels(relType).filter(r => r.target.id === col.id || r.source.id === col.id).first();
                         if (rel) {
                             validRows.add(row.id);
@@ -134,12 +138,12 @@ export default class Matrix extends Artifact {
                     });
                 });
                 
-                rows = rows.filter(r => validRows.has(r.id));
-                cols = cols.filter(c => validCols.has(c.id));
+                uniqueRows = uniqueRows.filter(r => validRows.has(r.id));
+                uniqueCols = uniqueCols.filter(c => validCols.has(c.id));
                 
-                this.lb.log(`Matrix (select=strict): Filtered out elements without relations. Rendering ${rows.length} rows and ${cols.length} columns.`);
+                this.lb.log(`Matrix (select=strict): Filtered out elements without relations. Rendering ${uniqueRows.length} rows and ${uniqueCols.length} columns.`);
             } else {
-                this.lb.log(`Matrix (select=loose): Rendering all ${rows.length} rows and ${cols.length} columns.`);
+                this.lb.log(`Matrix (select=loose): Rendering all ${uniqueRows.length} rows and ${uniqueCols.length} columns.`);
             }
 
             // --- STYLING EXTRACTION ---
@@ -168,16 +172,16 @@ export default class Matrix extends Artifact {
             
             // Header row
             this.markup.appendContent(`<thead><tr><th class="matrix-corner"></th>\n`);
-            cols.forEach(col => {
+            uniqueCols.forEach(col => {
                 this.markup.appendContent(`<th class="matrix-col-header">${col.name}</th>\n`);
             });
             this.markup.appendContent(`</tr></thead>\n<tbody>\n`);
 
             // Data rows
-            rows.forEach(row => {
+            uniqueRows.forEach(row => {
                 this.markup.appendContent(`<tr><th class="matrix-row-header">${row.name}</th>\n`);
                 
-                cols.forEach(col => {
+                uniqueCols.forEach(col => {
                     const rel = $(row).rels(relType).filter(r => r.target.id === col.id || r.source.id === col.id).first();
                     
                     let cellHtml = ""; 

@@ -42,10 +42,11 @@ export class QueryBuilder {
      * @returns {Array} - The resulting list of ArchiMate elements.
      */
 
-    fetch({ scope = 'view', currentView = null, select = {}, sort = 'name', unique = 'true' } ) {
+    fetch({ scope = 'view', currentView = null, select = {}, sort = 'name', unique = 'true', specialization  = 'strict'} ) {
         this.lb.enter(`QueryBuilder.fetch(scope=${scope}, currentView=${currentView ? currentView.name : 'null'}, select=${JSON.stringify(select)}, sort=${sort}, unique=${unique})`);
         const effectiveScope = scope || 'view';
         const types = select.types || [];
+        const specializationMode = specialization || 'strict';
 
         this.lb.log(`QueryBuilder: Fetching data. Scope: ${effectiveScope}, currentView: ${currentView ? currentView.name : 'null'}, Type filter: ${types}`);
 
@@ -67,7 +68,7 @@ export class QueryBuilder {
         }
 
         // 3. Implementation of type filtering and pattern matching: After the initial selection, we apply additional filters based on the specified types and optional regex patterns. This ensures that the final result set only includes elements that match the desired criteria, providing a more refined and relevant output for the rendering artifacts.        
-        data = this._applyTypeFilter(data, types);
+        data = this._applyTypeFilter(data, types, specializationMode);
         data = this._applySelectFilter(data, select.pattern);
         this.lb.log(`QueryBuilder: Filter [${select.pattern}] applied. Filtered to ${data.length} elements.`);
         if (unique === 'true') {
@@ -312,7 +313,7 @@ export class QueryBuilder {
         return scoped;
     }
 
-    _applyTypeFilter(data, types) {
+    _applyTypeFilter(data, types, specializationMode) {
         if (!types || types.length === 0) {
             return data;
         }
@@ -346,6 +347,9 @@ export class QueryBuilder {
                 if (e.specialization !== targetSpecialization) {
                     return false;
                 }
+            } else if (specializationMode === 'strict' && e.specialization) {
+                // If no target specialization was found, but the specialization mode is set to 'strict', we exclude any elements that have a specialization. This ensures that only elements without specializations are included in the final result set, maintaining the integrity of the template's requirements.
+                return false;
             }
 
             return true;

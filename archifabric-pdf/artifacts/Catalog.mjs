@@ -74,6 +74,7 @@ export default class Catalog extends Artifact {
         const sort = inlineParams['sort'] || 'name';
         const pattern = inlineParams['select'] || null;
         const unique = inlineParams['unique'] ?? 'true'; // Default to true unless explicitly set to 'false'
+        const specializationMode = inlineParams['specialization'] || 'strict'; // Default to 'strict' unless explicitly set
 
         // --- CONTEXT PRESERVATION ---
         let currentView = null;
@@ -120,7 +121,8 @@ export default class Catalog extends Artifact {
                         pattern: pattern
                     },
                     sort: sort,
-                    unique: unique // Enforce uniqueness by default
+                    unique: unique, // Enforce uniqueness by default
+                    specialization: specializationMode
                 });
                 this.lb.log(`Resolved ${resolvedElements.length} elements for Catalog rendering.`);
             } else {
