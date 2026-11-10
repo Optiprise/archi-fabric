@@ -1211,7 +1211,7 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             <sourceConnection id="id-57a1add830a142b285c023d0816257ae" lineWidth="2" lineColor="#1a5fb4" source="id-e1e6e75cf6174a05b3b540a96cd8b0c0" target="id-41d892fa70784b1696c09446c3527fd5" type="1"/>
           </child>
           <child xsi:type="archimate:Group" id="id-cebb6695bb83432683b30a750ad5808f" name="[parameters]" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
-            <bounds y="240" width="337" height="277"/>
+            <bounds y="240" width="337" height="313"/>
             <feature name="lineStyle" value="3"/>
             <sourceConnection id="id-b287d055d00540b2af33dfbf46436c1d" lineWidth="2" lineColor="#1a5fb4" source="id-cebb6695bb83432683b30a750ad5808f" target="id-e1e6e75cf6174a05b3b540a96cd8b0c0" type="1"/>
             <child xsi:type="archimate:Note" id="id-2cdb0821e8fa43c089a39a5f49599648" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
@@ -1261,6 +1261,14 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
             <child xsi:type="archimate:Note" id="id-16ff07f5d5804b0cb5c2fb2c25ccc557" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="216" width="85" height="25"/>
               <content>gap=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-1ed0d447be514586ad989bb2ee4a632b" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="252" width="237" height="25"/>
+              <content>{strict | loosely}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-ffe93f3c2cfd43d8a9b02a2cfe87cc0e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds y="252" width="97" height="25"/>
+              <content>specialization=</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-418d04f63ad24d8594717ca71f21a712" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
@@ -1605,6 +1613,14 @@ ${set:Reference:ArchiFabric}</content>
             <child xsi:type="archimate:Note" id="id-09f6100cb71e41419bbe7025d60d6c8e" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
               <bounds x="12" y="324" width="85" height="25"/>
               <content>colSelect=</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-8c302ab6b93045b1921556abd4973637" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" borderType="1">
+              <bounds x="96" y="360" width="237" height="25"/>
+              <content>{strict | loosely}</content>
+            </child>
+            <child xsi:type="archimate:Note" id="id-0759db2dc4d944188012571f3b3d2cb6" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="4" alpha="0" borderType="2">
+              <bounds y="360" width="97" height="25"/>
+              <content>specialization=</content>
             </child>
           </child>
           <child xsi:type="archimate:Group" id="id-9cc35d6c6b8d415c8f321f63dc5a6c86" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">

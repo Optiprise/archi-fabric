@@ -12,8 +12,8 @@ on:
   workflow_dispatch:
 
 env:
-  ARCHI_VERSION: "5.10.0"
-  ARCHI_URL: "https://github.com/archimatetool/archi.io/releases/download/5.10/Archi-Linux64-5.10.0.tgz"
+  ARCHI_VERSION: "5.11.0"
+  ARCHI_URL: "https://github.com/archimatetool/archi.io/releases/download/5_11/Archi-Linux64-5.11.0.tgz"
   
 
 permissions:
