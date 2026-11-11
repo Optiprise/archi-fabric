@@ -260,8 +260,14 @@ Finally, the Document module enforces ArchiFabric's contextual data inheritance 
       <folder name="core" id="id-a056a1f615c148e68f324fbc123de1b5">
         <element xsi:type="archimate:Artifact" name="Artifact.mjs" id="id-238115a915704128976b3a7d9fb75261"/>
         <element xsi:type="archimate:Artifact" name="Artifactory.mjs" id="id-89ff81f6ba4d4bf8bc1baef3d0cd3a8f"/>
+        <element xsi:type="archimate:Artifact" name="QueryBuilder.mjs" id="id-ae8863a3f69647c99017ae502ed93ba4"/>
+        <element xsi:type="archimate:Artifact" name="ModelStructure.mjs" id="id-d93454cd27f049eb8201f905f90cd72e"/>
+        <element xsi:type="archimate:Artifact" name="Engine.mjs" id="id-58eddea455a847858272af918c7cc480"/>
       </folder>
-      <folder name="utils" id="id-a94077793e3c4d1cae50746788b65976"/>
+      <folder name="utils" id="id-a94077793e3c4d1cae50746788b65976">
+        <element xsi:type="archimate:Artifact" name="Markup.mjs" id="id-6b200d1fb0214ffe8694e1b72e282d4e"/>
+        <element xsi:type="archimate:Artifact" name="Logbook.mjs" id="id-0f9f4407bdb0448fa6439fb5e05f145d"/>
+      </folder>
     </folder>
     <folder name="Markdown" id="id-d94712f3e3a443199b94c9de58777664">
       <element xsi:type="archimate:Artifact" name="Markdown specification" id="id-896a1e1ee1e248049f5c53baa9741867">
@@ -695,6 +701,12 @@ Based on these findings, the organization should **prioritize AI initiatives wit
     <element xsi:type="archimate:RealizationRelationship" id="id-ab3e5af7e5994810888b7b06dd7105ed" source="id-38e6031ba3e34a96bb79b221e980ddf8" target="id-89672d9defb746a899f5b4993742dbf5"/>
     <element xsi:type="archimate:RealizationRelationship" id="id-dd89c7ff876944179b3dc4edcc880764" source="id-a8804ac0453642fe9e4b9b97eb75a491" target="id-89672d9defb746a899f5b4993742dbf5"/>
     <element xsi:type="archimate:RealizationRelationship" id="id-10be018e9bfa4843a1e6a6c0d2760c06" source="id-4ba3c05c26d244a9aa5dc2a5ca8007c2" target="id-cacf1134ff204690b265ded6e0340d6b"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-e29648760abb4b1787206489849841de" source="id-238115a915704128976b3a7d9fb75261" target="id-eb5c39f9b906477a8f18da0ba9a84271"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-daa346f0f3f1471492ef54551b5c5fe9" source="id-ae8863a3f69647c99017ae502ed93ba4" target="id-eb5c39f9b906477a8f18da0ba9a84271"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-7dcb56c8a55e43b281cc8753751da580" source="id-d93454cd27f049eb8201f905f90cd72e" target="id-eb5c39f9b906477a8f18da0ba9a84271"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-30e6562f924a442bb1cad5f0cec85070" source="id-0f9f4407bdb0448fa6439fb5e05f145d" target="id-58eddea455a847858272af918c7cc480"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-6823c9682923429a978ea4f1248e903a" source="id-6b200d1fb0214ffe8694e1b72e282d4e" target="id-58eddea455a847858272af918c7cc480"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-3bf26f9778cd48b3868c3aba18f97399" source="id-89ff81f6ba4d4bf8bc1baef3d0cd3a8f" target="id-58eddea455a847858272af918c7cc480"/>
   </folder>
   <folder name="Views" id="id-27a08f2467df41b38c7657d844b7d013" type="diagrams">
     <folder name="Design" id="id-2ed8b36ace364ad5bfb238bed1283d14">
@@ -1336,10 +1348,34 @@ Additionally, the Document artifact allows you to orchestrate global settings wi
               <content>Label Expression:</content>
             </child>
           </child>
-          <child xsi:type="archimate:DiagramObject" id="id-41d892fa70784b1696c09446c3527fd5" targetConnections="id-57a1add830a142b285c023d0816257ae" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-eb5c39f9b906477a8f18da0ba9a84271">
+          <child xsi:type="archimate:DiagramObject" id="id-41d892fa70784b1696c09446c3527fd5" targetConnections="id-57a1add830a142b285c023d0816257ae id-b0c4482160ed4b39bd8fb35e5ff0b58d id-c8ed708ea8c34dd6937d9ce80f85d2c7 id-f4154ba92a624c0d887a48f936dec9a7" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-eb5c39f9b906477a8f18da0ba9a84271">
             <bounds x="864" y="48" width="277" height="361"/>
             <feature name="gradient" value="0"/>
-            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;class Catalog extends Artifact&#xA;&#xA;  constructor(artifactory)&#xA;&#xA;  render(modelElement, targetElement)&#xA;&#xA;&#xA;"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;dependency:&#xA;&#xA;&#xA;"/>
+            <child xsi:type="archimate:DiagramObject" id="id-c7a7ff080f6940a2a7ec6b7a9032ba14" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-238115a915704128976b3a7d9fb75261">
+              <bounds x="24" y="84" width="253" height="28"/>
+              <feature name="gradient" value="0"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <feature name="iconColor" value="#77767b"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-b0c4482160ed4b39bd8fb35e5ff0b58d" source="id-c7a7ff080f6940a2a7ec6b7a9032ba14" target="id-41d892fa70784b1696c09446c3527fd5" archimateRelationship="id-e29648760abb4b1787206489849841de"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-4d558ae73a3f42f48d9c483ec6f1257a" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-ae8863a3f69647c99017ae502ed93ba4">
+              <bounds x="24" y="138" width="253" height="28"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="gradient" value="0"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <feature name="iconColor" value="#77767b"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-c8ed708ea8c34dd6937d9ce80f85d2c7" source="id-4d558ae73a3f42f48d9c483ec6f1257a" target="id-41d892fa70784b1696c09446c3527fd5" archimateRelationship="id-daa346f0f3f1471492ef54551b5c5fe9"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-3d5520576eb5429a98a043f6d478b0a4" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-d93454cd27f049eb8201f905f90cd72e">
+              <bounds x="24" y="111" width="253" height="28"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="gradient" value="0"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <feature name="iconColor" value="#77767b"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-f4154ba92a624c0d887a48f936dec9a7" source="id-3d5520576eb5429a98a043f6d478b0a4" target="id-41d892fa70784b1696c09446c3527fd5" archimateRelationship="id-7dcb56c8a55e43b281cc8753751da580"/>
+            </child>
           </child>
           <documentation>The **Catalog** artifact is a powerful engine for dynamically generating tables, lists, or repeating blocks of architectural elements straight from your model. By combining a visual template with a robust querying system, it transforms raw model data into beautifully formatted, presentation-ready overviews.
 
@@ -2602,6 +2638,47 @@ This final paragraph combines **bold**, *italic*, ***bold italic***, ~~strikethr
           </child>
         </element>
         <element xsi:type="archimate:ArchimateDiagramModel" name="Error handling" id="id-2ae43b9e73cb48a3961416ea46bf68f1"/>
+      </folder>
+      <folder name="Core" id="id-5e7b58839e9d4d97984468bf5e0835c3">
+        <element xsi:type="archimate:ArchimateDiagramModel" name="Engine" id="id-2fc1b6319b3d4d9ba94e1144e8f03411">
+          <child xsi:type="archimate:Group" id="id-a765297728634628af80a08aad391eeb" name="Catalog" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1">
+            <bounds x="396" y="48" width="400" height="361"/>
+            <sourceConnection id="id-815925a23fad4dc7941898418559176e" lineWidth="2" lineColor="#1a5fb4" source="id-a765297728634628af80a08aad391eeb" target="id-7c02d231cb6b48c9a439c5cb14babdbb" type="1"/>
+          </child>
+          <child xsi:type="archimate:Group" id="id-32f55ecc570c49259ada3bf5273ff7a8" name="Properties" font="1|Noto Sans|9.0|0|GTK|1|" textAlignment="1" fillColor="#f6f5f4" alpha="64">
+            <bounds y="48" width="337" height="181"/>
+            <feature name="lineStyle" value="3"/>
+          </child>
+          <child xsi:type="archimate:DiagramObject" id="id-7c02d231cb6b48c9a439c5cb14babdbb" targetConnections="id-815925a23fad4dc7941898418559176e id-8a727100139243aeac7768696eaee9f4 id-0bfa7c7ea50544d5bcad2ce79d9b6ab4 id-a9ea32d792bf4cba88f9211b1a93a2d0" font="1|Noto Sans|9.0|0|GTK|1|" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="32" archimateElement="id-58eddea455a847858272af918c7cc480">
+            <bounds x="864" y="48" width="277" height="361"/>
+            <feature name="gradient" value="0"/>
+            <feature name="labelExpression" value="${name}&#xA;&#xA;&#xA;dependency:&#xA;&#xA;&#xA;"/>
+            <child xsi:type="archimate:DiagramObject" id="id-d6f0039f942b4979b7b6d4fb7bdac4c4" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-0f9f4407bdb0448fa6439fb5e05f145d">
+              <bounds x="24" y="111" width="253" height="28"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="gradient" value="0"/>
+              <feature name="iconColor" value="#77767b"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-8a727100139243aeac7768696eaee9f4" source="id-d6f0039f942b4979b7b6d4fb7bdac4c4" target="id-7c02d231cb6b48c9a439c5cb14babdbb" archimateRelationship="id-30e6562f924a442bb1cad5f0cec85070"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-bebba475176644b88cd5bae8b93a06a9" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-6b200d1fb0214ffe8694e1b72e282d4e">
+              <bounds x="24" y="84" width="253" height="28"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="gradient" value="0"/>
+              <feature name="iconColor" value="#77767b"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-0bfa7c7ea50544d5bcad2ce79d9b6ab4" source="id-bebba475176644b88cd5bae8b93a06a9" target="id-7c02d231cb6b48c9a439c5cb14babdbb" archimateRelationship="id-6823c9682923429a978ea4f1248e903a"/>
+            </child>
+            <child xsi:type="archimate:DiagramObject" id="id-c4600b3c856a4f7bbfb7deea31150a39" font="1|Noto Sans|9.0|0|GTK|1|" fontColor="#77767b" lineWidth="2" textAlignment="1" fillColor="#99c1f1" alpha="0" archimateElement="id-89ff81f6ba4d4bf8bc1baef3d0cd3a8f">
+              <bounds x="24" y="138" width="253" height="28"/>
+              <feature name="lineStyle" value="3"/>
+              <feature name="gradient" value="0"/>
+              <feature name="iconColor" value="#77767b"/>
+              <feature name="labelExpression" value="- ${name}"/>
+              <sourceConnection xsi:type="archimate:Connection" id="id-a9ea32d792bf4cba88f9211b1a93a2d0" source="id-c4600b3c856a4f7bbfb7deea31150a39" target="id-7c02d231cb6b48c9a439c5cb14babdbb" archimateRelationship="id-3bf26f9778cd48b3868c3aba18f97399"/>
+            </child>
+          </child>
+        </element>
       </folder>
     </folder>
     <folder name="Online User Guide" id="id-7cf22bf430d54fe9827934e2e5a783df">
