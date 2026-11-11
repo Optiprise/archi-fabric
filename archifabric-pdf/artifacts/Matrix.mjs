@@ -42,11 +42,12 @@ export default class Matrix extends Artifact {
 
             const baseCssClass = this.markup.genHtmlClass(baseName);
             const customCssClass = inlineParams['class'] ? ` ${inlineParams['class']}` : '';
-
+            const tableCaption = inlineParams['caption'] || ``;
+            const emptyValue = inlineParams['emptyValue'] || ''; // Default to empty string if not provided
             // Strict Mode
             const specializationMode = inlineParams['specialization'] || 'strict';
             // Patterns for filtering rows and columns
-            const strictMode = inlineParams['select'] === 'strict';
+            const strictMode = inlineParams['select'] ? inlineParams['select'] === 'strict' : true; // Default to strict if not specified
             const rowSelect = inlineParams['rowSelect'] || null;
             const colSelect = inlineParams['colSelect'] || null;
             const scope = inlineParams['scope'] || 'view';
@@ -148,38 +149,30 @@ export default class Matrix extends Artifact {
 
             // --- STYLING EXTRACTION ---
             const cellTemplateNote = $(modelElement).children('diagram-model-note').first();
-            let hAlign = 'center';
-            let vAlign = 'middle';
-            let rawLabel = 'X'; 
+            const rawLabel = cellTemplateNote.labelExpression || cellTemplateNote.content || cellTemplateNote.name || ''; 
+            const inlineAlign = this._setStyleFromTemplate(cellTemplateNote);
+            const rowAlign = this._setStyleFromTemplate(rowTemplate);
+            const colAlign = this._setStyleFromTemplate(colTemplate);
+
             
-            if (cellTemplateNote) {
-                hAlign = cellTemplateNote.textAlignment === 2 ? 'center' : (cellTemplateNote.textAlignment === 4 ? 'right' : 'left');
-                if (cellTemplateNote.textPosition >= 3 && cellTemplateNote.textPosition <= 5) vAlign = 'middle';
-                else if (cellTemplateNote.textPosition >= 6 && cellTemplateNote.textPosition <= 8) vAlign = 'bottom';
-                else vAlign = 'top';
-                
-                rawLabel = cellTemplateNote.labelExpression || cellTemplateNote.content || cellTemplateNote.name || '';
-                if (!rawLabel || rawLabel.trim() === '') {
-                    rawLabel = '${documentation}'; // auto-fallback if note is completely empty
-                }
-            } else {
-                this.lb.log('No diagram-model-note found inside Matrix group. Using default styling and "X".');
-            }
+
 
             // Render Table Wrapper (Pure HTML, no forced styles except text-align)
             this.markup.appendContent(`<div class="${baseCssClass}-wrapper${customCssClass} matrix-wrapper">\n`);
-            this.markup.appendContent(`<table id="id-${elementId}" class="matrix-table ${baseCssClass}">\n`);
-            
+            this.markup.appendContent(`<table class="matrix-table ${baseCssClass}">\n`);
+            this.markup.appendContent(`<caption class="matrix-table ${baseCssClass}">\n`);
+            this.markup.appendContent(` ${tableCaption}\n`);
+            this.markup.appendContent(`</caption>\n`);
             // Header row
             this.markup.appendContent(`<thead><tr><th class="matrix-corner"></th>\n`);
             uniqueCols.forEach(col => {
-                this.markup.appendContent(`<th class="matrix-col-header">${col.name}</th>\n`);
+                this.markup.appendContent(`<th class="matrix-col-header" style="${colAlign}">${this.parseExpression(colTemplate.labelExpression, col)}</th>\n`);
             });
             this.markup.appendContent(`</tr></thead>\n<tbody>\n`);
 
             // Data rows
             uniqueRows.forEach(row => {
-                this.markup.appendContent(`<tr><th class="matrix-row-header">${row.name}</th>\n`);
+                this.markup.appendContent(`<tr><th class="matrix-row-header" style="${rowAlign}">${this.parseExpression(rowTemplate.labelExpression, row)}</th>\n`);
                 
                 uniqueCols.forEach(col => {
                     const rel = $(row).rels(relType).filter(r => r.target.id === col.id || r.source.id === col.id).first();
@@ -188,23 +181,13 @@ export default class Matrix extends Artifact {
                     let classModifiers = "";
                     
                     if (rel) {
-                        let rawContent = this.parseExpression(rawLabel, rel);
-
-                        if (rawContent && rawContent.trim() !== '') {
-                            cellHtml = this.markup.parse(String(rawContent));
-                        } else if (rawLabel === '${documentation}') {
-                            if (!cellTemplateNote || (cellTemplateNote.labelExpression || cellTemplateNote.content || cellTemplateNote.name) === undefined) {
-                                cellHtml = "X";
-                            }
-                        }
-
+                        cellHtml = this.parseExpression(rawLabel, rel);
                         classModifiers = " matrix-cell-filled";
                     } else {
-                        cellHtml = ""; 
+                        cellHtml = emptyValue || ""; // Use emptyValue if provided, else empty string
                         classModifiers = " matrix-cell-empty";
                     }
                     
-                    const inlineAlign = `text-align: ${hAlign}; vertical-align: ${vAlign};`;
                     this.markup.appendContent(`<td class="matrix-cell${classModifiers}" style="${inlineAlign}">${cellHtml}</td>\n`);
                 });
                 this.markup.appendContent(`</tr>\n`);
@@ -218,5 +201,15 @@ export default class Matrix extends Artifact {
         } finally {
             this.lb.leave();
         }
+    }
+
+    _setStyleFromTemplate(templateElement) {
+        let hAlign = 'center';
+        let vAlign = 'middle';
+        if (templateElement && templateElement.view) {
+            hAlign = templateElement.textAlignment === 2 ? 'center' : (templateElement.textAlignment === 4 ? 'right' : 'left');
+            vAlign = templateElement.textPosition === 1 ? 'middle' : (templateElement.textPosition === 2 ? 'bottom' : 'top');
+        }    
+        return `text-align: ${hAlign}; vertical-align: ${vAlign};`;             
     }
 }

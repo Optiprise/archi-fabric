@@ -305,7 +305,8 @@ export class Engine {
 
         // Redirect process output to a log file
         const File = Java.type('java.io.File');
-        const logFile = new File(`${pdfFile}.log`);
+
+        const logFile = new File(pdfFile.replace(/\.pdf$/, '.log'));
 
         weasyprint.redirectErrorStream(true);
         weasyprint.redirectOutput(logFile);
@@ -328,11 +329,10 @@ export class Engine {
                         if (html.exists()) {
                             html.delete();
                         }
+                        if (logFile.exists()) {
+                            logFile.delete();
+                        }
                     }
-                }
-                // Cleanup the log file if it's empty (no warnings or errors from WeasyPrint)
-                if (!logFile.isFile() || logFile.length() === 0) {
-                    logFile.delete();
                 }
             }
         }));

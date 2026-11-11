@@ -82,7 +82,24 @@ The capability contributes directly to the customer experience by providing time
     <folder name="Course of Action" id="id-0337cb5e928f48b2bf66c3b9de831f92"/>
   </folder>
   <folder name="Business" id="id-369626f55bdd46b89a89ed543df73bf0" type="business"/>
-  <folder name="Application" id="id-caece1dcfcfe4b509b62aa78f4efbf7e" type="application"/>
+  <folder name="Application" id="id-caece1dcfcfe4b509b62aa78f4efbf7e" type="application">
+    <folder name="Logical Applications" id="id-318007d971b84916b7fddc6430394492">
+      <element xsi:type="archimate:ApplicationComponent" name="Customer Portal" id="id-661444cb84d448348b2ee3b132f4f44f">
+        <documentation>A central, self-service online platform where customers can request services, view the status of their products, and receive direct support.</documentation>
+      </element>
+      <element xsi:type="archimate:ApplicationComponent" name="CRM System" id="id-38e6031ba3e34a96bb79b221e980ddf8">
+        <documentation>The core system for recording and managing all customer interactions, sales opportunities, contracts, and relationship data across the entire customer lifecycle.</documentation>
+      </element>
+      <element xsi:type="archimate:ApplicationComponent" name="Service Management Platform (ITSM)" id="id-4e5b1d021d2542df93d56c2f6f2144bc"/>
+      <element xsi:type="archimate:ApplicationComponent" name="DevOps Toolchain" id="id-4d3a4cd65833469680fda8c00dd14de6"/>
+      <element xsi:type="archimate:ApplicationComponent" name="Customer Data Platform (CDP)" id="id-a8804ac0453642fe9e4b9b97eb75a491">
+        <documentation>An advanced analytical platform that aggregates data from various systems (such as portals and CRM) to generate a 360-degree customer view and actionable insights.</documentation>
+      </element>
+      <element xsi:type="archimate:ApplicationComponent" name="Agile Planning &amp; Issue Tracking Tool" id="id-edf1a5df33ac472198ab77a502af9f70">
+        <documentation>A system for capturing customer requests, requirements, and bugs, and managing them as epics and user stories throughout the development lifecycle.</documentation>
+      </element>
+    </folder>
+  </folder>
   <folder name="Technology &amp; Physical" id="id-8606b0352f1e454e89dccbb23764ada7" type="technology"/>
   <folder name="Motivation" id="id-2f0b27ace6ff4e2987676896daa700fc" type="motivation">
     <folder name="Business Impact Analysis" id="id-39ce7a9943cb4638bc683842d5192731">
@@ -137,6 +154,20 @@ Based on these findings, the organization should **prioritize AI initiatives wit
     <element xsi:type="archimate:AggregationRelationship" id="id-36316ce2069b43cba996dee0bc3ff205" source="id-a16fb70b0fb64c1bbfdcc6620eecc03b" target="id-10e9cb2db2b34fd187f0816ca3de5e85"/>
     <element xsi:type="archimate:RealizationRelationship" id="id-cbcf3f3e178545ec9930c94f4db6f8e0" source="id-fd484fecbfce48b19b02f9a9c6a3cb7a" target="id-10e9cb2db2b34fd187f0816ca3de5e85"/>
     <element xsi:type="archimate:RealizationRelationship" id="id-6b7a8a7189934daca779ab21701851f4" source="id-fd484fecbfce48b19b02f9a9c6a3cb7a" target="id-89672d9defb746a899f5b4993742dbf5"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-ede6ebcd8e8b415588429d85a96d50b3" source="id-661444cb84d448348b2ee3b132f4f44f" target="id-4247a7c8d3a746509f49a623fc194b0c"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-1d097105ae7140b6a5fa8291ac460173" source="id-a8804ac0453642fe9e4b9b97eb75a491" target="id-4247a7c8d3a746509f49a623fc194b0c"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-a0f6ab73b70e4398bcb4f806a0a7280e" source="id-edf1a5df33ac472198ab77a502af9f70" target="id-4247a7c8d3a746509f49a623fc194b0c"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-38a885f823eb4765b16b9035e78b62a9" source="id-4d3a4cd65833469680fda8c00dd14de6" target="id-30584da1cf50425aa387c3cc7e051b0a"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-c715269a00154a4680fb44579876dad4" source="id-a8804ac0453642fe9e4b9b97eb75a491" target="id-30584da1cf50425aa387c3cc7e051b0a"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-f83b8d5103c546409eb254e5246a4a92" source="id-edf1a5df33ac472198ab77a502af9f70" target="id-30584da1cf50425aa387c3cc7e051b0a"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-4efef04f43c44a4a969cae214d555206" source="id-661444cb84d448348b2ee3b132f4f44f" target="id-a7c1d2ab54624442b7a8bbd9818444ba"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-0ed33552714846f59752cf2ef4b5b4ca" source="id-4e5b1d021d2542df93d56c2f6f2144bc" target="id-a7c1d2ab54624442b7a8bbd9818444ba"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-468aaae6c6704d5b841f4fa7d9a6e651" source="id-4d3a4cd65833469680fda8c00dd14de6" target="id-a7c1d2ab54624442b7a8bbd9818444ba"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-729924f60aa048a8a2767e7b34e6acc0" source="id-661444cb84d448348b2ee3b132f4f44f" target="id-387f7e58454e4cf6a5edf8ee72c9f938"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-e8845564e8bd4335b05c35a42ee71889" source="id-4e5b1d021d2542df93d56c2f6f2144bc" target="id-387f7e58454e4cf6a5edf8ee72c9f938"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-10eefcb7d8d84a5da0e49650ccd88840" source="id-edf1a5df33ac472198ab77a502af9f70" target="id-387f7e58454e4cf6a5edf8ee72c9f938"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-ab3e5af7e5994810888b7b06dd7105ed" source="id-38e6031ba3e34a96bb79b221e980ddf8" target="id-89672d9defb746a899f5b4993742dbf5"/>
+    <element xsi:type="archimate:RealizationRelationship" id="id-dd89c7ff876944179b3dc4edcc880764" source="id-a8804ac0453642fe9e4b9b97eb75a491" target="id-89672d9defb746a899f5b4993742dbf5"/>
   </folder>
   <folder name="Views" id="id-4826dbd24d39487ab0dee71fd6bfb40f" type="diagrams">
     <folder name="Artifactory" id="id-dffe504d96ff4434bcf22846d17ca773"/>
@@ -394,6 +425,143 @@ The assessment provides a foundation for prioritizing AI initiatives and making 
         <documentation>This view illustrates how the **Improve Customer Engagement** program contributes to the **Deliver Customer Value** value stream. The program is represented as an ArchiMate **Work Package**, highlighted in green to distinguish the planned transformation from the existing capabilities and value streams. One of its key objectives is to introduce **Conclude Customer Engagement** as a new stage in the customer lifecycle, ensuring that products, services, and customer relationships can be concluded in a controlled, transparent, and customer-oriented manner.
 
 In addition, the program aims to improve the **Customer Relationship Management** capability, which supports the entire customer lifecycle. These improvements focus on strengthening customer information management, streamlining interactions, and ensuring continuity across all stages of the value stream. Together, these initiatives contribute to a more consistent customer experience, improved operational efficiency, and stronger customer relationships, including when individual services or engagements come to an end.</documentation>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="Capability Realization" id="id-db2218a2b90e4f359443e80f14325e52">
+        <child xsi:type="archimate:DiagramObject" id="id-252ec00be18243d68ebc3cf88cfdc8c1" targetConnections="id-384489163b87409c9db79ee11adba0d5 id-10ef92ae8696404290d9757c7d3ebe8e id-b5fe7ae228e340b0beabd8856504bbb0" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-4247a7c8d3a746509f49a623fc194b0c">
+          <bounds x="12" y="12" width="217" height="73"/>
+          <feature name="deriveElementLineColor" value="false"/>
+          <feature name="gradient" value="0"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-cadd32fdedf2421d90c58066975315bb" targetConnections="id-71a9e7dd594d4846a0f6e3ebc2622267 id-5b4c6a39871e4a8aae2da8b1f95e1371 id-a034657ddf4949e0b2ce6972dd7e383b" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-30584da1cf50425aa387c3cc7e051b0a">
+          <bounds x="240" y="12" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-19b6ff824f864de096ad9288d96f3c02" targetConnections="id-77cd76cbd1c9407e8983f33ae357056c id-9c17ef46224d451ba43f794e7da5a7e5" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-89672d9defb746a899f5b4993742dbf5">
+          <bounds x="924" y="12" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-2669afd0f7a74b87923f7c9af0851dce" targetConnections="id-7fbb551657ae442c960a7defa3928f71 id-a878390279464764ac5641f78725baf9 id-1c0e3a38891f4f1f83645264bad9522e" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-a7c1d2ab54624442b7a8bbd9818444ba">
+          <bounds x="468" y="12" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-c8685ebb3053448c8f68f50aadb24108" targetConnections="id-2b19b70f78fd4a7b9ce1de6d39bdc6ca id-2b0a62d5adee4412aaf5ff6e2bc73b96 id-e309c2175aa84f898df369bc311a9435" font="1|Comfortaa|11.0|0|GTK|1|" lineColor="#1a5fb4" fillColor="#62a0ea" alpha="96" textPosition="1" archimateElement="id-387f7e58454e4cf6a5edf8ee72c9f938">
+          <bounds x="696" y="12" width="217" height="73"/>
+          <feature name="gradient" value="0"/>
+          <feature name="deriveElementLineColor" value="false"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-1a6e1b5c9a4d4aecbaa9e407e1105a0a" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-38e6031ba3e34a96bb79b221e980ddf8">
+          <bounds x="960" y="108" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-77cd76cbd1c9407e8983f33ae357056c" source="id-1a6e1b5c9a4d4aecbaa9e407e1105a0a" target="id-19b6ff824f864de096ad9288d96f3c02" archimateRelationship="id-ab3e5af7e5994810888b7b06dd7105ed">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="84"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-a5dbc576fa344a579fe40262e039e406" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-661444cb84d448348b2ee3b132f4f44f">
+          <bounds x="48" y="108" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-384489163b87409c9db79ee11adba0d5" source="id-a5dbc576fa344a579fe40262e039e406" target="id-252ec00be18243d68ebc3cf88cfdc8c1" archimateRelationship="id-ede6ebcd8e8b415588429d85a96d50b3">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="84"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-57436196914943c1b49944caa95a388f" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-661444cb84d448348b2ee3b132f4f44f">
+          <bounds x="732" y="108" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-2b19b70f78fd4a7b9ce1de6d39bdc6ca" source="id-57436196914943c1b49944caa95a388f" target="id-c8685ebb3053448c8f68f50aadb24108" archimateRelationship="id-729924f60aa048a8a2767e7b34e6acc0">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="84"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-899ad41aab68482ea1ef922e74df73fc" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-4e5b1d021d2542df93d56c2f6f2144bc">
+          <bounds x="504" y="168" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Service Management&#xA;Platform (ITSM)"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-a878390279464764ac5641f78725baf9" source="id-899ad41aab68482ea1ef922e74df73fc" target="id-2669afd0f7a74b87923f7c9af0851dce" archimateRelationship="id-0ed33552714846f59752cf2ef4b5b4ca">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="144"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-a336244ed6a043f38473a1a5cdf54b0c" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-4e5b1d021d2542df93d56c2f6f2144bc">
+          <bounds x="732" y="168" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Service Management&#xA;Platform (ITSM)"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-2b0a62d5adee4412aaf5ff6e2bc73b96" source="id-a336244ed6a043f38473a1a5cdf54b0c" target="id-c8685ebb3053448c8f68f50aadb24108" archimateRelationship="id-e8845564e8bd4335b05c35a42ee71889">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="144"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-ad0334e80e584c1aa823a30a88085f1c" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-661444cb84d448348b2ee3b132f4f44f">
+          <bounds x="504" y="108" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-7fbb551657ae442c960a7defa3928f71" source="id-ad0334e80e584c1aa823a30a88085f1c" target="id-2669afd0f7a74b87923f7c9af0851dce" archimateRelationship="id-4efef04f43c44a4a969cae214d555206">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="84"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-92eb410b0afb4a83be10e94cbb30d416" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-4d3a4cd65833469680fda8c00dd14de6">
+          <bounds x="276" y="108" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-71a9e7dd594d4846a0f6e3ebc2622267" source="id-92eb410b0afb4a83be10e94cbb30d416" target="id-cadd32fdedf2421d90c58066975315bb" archimateRelationship="id-38a885f823eb4765b16b9035e78b62a9">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="84"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-69428d67b5a840f5ae160a9566e31999" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-4d3a4cd65833469680fda8c00dd14de6">
+          <bounds x="504" y="227" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-1c0e3a38891f4f1f83645264bad9522e" source="id-69428d67b5a840f5ae160a9566e31999" target="id-2669afd0f7a74b87923f7c9af0851dce" archimateRelationship="id-468aaae6c6704d5b841f4fa7d9a6e651">
+            <bendpoint startX="-102" endX="-84" endY="204"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-bbde6b6dc77444c98155009958b2d0c0" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-a8804ac0453642fe9e4b9b97eb75a491">
+          <bounds x="48" y="168" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Customer Data&#xA;Platform (CDP)"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-10ef92ae8696404290d9757c7d3ebe8e" source="id-bbde6b6dc77444c98155009958b2d0c0" target="id-252ec00be18243d68ebc3cf88cfdc8c1" archimateRelationship="id-1d097105ae7140b6a5fa8291ac460173">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="144"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-616e2b9df31b49abad688c46a73dfda7" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-a8804ac0453642fe9e4b9b97eb75a491">
+          <bounds x="960" y="168" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-9c17ef46224d451ba43f794e7da5a7e5" source="id-616e2b9df31b49abad688c46a73dfda7" target="id-19b6ff824f864de096ad9288d96f3c02" archimateRelationship="id-dd89c7ff876944179b3dc4edcc880764">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="144"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-c52e8dd9fa0d4e0cb84e2bf6cbc3b4c4" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-a8804ac0453642fe9e4b9b97eb75a491">
+          <bounds x="276" y="168" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Customer Data&#xA;Platform (CDP)"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-5b4c6a39871e4a8aae2da8b1f95e1371" source="id-c52e8dd9fa0d4e0cb84e2bf6cbc3b4c4" target="id-cadd32fdedf2421d90c58066975315bb" archimateRelationship="id-c715269a00154a4680fb44579876dad4">
+            <bendpoint startX="-102" startY="-1" endX="-84" endY="144"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-6286546cab3742d9b24b57ab737c1db9" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-edf1a5df33ac472198ab77a502af9f70">
+          <bounds x="48" y="227" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Agile Planning &amp;&#xA;Issue Tracking Tool"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-b5fe7ae228e340b0beabd8856504bbb0" source="id-6286546cab3742d9b24b57ab737c1db9" target="id-252ec00be18243d68ebc3cf88cfdc8c1" archimateRelationship="id-a0f6ab73b70e4398bcb4f806a0a7280e">
+            <bendpoint startX="-102" endX="-84" endY="204"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-d037855e785046e1a6c1c4dced772e54" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-edf1a5df33ac472198ab77a502af9f70">
+          <bounds x="276" y="227" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Agile Planning &amp;&#xA;Issue Tracking Tool"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-a034657ddf4949e0b2ce6972dd7e383b" source="id-d037855e785046e1a6c1c4dced772e54" target="id-cadd32fdedf2421d90c58066975315bb" archimateRelationship="id-f83b8d5103c546409eb254e5246a4a92">
+            <bendpoint startX="-102" endX="-84" endY="204"/>
+          </sourceConnection>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-51004735dced4f39b11cc06d59369402" fontColor="#ffffff" fillColor="#5c5c5c" textPosition="1" archimateElement="id-edf1a5df33ac472198ab77a502af9f70">
+          <bounds x="732" y="227" width="181" height="50"/>
+          <feature name="iconColor" value="#ffffff"/>
+          <feature name="labelExpression" value="Agile Planning &amp;&#xA;Issue Tracking Tool"/>
+          <sourceConnection xsi:type="archimate:Connection" id="id-e309c2175aa84f898df369bc311a9435" source="id-51004735dced4f39b11cc06d59369402" target="id-c8685ebb3053448c8f68f50aadb24108" archimateRelationship="id-10eefcb7d8d84a5da0e49650ccd88840">
+            <bendpoint startX="-102" endX="-84" endY="204"/>
+          </sourceConnection>
+        </child>
+        <documentation>This view provides a detailed overview of the logical application components and how they realize the underlying business capabilities. By directly linking IT applications to the business architecture, it creates visibility into which systems are fundamental to supporting daily operations and delivering customer value. This insight forms a crucial foundation for IT portfolio management, impact analyses, and future investment decisions.
+
+What immediately stands out in this mapping is the cross-functional nature of the application landscape: many logical applications are deployed across the entire organization. For instance, the *Customer Portal* is used simultaneously for Customer Experience Management (CXM), Service Delivery, and Customer Support. Similarly, the *Customer Data Platform (CDP)* provides valuable data and insights to CXM, Software Development, and Customer Relationship Management alike. This demonstrates the power of reusable, integrated systems in preventing isolated data silos.
+
+A deliberate architectural design choice in this view is the positioning of the *CRM System*. While most applications have multiple realization lines, the CRM system is linked exclusively to the overarching *Customer Relationship Management* capability. Because this capability itself has a serving relationship to the other four operational capabilities in the model, the CRM system indirectly supports the entire value chain. By placing the realization relationship purely at this overarching level, the architectural model remains clear, maintainable, and conceptually pure.</documentation>
       </element>
     </folder>
     <folder name="Tutorial" id="id-d1df2e446ef04856af488752de6291d8"/>

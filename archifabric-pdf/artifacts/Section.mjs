@@ -82,13 +82,13 @@ export default class Section extends Artifact {
 
         
         // 3. Open the HTML Section using the combined CSS classes and unique ID
-        this.markup.appendContent(`<section id="id-${elementId}" class="${cssClass}">\n`);
+        this.markup.appendContent(`<section id="${elementId}" class="${cssClass}">\n`);
         
         // 4. Render Title as a Header
         if (isHeading) {
             // If the user has specified a custom display title via parameters, use it; otherwise, use the evaluated label expression.
             const customClassOnly = params['class'] || '';
-            this.markup.appendContent(this.markup.header(displayTitle, `id-${elementId}`, customClassOnly));
+            this.markup.appendContent(this.markup.header(displayTitle, `${elementId}`, customClassOnly));
             this.markup.levelUp(params['class']); 
         }
 

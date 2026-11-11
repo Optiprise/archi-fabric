@@ -132,7 +132,6 @@ export default class Catalog extends Artifact {
 
         } catch (error) {
             this.lb.error(`Failed to process data for Catalog: ${error.message}`, modelElement);
-            this.lb.leave();
             return; 
         }
 
@@ -152,7 +151,7 @@ export default class Catalog extends Artifact {
             `width: 100%;`;
         
         const elementId = (targetElement && targetElement.id) || modelElement.id;
-        this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}-wrapper${customCssClass}" style="${wrapperStyle}">\n`);
+        this.markup.appendContent(`<div class="${baseCssClass}-wrapper${customCssClass}" style="${wrapperStyle}">\n`);
         
         if (modelElement.labelExpression) {
             const displayTitle = this.parseExpression(modelElement.labelExpression, targetElement);
@@ -193,9 +192,7 @@ export default class Catalog extends Artifact {
                 if (rowspan > 1) spanHtml += ` rowspan="${rowspan}"`;
 
                 let hAlign = childNode.textAlignment === 2 ? 'center' : (childNode.textAlignment === 4 ? 'right' : 'left');
-                let vAlign = 'top';
-                if (childNode.textPosition >= 3 && childNode.textPosition <= 5) vAlign = 'middle';
-                else if (childNode.textPosition >= 6 && childNode.textPosition <= 8) vAlign = 'bottom';
+                let vAlign = childNode.textPosition === 1 ? 'middle' : (childNode.textPosition === 2 ? 'bottom' : 'top');
 
                 const cellClass = this.markup.genHtmlClass(childNode.name || 'cell');
                 const cellStyle = `text-align: ${hAlign}; vertical-align: ${vAlign}; word-wrap: break-word; overflow-wrap: break-word;`;

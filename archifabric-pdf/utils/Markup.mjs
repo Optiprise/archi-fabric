@@ -217,11 +217,11 @@ export class Markup {
         let headerClassAttr = '';
         let tocClassAttr = `toc h${this.#documentLevel}`;
 
-        // Combineer de overgeërfde classes van de stack met de lokaal meegegeven class
+        // combine the current stack of classes with the custom class for this header
         const stackClass = this.#classStack.length > 0 ? this.#classStack.at(-1) : '';
         const combinedClass = [stackClass, customClass].filter(c => c && c.trim() !== '').join(' ');
 
-        // Verwijder eventuele dubbele classes (als een sectie 'bijlage' heeft, hoeven we het niet 2x te printen)
+        // Remove duplicate classes and ensure proper spacing
         const uniqueClasses = [...new Set(combinedClass.split(/\s+/))].join(' ');
 
         if (uniqueClasses !== '') {
@@ -233,11 +233,11 @@ export class Markup {
             const anchorId = `${target}-h${this.#documentLevel}`;
             idAttr = `id="${anchorId}"`;
 
-            // Zet de gecombineerde class ook op de lijst in de Inhoudsopgave!
+            // Add the header to the TOC buffer with a link to the generated anchor ID. This allows for easy navigation within the document. The TOC entry will include the appropriate CSS classes for styling.
             this.#tocBuffer.push(`<li class="${tocClassAttr}"><a href="#${anchorId}">${escapeHtml(title)}</a></li>\n`);
         }
 
-        // Genereer de tag met de class (zodat h2.bijlage ook direct werkt)
+        // Generate the final header HTML. If the title is empty, we return an empty string to avoid rendering an empty header tag.
         const content = title ? `<h${this.#documentLevel} ${idAttr}${headerClassAttr}>${title}</h${this.#documentLevel}>\n` : '';
 
         this.lb.leave();

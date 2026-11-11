@@ -65,7 +65,7 @@ export default class Documentation extends Artifact {
 
         // Render the documentation content if it's not empty
         if (content && String(content).trim() !== '') {
-            this.markup.appendContent(`<div id="id-${elementId}" class="${baseCssClass}${customCssClass}">\n`);
+            this.markup.appendContent(`<div class="${baseCssClass}${customCssClass}">\n`);
             this.markup.appendContent(this.markup.parse(String(content)) + '\n');
             this.markup.appendContent(`</div>\n`);
         }
