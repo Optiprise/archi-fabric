@@ -166,13 +166,13 @@ export default class Matrix extends Artifact {
             // Header row
             this.markup.appendContent(`<thead><tr><th class="matrix-corner"></th>\n`);
             uniqueCols.forEach(col => {
-                this.markup.appendContent(`<th class="matrix-col-header" style="${colAlign}">${this.parseExpression(colTemplate.labelExpression, col)}</th>\n`);
+                this.markup.appendContent(`<th class="matrix-col-header" style="${colAlign}">${this.markup.parse(this.parseExpression(colTemplate.labelExpression, col))}</th>\n`);
             });
             this.markup.appendContent(`</tr></thead>\n<tbody>\n`);
 
             // Data rows
             uniqueRows.forEach(row => {
-                this.markup.appendContent(`<tr><th class="matrix-row-header" style="${rowAlign}">${this.parseExpression(rowTemplate.labelExpression, row)}</th>\n`);
+                this.markup.appendContent(`<tr><th class="matrix-row-header" style="${rowAlign}">${this.markup.parse(this.parseExpression(rowTemplate.labelExpression, row))}</th>\n`);
                 
                 uniqueCols.forEach(col => {
                     const rel = $(row).rels(relType).filter(r => r.target.id === col.id || r.source.id === col.id).first();
@@ -181,10 +181,10 @@ export default class Matrix extends Artifact {
                     let classModifiers = "";
                     
                     if (rel) {
-                        cellHtml = this.parseExpression(rawLabel, rel);
+                        cellHtml = this.markup.parse(this.parseExpression(rawLabel, rel));
                         classModifiers = " matrix-cell-filled";
                     } else {
-                        cellHtml = emptyValue || ""; // Use emptyValue if provided, else empty string
+                        cellHtml = this.markup.parse(emptyValue) || ""; // Use emptyValue if provided, else empty string
                         classModifiers = " matrix-cell-empty";
                     }
                     

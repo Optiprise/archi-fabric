@@ -71,8 +71,35 @@ marked.use({
             return `<img src="${href}" alt="${text}"${titleAttr}${widthAttr}${heightAttr} />`;
         }
     },
+
+    extensions: [{
+        name: 'doubleAngleBrackets',
+        level: 'inline',
+
+        start(src) {
+            return src.indexOf('<<');
+        },
+
+        tokenizer(src) {
+            const match = /^<<([^<>\n]+)>>/.exec(src);
+
+            if (match) {
+                return {
+                    type: 'doubleAngleBrackets',
+                    raw: match[0],
+                    text: match[1]
+                };
+            }
+        },
+
+        renderer(token) {
+            return `&lt;&lt;${escapeHtml(token.text)}&gt;&gt;`;
+        }
+    }],
+
     gfm: true
 });
+
 
 // ============================================================================
 // Markup Class Definition
